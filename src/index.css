@@ -1,5 +1,22 @@
 @import 'tailwindcss';
 
+/* Custom Fonts - Add @font-face rules here when font files are ready */
+/*
+@font-face {
+  font-family: '1FTV VIP Amoria';
+  src: url('/fonts/1ftv-vip-amoria.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'iCiel Internacional';
+  src: url('/fonts/iciel-internacional.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+*/
+
 @layer base {
   * {
     margin: 0;
@@ -9,12 +26,18 @@
 
   body {
     font-family:
+      'iCiel Internacional',
       system-ui,
       -apple-system,
       sans-serif;
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Smooth scrolling */
+  html {
+    scroll-behavior: smooth;
   }
 }
 

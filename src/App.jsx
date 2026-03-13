@@ -1,12 +1,7 @@
-import { MainLayout } from '@layouts'
 import { Home } from '@pages'
 
 function App() {
-  return (
-    <MainLayout>
-      <Home />
-    </MainLayout>
-  )
+  return <Home />
 }
 
 export default App

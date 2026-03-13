@@ -19,7 +19,9 @@ export default {
         },
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
+        sans: ['iCiel Internacional', 'system-ui', 'sans-serif'],
+        display: ['1FTV VIP Amoria', 'serif'], // For large display text
+        body: ['iCiel Internacional', 'system-ui', 'sans-serif'], // For body text
       },
     },
   },
