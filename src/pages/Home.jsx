@@ -1,52 +1,66 @@
 import imageHome1 from '@assets/image_home_1.png'
 import imageHome2 from '@assets/image_home_2.png'
 import imageHome4 from '@assets/image_home_4.png'
+import { Header } from '@components/common'
+import imageTextHome1 from '@assets/images/Lê KHÁNH.png'
 
 export function Home() {
   return (
-    <div className="h-screen snap-y snap-mandatory overflow-y-scroll">
+    <div className="h-screen snap-y snap-mandatory overflow-y-scroll scroll-smooth">
+      {/* Fixed Header */}
+      <Header />
+
       {/* Section 1 - Hero */}
-      <section className="relative flex h-screen snap-start items-center justify-center bg-gradient-to-br from-purple-100 via-pink-50 to-purple-200">
-        <div className="container mx-auto flex items-center justify-between px-8">
-          {/* Left side - Image */}
-          <div className="flex-1">
+      <section className="relative flex h-screen snap-start items-center justify-center overflow-hidden bg-gradient-to-br from-purple-100 via-pink-50 to-purple-200">
+        <div className="container relative mx-auto flex items-center px-8 pt-20">
+          {/* LEFT IMAGE */}
+          <div className="relative flex-1 -ml-10">
             <img
               src={imageHome1}
-              alt="Lê Hà Anh"
-              className="h-auto w-full max-w-lg object-contain"
+              alt="Lê Khánh"
+              className="h-auto w-full max-w-2xl object-contain"
+              style={{ marginTop: '-80px' }}
             />
-            <div className="mt-4 inline-block rounded-full bg-orange-400 px-6 py-2 text-sm font-semibold text-white">
+
+            <div className="absolute top-105 right-[40px] rounded-full bg-orange-400 px-6 py-3 text-sm font-semibold text-white shadow-lg whitespace-nowrap">
               # NGHỆ SĨ
+            </div>
+            {/* # NGHỆ SĨ */}
+            <div className="absolute left-32 top-60 rounded-xl bg-purple-100 px-6 py-3 text-sm font-semibold text-purple-700 shadow">
+              LÊ KIM KHÁNH
             </div>
           </div>
 
-          {/* Right side - Name and Info */}
-          <div className="flex-1 text-right">
-            <div className="mb-6 inline-block rounded-full bg-orange-400 px-6 py-2 text-sm font-semibold text-white">
+          {/* RIGHT SIDE */}
+          <div className="relative flex flex-1 flex-col">
+            {/* # DIỄN VIÊN */}
+            <div className="absolute right-32 bottom-76 rounded-full bg-orange-400 px-6 py-2.5 text-sm font-semibold text-white shadow-lg">
               # DIỄN VIÊN
             </div>
-            <h1 className="mb-6 font-display text-8xl italic text-purple-600">
-              LÊ HÀ ANH
-            </h1>
-            <div className="flex justify-end gap-4">
-              <div className="inline-block rounded-lg bg-purple-100 px-6 py-2 text-sm font-semibold text-purple-700">
-                LÊ KIM KHÁNH
-              </div>
-              <div className="inline-block rounded-lg bg-purple-100 px-6 py-2 text-sm font-semibold text-purple-700">
-                22 - 12 - 1981
-              </div>
+
+            {/* TEXT LÊ KHÁNH */}
+            <img
+              src={imageTextHome1}
+              alt="Lê Khánh"
+              className="h-auto w-full max-w-3.1xl object-contain"
+              style={{ marginTop: '-40px', marginRight: '840px' }}
+            />
+
+            {/* 22 - 12 - 1981 */}
+            <div className="absolute right-40 top-52 rounded-full bg-purple-100 px-6 py-3 text-sm font-semibold text-purple-700 shadow">
+              22 • 12 • 1981
             </div>
           </div>
         </div>
       </section>
 
       {/* Section 2 - Bio with Stats */}
-      <section className="relative flex h-screen snap-start items-center justify-center bg-gradient-to-br from-purple-100 via-pink-50 to-purple-200">
-        <div className="container mx-auto px-8">
+      <section className="relative flex h-screen snap-start items-center justify-center overflow-hidden bg-gradient-to-br from-purple-100 via-pink-50 to-purple-200">
+        <div className="container relative z-10 mx-auto px-8 pt-20">
           <div className="grid grid-cols-2 gap-12">
             {/* Left side - Text and Stats */}
-            <div>
-              <h2 className="mb-6 font-display text-6xl italic text-purple-600">
+            <div className="flex flex-col justify-center">
+              <h2 className="mb-6 font-display text-7xl italic text-purple-600">
                 KHO TÀNG NGHỆ THUẬT
               </h2>
               <p className="mb-12 font-body text-lg leading-relaxed text-gray-700">
@@ -86,12 +100,13 @@ export function Home() {
               </div>
             </div>
 
-            {/* Right side - Image */}
-            <div className="flex items-center justify-end">
+            {/* Right side - Image (larger and overlapping) */}
+            <div className="relative -mr-12 flex items-center justify-end">
               <img
                 src={imageHome2}
                 alt="Lê Khánh"
-                className="h-auto w-full max-w-lg object-contain"
+                className="h-auto w-full max-w-2xl object-contain"
+                style={{ marginTop: '-80px' }}
               />
             </div>
           </div>
@@ -99,8 +114,8 @@ export function Home() {
       </section>
 
       {/* Section 3 - Awards */}
-      <section className="relative flex h-screen snap-start items-center justify-center bg-gradient-to-br from-purple-100 via-pink-50 to-purple-200">
-        <div className="container mx-auto px-8">
+      <section className="relative flex h-screen snap-start items-center justify-center overflow-hidden bg-gradient-to-br from-purple-100 via-pink-50 to-purple-200">
+        <div className="container relative z-10 mx-auto px-8 pt-20">
           <div className="grid grid-cols-3 gap-12">
             {/* Mai Vàng */}
             <div className="relative">
@@ -165,15 +180,16 @@ export function Home() {
       </section>
 
       {/* Section 4 - Fanzone */}
-      <section className="relative flex h-screen snap-start items-center justify-center bg-gradient-to-br from-purple-100 via-pink-50 to-purple-200">
-        <div className="container mx-auto px-8">
+      <section className="relative flex h-screen snap-start items-center justify-center overflow-hidden bg-gradient-to-br from-purple-100 via-pink-50 to-purple-200">
+        <div className="container relative z-10 mx-auto px-8 pt-20">
           <div className="grid grid-cols-2 gap-12">
-            {/* Left side - Image */}
-            <div className="flex items-center">
+            {/* Left side - Image (larger and overlapping) */}
+            <div className="relative -ml-12 flex items-center">
               <img
                 src={imageHome4}
                 alt="Lê Khánh"
-                className="h-auto w-full max-w-lg object-contain"
+                className="h-auto w-full max-w-2xl object-contain"
+                style={{ marginTop: '-80px' }}
               />
             </div>
 
