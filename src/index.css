@@ -3,6 +3,10 @@
 @theme {
   --color-brand-orange: #ffac3f;
   --color-brand-soft: #f3f1f7;
+  --color-brand-textbase: #5a3bc4;
+  --color-brand-header: #fdfcfd;
+  --color-brand-textheader: #3d3d3d;
+  --color-brand-home1: #5a3bc4;
 
   --font-display: '1FTV VIP Amoria', serif;
   --font-body: 'iCiel Internacional', system-ui, sans-serif;
@@ -26,6 +30,24 @@
   font-style: normal;
 }
 */
+
+@font-face {
+  font-family: 'iCiel Internacional';
+  src: url('/fonts/iCielInternacional-Light.otf') format('opentype');
+  font-weight: 300;
+}
+
+@font-face {
+  font-family: 'iCiel Internacional';
+  src: url('/fonts/iCielInternacional-DemiBold.otf') format('opentype');
+  font-weight: 600;
+}
+
+@font-face {
+  font-family: '1FTV VIP Amoria';
+  src: url('/fonts/1FTVVIPAmoria-Italic.ttf') format('truetype');
+  font-style: italic;
+}
 
 @layer base {
   * {

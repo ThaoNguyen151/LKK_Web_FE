@@ -22,9 +22,9 @@ export default {
       },
 
       fontFamily: {
-        sans: ['iCiel Internacional', 'system-ui', 'sans-serif'],
-        display: ['1FTV VIP Amoria', 'serif'],
-        body: ['iCiel Internacional', 'system-ui', 'sans-serif'],
+        display: ['"1FTV VIP Amoria"', 'serif'],
+        body: ['"iCiel Internacional"', 'system-ui', 'sans-serif'],
+        text: ['"iCiel Internacional"', 'system-ui', 'sans-serif'],
       },
 
       spacing: {

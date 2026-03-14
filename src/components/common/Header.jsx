@@ -4,7 +4,7 @@ export function Header() {
   return (
     <>
       {/* Background layer - below the image (z-10) */}
-      <div className="fixed left-0 right-0 top-0 z-10 h-20 bg-white/70 backdrop-blur-md shadow-sm"></div>
+      <div className="fixed left-0 right-0 top-0 z-10 h-20 bg-brand-header backdrop-blur-md shadow-sm"></div>
 
       {/* Content layer - above the image (z-40) */}
       <header className="fixed left-0 right-0 top-0 z-40 h-20">
@@ -59,26 +59,26 @@ export function Header() {
           <nav className="flex items-center gap-25">
             <a
               href="#"
-              className="font-body text-sm font-medium uppercase tracking-wide text-gray-700 transition-colors hover:text-purple-600"
+              className="font-body text-sm font-body font-semibold uppercase tracking-wide text-brand-textheader/50 transition-colors hover:text-purple-600"
             >
               HOẠT ĐỘNG
             </a>
             <a
               href="#"
-              className="font-body text-sm font-medium uppercase tracking-wide text-gray-700 transition-colors hover:text-purple-600"
+              className="font-body text-sm font-body font-semibold uppercase tracking-wide text-brand-textheader/50 transition-colors hover:text-purple-600"
             >
               THƯ VIỆN
             </a>
             <img src={logo} alt="LK Logo" className="mx-4 h-12 w-auto" />
             <a
               href="#"
-              className="font-body text-sm font-medium uppercase tracking-wide text-gray-700 transition-colors hover:text-purple-600"
+              className="font-body text-sm font-body font-semibold uppercase tracking-wide text-brand-textheader/50 transition-colors hover:text-purple-600"
             >
               GIẢI THƯỞNG
             </a>
             <a
               href="#"
-              className="font-body text-sm font-medium uppercase tracking-wide text-gray-700 transition-colors hover:text-purple-600"
+              className="font-body text-sm font-body font-semibold uppercase tracking-wide text-brand-textheader/50 transition-colors hover:text-purple-600"
             >
               TIN TỨC
             </a>

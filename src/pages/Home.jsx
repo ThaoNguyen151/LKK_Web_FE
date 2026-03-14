@@ -3,6 +3,9 @@ import imageHome2 from '@assets/image_home_2.png'
 import imageHome4 from '@assets/image_home_4.png'
 import { Header } from '@components/common'
 import imageTextHome1 from '@assets/images/Lê KHÁNH.png'
+import rectLeft from '@assets/Rectangle-2.png'
+import rectRight from '@assets/Rectangle-1.png'
+import rectBottom from '@assets/Rectangle.png'
 
 export function Home() {
   return (
@@ -11,7 +14,22 @@ export function Home() {
       <Header />
 
       {/* Section 1 - Hero */}
-      <section className="relative flex h-screen snap-start items-center justify-center overflow-hidden bg-gradient-to-br from-purple-100 via-pink-50 to-purple-200">
+      <section className="relative flex h-screen snap-start items-center justify-center overflow-hidden bg-brand-soft">
+        {/* DECORATION BACKGROUND */}
+        <img
+          src={rectLeft}
+          className="pointer-events-none absolute left-0 top-0 z-0 w-[59  0px]"
+        />
+
+        <img
+          src={rectRight}
+          className="pointer-events-none absolute right-0 bottom-19 z-0 w-[420px]"
+        />
+
+        <img
+          src={rectBottom}
+          className="pointer-events-none absolute bottom-0 left-1/2 z-0 w-[600px] -translate-x-[70%]"
+        />
         <div className="container relative mx-auto flex items-center px-8 pt-20">
           {/* LEFT IMAGE */}
           <div className="relative z-20 flex flex-1 items-end -ml-10">
@@ -22,11 +40,12 @@ export function Home() {
               style={{ marginTop: '-91px', marginLeft: '0px' }}
             />
 
-            <div className="absolute top-105 right-[40px] rounded-full bg-orange-400 px-6 py-3 text-sm font-semibold text-white shadow-lg whitespace-nowrap">
+            <div className="absolute top-114 right-[110px] rounded-full bg-brand-orange px-6 py-3 text-sm font-semibold text-white tracking-wide whitespace-nowrap shadow-[0_20px_60px_rgba(90,59,196,0.25)] backdrop-blur-md whitespace-nowrap">
               # NGHỆ SĨ
             </div>
             {/* # NGHỆ SĨ */}
-            <div className="absolute left-32 top-60 rounded-xl bg-purple-100 px-6 py-3 text-sm font-semibold text-purple-700 shadow">
+
+            <div className="absolute left-185 top-136 rounded-full bg-brand-header/20 px-6 py-3 text-sm font-semibold tracking-wide text-brand-home1 whitespace-nowrap shadow-[0_20px_60px_rgba(90,59,196,0.25)] backdrop-blur-md">
               LÊ KIM KHÁNH
             </div>
           </div>
@@ -34,7 +53,7 @@ export function Home() {
           {/* RIGHT SIDE */}
           <div className="relative flex flex-1 flex-col">
             {/* # DIỄN VIÊN */}
-            <div className="absolute right-40 bottom-23 rounded-full bg-brand-orange px-6 py-2.5 text-sm font-semibold text-white shadow-lg">
+            <div className="absolute right-40 bottom-23 rounded-full bg-brand-orange px-6 py-2.5 text-sm font-semibold text-white tracking-wide whitespace-nowrap shadow-[0_20px_60px_rgba(90,59,196,0.25)] backdrop-blur-md">
               # DIỄN VIÊN
             </div>
 
@@ -44,8 +63,7 @@ export function Home() {
               className="absolute left-[-120px] top-[-115px] z-30 w-[750px] object-contain"
             />
 
-            {/* 22 - 12 - 1981 */}
-            <div className="absolute right-40 top-52 rounded-full bg-purple-100 px-6 py-3 text-sm font-semibold text-purple-700 shadow">
+            <div className="absolute right-54 top-34 rounded-full bg-white/60 px-5 py-3 text-sm font-semibold tracking-wide text-brand-home1 whitespace-nowrap shadow-[0_20px_60px_rgba(90,59,196,0.25)] backdrop-blur-md">
               22 • 12 • 1981
             </div>
           </div>
@@ -61,7 +79,7 @@ export function Home() {
               <h2 className="mb-6 font-display text-7xl italic text-purple-600">
                 KHO TÀNG NGHỆ THUẬT
               </h2>
-              <p className="mb-12 font-body text-lg leading-relaxed text-gray-700">
+              <p className="mb-12 font-body font-light text-lg leading-relaxed text-gray-700">
                 Sau hơn 20 năm chăm chỉ hoạt động nghệ thuật, Lê Khánh đã hứu
                 một kho tàng vai diễn
                 <br />
