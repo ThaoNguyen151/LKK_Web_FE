@@ -14,12 +14,12 @@ export function Home() {
       <section className="relative flex h-screen snap-start items-center justify-center overflow-hidden bg-gradient-to-br from-purple-100 via-pink-50 to-purple-200">
         <div className="container relative mx-auto flex items-center px-8 pt-20">
           {/* LEFT IMAGE */}
-          <div className="relative flex-1 -ml-10">
+          <div className="relative z-20 flex flex-1 items-end -ml-10">
             <img
               src={imageHome1}
               alt="Lê Khánh"
-              className="h-auto w-full max-w-2xl object-contain"
-              style={{ marginTop: '-80px' }}
+              className="h-auto w-full max-w-2xl scale-94 object-contain"
+              style={{ marginTop: '-91px', marginLeft: '0px' }}
             />
 
             <div className="absolute top-105 right-[40px] rounded-full bg-orange-400 px-6 py-3 text-sm font-semibold text-white shadow-lg whitespace-nowrap">
@@ -34,16 +34,14 @@ export function Home() {
           {/* RIGHT SIDE */}
           <div className="relative flex flex-1 flex-col">
             {/* # DIỄN VIÊN */}
-            <div className="absolute right-32 bottom-76 rounded-full bg-orange-400 px-6 py-2.5 text-sm font-semibold text-white shadow-lg">
+            <div className="absolute right-40 bottom-23 rounded-full bg-brand-orange px-6 py-2.5 text-sm font-semibold text-white shadow-lg">
               # DIỄN VIÊN
             </div>
 
-            {/* TEXT LÊ KHÁNH */}
             <img
               src={imageTextHome1}
               alt="Lê Khánh"
-              className="h-auto w-full max-w-3.1xl object-contain"
-              style={{ marginTop: '-40px', marginRight: '840px' }}
+              className="absolute left-[-120px] top-[-115px] z-30 w-[750px] object-contain"
             />
 
             {/* 22 - 12 - 1981 */}

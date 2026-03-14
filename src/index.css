@@ -1,5 +1,15 @@
 @import 'tailwindcss';
 
+@theme {
+  --color-brand-orange: #ffac3f;
+  --color-brand-soft: #f3f1f7;
+
+  --font-display: '1FTV VIP Amoria', serif;
+  --font-body: 'iCiel Internacional', system-ui, sans-serif;
+
+  --spacing-25: 6.25rem;
+}
+
 /* Custom Fonts - Add @font-face rules here when font files are ready */
 /*
 @font-face {
