@@ -1,6 +1,6 @@
-/** @type {import('tailwindcss').Config} */
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
+  safelist: ['bg-brand-orange', 'text-brand-orange', 'border-brand-orange'],
   theme: {
     extend: {
       colors: {
@@ -17,11 +17,18 @@ export default {
           900: '#1e3a8a',
           950: '#172554',
         },
+        'brand-orange': '#FFAC3F',
+        'brand-soft': '#F3F1F7',
       },
+
       fontFamily: {
         sans: ['iCiel Internacional', 'system-ui', 'sans-serif'],
-        display: ['1FTV VIP Amoria', 'serif'], // For large display text
-        body: ['iCiel Internacional', 'system-ui', 'sans-serif'], // For body text
+        display: ['1FTV VIP Amoria', 'serif'],
+        body: ['iCiel Internacional', 'system-ui', 'sans-serif'],
+      },
+
+      spacing: {
+        25: '6.25rem',
       },
     },
   },
