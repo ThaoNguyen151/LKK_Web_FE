@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import imageHome1 from '@assets/image_home_1.png'
 import imageHome2 from '@assets/image_home_2.png'
 import imageHome4 from '@assets/image_home_4.png'
@@ -28,7 +29,38 @@ const CUP_LHP_TRANSLATE_Y = -10
 
 const CUP_HTV_TRANSLATE_Y = 170
 
-const APP_ZOOM = 1.25
+const DESIGN_WIDTH = 1536
+const DESIGN_HEIGHT = 864
+
+function useViewportScale() {
+  const getScale = () => {
+    if (typeof window === 'undefined') {
+      return 1
+    }
+
+    return Math.min(
+      window.innerWidth / DESIGN_WIDTH,
+      window.innerHeight / DESIGN_HEIGHT
+    )
+  }
+
+  const [scale, setScale] = useState(getScale)
+
+  useEffect(() => {
+    const handleResize = () => {
+      setScale(getScale())
+    }
+
+    handleResize()
+    window.addEventListener('resize', handleResize)
+
+    return () => {
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [])
+
+  return scale
+}
 
 const SOCIAL_DATA = [
   {
@@ -72,14 +104,16 @@ const FANPAGE_DATA = [
 ]
 
 export function Home() {
+  const viewportScale = useViewportScale()
+
   return (
-    <div className="h-dvh overflow-hidden bg-brand-soft">
+    <div className="relative h-dvh overflow-hidden bg-brand-soft">
       <div
-        className="origin-top-left"
+        className="absolute top-0 left-1/2 origin-top"
         style={{
-          width: `calc(100vw / ${APP_ZOOM})`,
-          height: `calc(100dvh / ${APP_ZOOM})`,
-          transform: `scale(${APP_ZOOM})`,
+          width: DESIGN_WIDTH,
+          height: DESIGN_HEIGHT,
+          transform: `translateX(-50%) scale(${viewportScale})`,
         }}
       >
         <div className="h-full snap-y snap-mandatory overflow-y-scroll scroll-smooth bg-brand-soft">
