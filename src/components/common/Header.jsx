@@ -1,7 +1,7 @@
 import logo from '@assets/logo.png'
-import facebookIcon from '@/assets/images/icon/facebook.png'
-import tiktokIcon from '@/assets/images/icon/tiktok.png'
-import instagramIcon from '@/assets/images/icon/instagram.png'
+import facebookIcon from '@assets/images/icon/facebook.png'
+import tiktokIcon from '@assets/images/icon/tiktok.png'
+import instagramIcon from '@assets/images/icon/instagram.png'
 
 export function Header() {
   return (
