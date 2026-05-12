@@ -2,7 +2,7 @@ import { Header, Footer } from '@components/common'
 
 export function MainLayout({ children }) {
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="flex min-h-screen flex-col bg-brand-soft">
       <Header />
       <main className="flex-1">{children}</main>
       <Footer />

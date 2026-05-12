@@ -1,5 +1,21 @@
 @import 'tailwindcss';
 
+@theme {
+  --color-brand-orange: #ffac3f;
+  --color-brand-soft: #f3f1f7;
+  --color-brand-textbase: #5a3bc4;
+  --color-brand-header: #fdfcfd;
+  --color-brand-textheader: #3d3d3d;
+  --color-brand-home1: #5a3bc4;
+  --color-brand-cup: #ffac3f;
+  --color-brand-changehover: #fdfcfd;
+
+  --font-display: '1FTV VIP Amoria', serif;
+  --font-body: 'iCiel Internacional', system-ui, sans-serif;
+
+  --spacing-25: 6.25rem;
+}
+
 /* Custom Fonts - Add @font-face rules here when font files are ready */
 /*
 @font-face {
@@ -17,6 +33,24 @@
 }
 */
 
+@font-face {
+  font-family: 'iCiel Internacional';
+  src: url('/fonts/iCielInternacional-Light.otf') format('opentype');
+  font-weight: 300;
+}
+
+@font-face {
+  font-family: 'iCiel Internacional';
+  src: url('/fonts/iCielInternacional-DemiBold.otf') format('opentype');
+  font-weight: 600;
+}
+
+@font-face {
+  font-family: '1FTV VIP Amoria';
+  src: url('/fonts/1FTVVIPAmoria-Italic.ttf') format('truetype');
+  font-style: italic;
+}
+
 @layer base {
   * {
     margin: 0;
@@ -33,6 +67,7 @@
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    background-color: var(--color-brand-soft);
   }
 
   /* Smooth scrolling */
