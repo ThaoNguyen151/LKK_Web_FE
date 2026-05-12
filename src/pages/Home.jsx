@@ -30,6 +30,8 @@ const CUP_LHP_TRANSLATE_Y = -10
 const CUP_HTV_TRANSLATE_Y = 170
 
 const DESIGN_WIDTH = 1536
+const MAX_VIEWPORT_WIDTH = 1920
+const MAX_SCALE = MAX_VIEWPORT_WIDTH / DESIGN_WIDTH
 
 function useViewportLayout() {
   const getLayout = () => {
@@ -40,7 +42,7 @@ function useViewportLayout() {
       }
     }
 
-    const scale = window.innerWidth / DESIGN_WIDTH
+    const scale = Math.min(window.innerWidth / DESIGN_WIDTH, MAX_SCALE)
 
     return {
       scale,
