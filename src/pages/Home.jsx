@@ -147,7 +147,7 @@ export function Home() {
                 <img
                   src={imageHome1}
                   alt="Lê Khánh"
-                  className="h-auto w-full max-w-2xl scale-94 object-contain"
+                  className="h-auto w-full max-w-2xl scale-100 object-contain"
                   style={{ marginTop: '-75px', marginLeft: '0px' }}
                 />
 
@@ -250,8 +250,8 @@ export function Home() {
                   <img
                     src={imageHome2}
                     alt="Lê Khánh"
-                    className="h-auto w-full max-w-2xl scale-108 object-contain"
-                    style={{ marginTop: '-40px', marginRight: '-10px' }}
+                    className="h-auto w-full max-w-2xl scale-115 object-contain"
+                    style={{ marginTop: '-50px', marginRight: '-10px' }}
                   />
                 </div>
               </div>
@@ -450,7 +450,7 @@ export function Home() {
                   <img
                     src={imageHome4}
                     alt="Lê Khánh"
-                    className="h-auto w-full max-w-xl pt-5 rounded-2xl object-contain scale-90 lg:max-w-3xl"
+                    className="h-auto w-full max-w-xl pt-5 rounded-2xl object-contain scale-94 lg:max-w-3xl"
                   />
                 </div>
 
