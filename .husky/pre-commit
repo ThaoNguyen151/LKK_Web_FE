@@ -1,1 +1,2 @@
-npx lint-staged
+# Run lint-staged via Node (avoids npx/bash; fixes WSL execvpe(/bin/bash) failed)
+node ./node_modules/lint-staged/bin/lint-staged.js

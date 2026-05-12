@@ -1,15 +1,77 @@
 import imageHome1 from '@assets/image_home_1.png'
 import imageHome2 from '@assets/image_home_2.png'
 import imageHome4 from '@assets/image_home_4.png'
+import imageCupSK from '@assets/images/cup/LHSK.png'
+import imageCupMV from '@assets/images/cup/MV.png'
+import imageCupLHP from '@assets/images/cup/LHP.png'
+import imageCupHTV from '@assets/images/cup/HTV.png'
 import { Header } from '@components/common'
 import imageTextHome1 from '@assets/images/Lê KHÁNH.png'
 import rectLeft from '@assets/Rectangle-2.png'
 import rectRight from '@assets/Rectangle-1.png'
 import rectBottom from '@assets/Rectangle.png'
+import avatarCherishK from '@/assets/images/avatar/avatar-cherishk.jpg'
+import avatar1200HotE from '@/assets/images/avatar/avatar-12hote.jpg'
+import facebookIcon from '@/assets/images/icon/facebook.png'
+import tiktokIcon from '@/assets/images/icon/tiktok.png'
+import instagramIcon from '@/assets/images/icon/instagram.png'
+import facebookWhiteIcon from '@/assets/images/icon/face_white.png'
+import tiktokWhiteIcon from '@/assets/images/icon/tiktok_white.png'
+import instagramWhiteIcon from '@/assets/images/icon/instagram_white.png'
+
+/** Mai Vàng cup: translateY (px). Increase toward 0 or positive to move the image down. */
+const CUP_MV_TRANSLATE_Y = 195
+
+const CUP_SK_TRANSLATE_Y = -10
+
+const CUP_LHP_TRANSLATE_Y = -10
+
+const CUP_HTV_TRANSLATE_Y = 143
+
+const SOCIAL_DATA = [
+  {
+    platform: 'facebook',
+    followers: '169k',
+    href: 'https://www.facebook.com/DvLeKhanh.Official',
+    icon: facebookIcon,
+    iconHover: facebookWhiteIcon,
+  },
+  {
+    platform: 'tiktok',
+    followers: '106.4k',
+    href: 'https://www.tiktok.com/@dienvienlekhanh',
+    icon: tiktokIcon,
+    iconHover: tiktokWhiteIcon,
+  },
+  {
+    platform: 'instagram',
+    followers: '2.629',
+    href: 'https://www.instagram.com/dienvienlekhanh/',
+    icon: instagramIcon,
+    iconHover: instagramWhiteIcon,
+  },
+]
+
+const FANPAGE_DATA = [
+  {
+    name: 'CherishK – all about Lê Khánh',
+    href: 'https://facebook.com/LeKhanhcollection',
+    facebookUsername: 'LeKhanhcollection',
+    avatar: avatarCherishK,
+    fallbackEmoji: null,
+  },
+  {
+    name: '1200 Hột É của chị Lê Khánh',
+    href: 'https://www.facebook.com/profile.php?id=61555671172772',
+    facebookUsername: '61555671172772', // thay bằng username thật
+    avatar: avatar1200HotE,
+    fallbackEmoji: '🎭',
+  },
+]
 
 export function Home() {
   return (
-    <div className="h-screen snap-y snap-mandatory overflow-y-scroll scroll-smooth">
+    <div className="h-screen snap-y snap-mandatory overflow-y-scroll scroll-smooth bg-brand-soft">
       {/* Fixed Header */}
       <Header />
 
@@ -71,58 +133,76 @@ export function Home() {
       </section>
 
       {/* Section 2 - Bio with Stats */}
-      <section className="relative flex h-screen snap-start items-center justify-center overflow-hidden bg-gradient-to-br from-purple-100 via-pink-50 to-purple-200">
+      <section className="relative flex h-screen snap-start items-center justify-center overflow-hidden bg-brand-soft">
+        {/* DECORATION BACKGROUND */}
+        <img
+          src={rectLeft}
+          className="pointer-events-none absolute left-0 bottom-[-200px] z-0 w-[59  0px]"
+        />
+
+        <img
+          src={rectRight}
+          className="pointer-events-none absolute right-0 bottom-19 z-0 w-[420px]"
+        />
+
+        <img
+          src={rectBottom}
+          className="pointer-events-none absolute bottom-0 left-2/3 z-0 w-[600px] -translate-x-[70%]"
+        />
         <div className="container relative z-10 mx-auto px-8 pt-20">
-          <div className="grid grid-cols-2 gap-12">
+          <div className="grid grid-cols-5 items-start gap-12 lg:gap-2">
             {/* Left side - Text and Stats */}
-            <div className="flex flex-col justify-center">
-              <h2 className="mb-6 font-display text-7xl italic text-purple-600">
+            <div className="col-span-3 flex flex-col justify-center pr-2">
+              <h2 className="mb-15 px-10 pt-25 font-display text-6xl italic text-brand-home1 text-center">
                 KHO TÀNG NGHỆ THUẬT
               </h2>
-              <p className="mb-12 font-body font-light text-lg leading-relaxed text-gray-700">
-                Sau hơn 20 năm chăm chỉ hoạt động nghệ thuật, Lê Khánh đã hứu
+              <p className="mb-15 font-body font-light text-lg leading-relaxed text-gray-700">
+                Sau hơn 20 năm chăm chỉ hoạt động nghệ thuật, Lê Khánh sở hữu
                 một kho tàng vai diễn
                 <br />
-                vô đa dạng mẫu sắc. Cô vinh dự được xếp vào hàng ngũ diễn viên
+                với đa dạng màu sắc. Cô vinh dự được xếp vào hàng ngũ diễn viên
                 thực lực của Việt Nam.
               </p>
 
               {/* Stats */}
-              <div className="grid grid-cols-3 gap-6">
-                <div className="rounded-2xl border-2 border-purple-200 bg-white/50 p-6 backdrop-blur-sm">
-                  <div className="mb-2 font-display text-5xl font-bold text-purple-600">
-                    100+
+              <div className="grid grid-cols-3 gap-10">
+                <div className="rounded-2xl border-2 border-white bg-white/20 p-6 backdrop-blur-sm">
+                  <div className="mb-2 font-body text-5xl text-center">
+                    <span className="text-black">100</span>
+                    <span className="text-brand-home1">+</span>
                   </div>
-                  <div className="font-body text-sm uppercase tracking-wide text-gray-600">
+                  <div className="font-body text-sm uppercase tracking-wide text-gray-600 text-center">
                     VỞ DIỄN
                   </div>
                 </div>
-                <div className="p-6">
-                  <div className="mb-2 font-display text-5xl font-bold text-purple-600">
-                    35+
+                <div className="rounded-2xl border-2 border-white bg-white/20 p-6 backdrop-blur-sm">
+                  <div className="mb-2 font-body text-5xl text-center">
+                    <span className="text-black">35</span>
+                    <span className="text-brand-home1">+</span>
                   </div>
-                  <div className="font-body text-sm uppercase tracking-wide text-gray-600">
+                  <div className="font-body text-sm uppercase tracking-wide text-gray-600 text-center">
                     PHIM TRUYỀN HÌNH
                   </div>
                 </div>
-                <div className="p-6">
-                  <div className="mb-2 font-display text-5xl font-bold text-purple-600">
-                    15+
+                <div className="rounded-2xl border-2 border-white bg-white/20 p-6 backdrop-blur-sm">
+                  <div className="mb-2 font-body text-5xl text-center">
+                    <span className="text-black">15</span>
+                    <span className="text-brand-home1">+</span>
                   </div>
-                  <div className="font-body text-sm uppercase tracking-wide text-gray-600">
+                  <div className="font-body text-sm uppercase tracking-wide text-gray-600 text-center">
                     PHIM ĐIỆN ẢNH
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* Right side - Image (larger and overlapping) */}
-            <div className="relative -mr-12 flex items-center justify-end">
+            {/* Right side - Image: justify-start so gradient gap doesn’t show left of photo */}
+            <div className="col-span-2 relative flex items-center justify-end">
               <img
                 src={imageHome2}
                 alt="Lê Khánh"
-                className="h-auto w-full max-w-2xl object-contain"
-                style={{ marginTop: '-80px' }}
+                className="h-auto w-full max-w-2xl scale-108 object-contain"
+                style={{ marginTop: '-80px', marginRight: '-10px' }}
               />
             </div>
           </div>
@@ -130,133 +210,293 @@ export function Home() {
       </section>
 
       {/* Section 3 - Awards */}
-      <section className="relative flex h-screen snap-start items-center justify-center overflow-hidden bg-gradient-to-br from-purple-100 via-pink-50 to-purple-200">
-        <div className="container relative z-10 mx-auto px-8 pt-20">
-          <div className="grid grid-cols-3 gap-12">
+      <section className="relative flex h-screen snap-start items-center justify-center overflow-hidden bg-brand-soft">
+        {/* DECORATION BACKGROUND */}
+        <img
+          src={rectLeft}
+          className="pointer-events-none absolute left-0 bottom-[-200px] z-0 w-[59  0px]"
+        />
+
+        <img
+          src={rectRight}
+          className="pointer-events-none absolute right-0 bottom-19 z-0 w-[420px]"
+        />
+
+        <img
+          src={rectBottom}
+          className="pointer-events-none absolute bottom-0 left-2/3 z-0 w-[600px] -translate-x-[70%]"
+        />
+        <div className="container relative z-10 mx-auto w-full px-8 pt-25">
+          <div className="grid min-h-[calc(100dvh-12rem)] w-full grid-cols-3 items-stretch gap-5">
             {/* Mai Vàng */}
-            <div className="relative">
-              <h3 className="mb-8 font-display text-5xl italic text-purple-600">
+            <div className="relative pt-5">
+              <h3 className="mb-6 px-15 font-display text-[60px] italic text-brand-home1">
                 MAI VÀNG
               </h3>
-              <div className="mb-8 grid grid-cols-2 gap-4">
-                <div className="font-body text-lg text-purple-700">2023</div>
-                <div className="font-body text-lg text-purple-700">2012</div>
-                <div className="font-body text-lg text-purple-700">2015</div>
-                <div className="font-body text-lg text-purple-700">2011</div>
-                <div className="font-body text-lg text-purple-700">2013</div>
-                <div className="font-body text-lg text-purple-700">2010</div>
+              <div className="w-fit mt-15 mb-12 px-20 grid grid-cols-2 gap-x-15 gap-y-2">
+                <div className="font-body text-lg text-black">2023</div>
+                <div className="font-body text-lg text-black">2012</div>
+                <div className="font-body text-lg text-black">2015</div>
+                <div className="font-body text-lg text-black">2011</div>
+                <div className="font-body text-lg text-black">2013</div>
+                <div className="font-body text-lg text-black">2010</div>
               </div>
               <div className="relative">
-                <div className="font-display text-9xl font-bold text-orange-400">
+                <div className="font-display absolute right-28 bottom-[-165px] text-9xl text-brand-cup">
                   6
                 </div>
-                <div className="absolute bottom-0 right-0 text-6xl">🏆</div>
+                <div className="absolute bottom-0 right-0 text-6xl">
+                  <img
+                    src={imageCupMV}
+                    alt="Cup MV"
+                    className="h-auto w-full max-w-2xl scale-90 object-contain"
+                    style={{
+                      marginRight: '-10px',
+                      transform: `translateY(${CUP_MV_TRANSLATE_Y}px)`,
+                    }}
+                  />
+                </div>
               </div>
             </div>
 
             {/* Festival Awards */}
-            <div className="border-x-2 border-purple-200 px-8">
-              <h3 className="mb-4 font-display text-4xl italic text-purple-600">
-                LIÊN HOAN
-                <br />
-                SÂN KHẤU
-              </h3>
-              <div className="mb-4 font-body text-lg text-purple-700">2024</div>
-              <div className="mb-8 flex justify-center text-7xl">🏆</div>
+            <div className="flex min-h-full flex-col px-8 pt-5 relative">
+              {/* Line dọc trái */}
+              <div
+                className="absolute left-0 top-0 h-full w-[1px]"
+                style={{
+                  background:
+                    'linear-gradient(to bottom, transparent, #5A3BC4, transparent)',
+                }}
+              />
 
-              <h3 className="mb-4 font-display text-4xl italic text-purple-600">
-                LIÊN HOAN PHIM
-                <br />
-                VIỆT NAM
-              </h3>
-              <div className="mb-4 font-body text-lg text-purple-700">2011</div>
-              <div className="flex justify-center text-7xl">🏆</div>
+              {/* Line dọc phải */}
+              <div
+                className="absolute right-0 top-0 h-full w-[1px]"
+                style={{
+                  background:
+                    'linear-gradient(to bottom, transparent, #5A3BC4, transparent)',
+                }}
+              />
+
+              {/* Phần 1 — chiếm nửa trên */}
+              <div className="flex flex-1 flex-col">
+                <h3 className="mb-6 font-display text-[40px] italic text-brand-home1">
+                  LIÊN HOAN
+                  <br />
+                  SÂN KHẤU
+                </h3>
+                <div className="mb-4 px-7 font-body text-lg text-black">
+                  2024
+                </div>
+                <div className="relative flex-1">
+                  <div className="font-display absolute right-25 bottom-[7px] text-9xl text-brand-cup">
+                    1
+                  </div>
+                  <div className="absolute bottom-0 right-0 text-6xl">
+                    <img
+                      src={imageCupSK}
+                      alt="Cup LHSK"
+                      className="h-auto w-full max-w-2xl scale-80 object-contain"
+                      style={{
+                        marginRight: '-10px',
+                        transform: `translateY(${CUP_SK_TRANSLATE_Y}px)`,
+                      }}
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Line ngang */}
+              <div
+                className="my-0 h-[1px] w-full"
+                style={{
+                  background:
+                    'linear-gradient(to right, transparent, #5A3BC4, transparent)',
+                }}
+              />
+
+              {/* Phần 2 — chiếm nửa dưới */}
+              <div className="flex flex-1 flex-col pt-8">
+                <h3 className="mb-6 font-display text-[40px] italic text-brand-home1">
+                  LIÊN HOAN PHIM
+                  <br />
+                  VIỆT NAM
+                </h3>
+                <div className="mb-4 px-7 font-body text-lg text-black">
+                  2011
+                </div>
+                <div className="relative flex-1">
+                  <div className="font-display absolute right-25 bottom-[7px] text-9xl text-brand-cup">
+                    1
+                  </div>
+                  <div className="absolute bottom-0 right-0 text-6xl">
+                    <img
+                      src={imageCupLHP}
+                      alt="Cup LHP"
+                      className="h-auto w-full max-w-2xl scale-80 object-contain"
+                      style={{
+                        marginRight: '-10px',
+                        transform: `translateY(${CUP_LHP_TRANSLATE_Y}px)`,
+                      }}
+                    />
+                  </div>
+                </div>
+              </div>
             </div>
 
             {/* HTV Awards */}
-            <div className="relative">
-              <h3 className="mb-8 font-display text-5xl italic text-purple-600">
+            <div className="relative pt-5">
+              <h3 className="mb-6 font-display text-[60px] italic text-brand-home1">
                 HTV
                 <br />
                 AWARDS
               </h3>
-              <div className="mb-8">
-                <div className="font-body text-lg text-purple-700">2008</div>
-                <div className="font-body text-lg text-purple-700">2009</div>
+              <div className="w-fit mt-15 mb-12 px-5 gap-x-15 gap-y-2">
+                <div className="font-body text-lg text-black">2008</div>
+                <div className="font-body text-lg text-black">2009</div>
               </div>
               <div className="relative">
-                <div className="font-display text-9xl font-bold text-orange-400">
+                <div className="font-display absolute right-40 bottom-[-132px] text-9xl text-brand-cup">
                   2
                 </div>
-                <div className="absolute bottom-0 right-0 text-6xl">🏆</div>
+                <div className="absolute bottom-0 right-15 text-6xl">
+                  <img
+                    src={imageCupHTV}
+                    alt="Cup HTV"
+                    className="h-auto w-full max-w-2xl scale-90 object-contain"
+                    style={{
+                      marginRight: '-10px',
+                      transform: `translateY(${CUP_HTV_TRANSLATE_Y}px)`,
+                    }}
+                  />
+                </div>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Section 4 - Fanzone */}
-      <section className="relative flex h-screen snap-start items-center justify-center overflow-hidden bg-gradient-to-br from-purple-100 via-pink-50 to-purple-200">
-        <div className="container relative z-10 mx-auto px-8 pt-20">
-          <div className="grid grid-cols-2 gap-12">
-            {/* Left side - Image (larger and overlapping) */}
-            <div className="relative -ml-12 flex items-center">
+      {/* Section 4 - Mạng xã hội */}
+      <section className="relative flex h-screen snap-start items-center justify-center overflow-hidden bg-brand-soft">
+        {/* DECORATION BACKGROUND */}
+        <img
+          src={rectLeft}
+          className="pointer-events-none absolute left-0 bottom-[-200px] z-0 w-[59  0px]"
+        />
+
+        <img
+          src={rectRight}
+          className="pointer-events-none absolute right-0 bottom-19 z-0 w-[420px]"
+        />
+
+        <img
+          src={rectBottom}
+          className="pointer-events-none absolute bottom-0 left-2/3 z-0 w-[600px] -translate-x-[70%]"
+        />
+        <div className="container relative z-10 mx-auto w-full px-1">
+          <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-2 lg:gap-16">
+            {/* Left — ảnh chân dung */}
+            <div className="relative flex justify-center">
               <img
                 src={imageHome4}
                 alt="Lê Khánh"
-                className="h-auto w-full max-w-2xl object-contain"
-                style={{ marginTop: '-80px' }}
+                className="h-auto w-full max-w-xl pt-5 rounded-2xl object-contain scale-90 lg:max-w-3xl"
               />
             </div>
 
-            {/* Right side - Fanzone Cards */}
-            <div className="flex flex-col justify-center">
-              <h2 className="mb-12 font-display text-6xl italic text-purple-600">
-                FANZONE
+            {/* Right — tiêu đề, thống kê 3 cột, fanpage */}
+            <div className="flex flex-col justify-center gap-6 lg:pl-0 lg:pr-30 pt-20">
+              <h2 className="font-display text-[50px] italic leading-tight text-center text-brand-home1">
+                MẠNG XÃ HỘI
               </h2>
-
-              {/* Fanpage Card 1 */}
-              <div className="mb-6 rounded-3xl border-2 border-purple-200 bg-white/70 p-6 backdrop-blur-sm transition-all hover:border-purple-300 hover:shadow-lg">
-                <div className="flex items-center gap-4">
-                  <div className="h-16 w-16 overflow-hidden rounded-full bg-gradient-to-br from-purple-400 to-pink-400">
-                    <div className="flex h-full items-center justify-center text-2xl text-white">
-                      👤
-                    </div>
-                  </div>
-                  <div className="flex-1">
-                    <div className="mb-1 inline-block rounded-full bg-orange-400 px-3 py-1 text-xs font-semibold text-white">
-                      FACEBOOK
-                    </div>
-                    <h3 className="font-body text-xl font-semibold text-purple-700">
-                      CherishK - all about Lê Khánh
-                    </h3>
-                    <button className="mt-2 font-body text-sm text-purple-600 hover:text-purple-800">
-                      FOLLOW NGAY →
-                    </button>
-                  </div>
-                </div>
+              {/* Stats 3 ô */}
+              <div className="grid grid-cols-3 gap-3 sm:gap-4">
+                {SOCIAL_DATA.map(item => (
+                  <a
+                    key={item.platform}
+                    href={item.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group relative flex flex-col rounded-2xl border border-brand-home1 bg-white/10 p-3 shadow-[0_5px_60px_rgba(90,59,196,0.25)] transition-colors duration-200 hover:border-brand-home1 hover:bg-brand-home1 sm:p-4"
+                  >
+                    <span className="relative h-5 w-5 shrink-0">
+                      <img
+                        src={item.icon}
+                        alt=""
+                        className="absolute inset-0 h-5 w-5 object-contain opacity-100 transition-opacity duration-200 group-hover:opacity-0"
+                        aria-hidden
+                      />
+                      <img
+                        src={item.iconHover}
+                        alt=""
+                        className="absolute inset-0 h-5 w-5 object-contain opacity-0 transition-opacity duration-200 group-hover:opacity-100"
+                        aria-hidden
+                      />
+                    </span>
+                    <span className="mt-3 font-body text-xl font-bold tracking-tight text-brand-home1 transition-colors duration-200 group-hover:text-brand-changehover sm:text-2xl">
+                      {item.followers}
+                    </span>
+                    <span className="mt-1 font-body text-[10px] uppercase leading-tight tracking-wide text-gray-600 transition-colors duration-200 group-hover:text-brand-changehover">
+                      Người theo dõi
+                    </span>
+                    <span
+                      className="absolute bottom-3 right-5 scale-150 text-xl text-gray-400 transition-colors duration-200 group-hover:text-brand-changehover"
+                      aria-hidden="true"
+                    >
+                      →
+                    </span>
+                  </a>
+                ))}
               </div>
 
-              {/* Fanpage Card 2 */}
-              <div className="rounded-3xl border-2 border-purple-200 bg-white/70 p-6 backdrop-blur-sm transition-all hover:border-purple-300 hover:shadow-lg">
-                <div className="flex items-center gap-4">
-                  <div className="h-16 w-16 overflow-hidden rounded-full bg-gradient-to-br from-purple-400 to-pink-400">
-                    <div className="flex h-full items-center justify-center text-2xl text-white">
-                      👤
+              {/* Line ngang */}
+              <div
+                className="my-0 h-[1px] w-full mt-3 mb-3"
+                style={{
+                  background:
+                    'linear-gradient(to right, transparent, #5A3BC4, transparent)',
+                }}
+              />
+
+              {/* Fanpage cards */}
+              <div className="flex flex-col gap-4">
+                {FANPAGE_DATA.map(page => (
+                  <a
+                    key={page.name}
+                    href={page.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="rounded-3xl border-2 border-white bg-white/10 p-3 shadow-sm backdrop-blur-sm transition-all hover:border-brand-home1 hover:shadow-lg sm:p-4"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="h-20 w-20 shrink-0 overflow-hidden rounded-full ring-2 ring-purple-200/60 bg-purple-100">
+                        <img
+                          src={page.avatar}
+                          alt={page.name}
+                          className="h-full w-full object-cover"
+                        />
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <div className="mb-1 inline-block rounded-full bg-brand-orange px-2 py-0.5 text-[9.5px] uppercase tracking-wide text-white">
+                          Fanpage
+                        </div>
+                        <h3 className="font-body text-base font-semibold text-brand-home1 sm:text-lg">
+                          {page.name}
+                        </h3>
+                        <button
+                          type="button"
+                          className="mt-1 font-body text-xs font-medium text-gray-600 transition-colors hover:text-purple-800"
+                        >
+                          <span>FOLLOW NGAY</span>
+                          <span className="absolute bottom-4 left-54 text-xl text-gray-400 scale-150">
+                            →
+                          </span>
+                        </button>
+                      </div>
                     </div>
-                  </div>
-                  <div className="flex-1">
-                    <div className="mb-1 inline-block rounded-full bg-orange-400 px-3 py-1 text-xs font-semibold text-white">
-                      FACEBOOK
-                    </div>
-                    <h3 className="font-body text-xl font-semibold text-purple-700">
-                      1200 Hột É của chị Lê Khánh
-                    </h3>
-                    <button className="mt-2 font-body text-sm text-purple-600 hover:text-purple-800">
-                      FOLLOW NGAY →
-                    </button>
-                  </div>
-                </div>
+                  </a>
+                ))}
               </div>
             </div>
           </div>
