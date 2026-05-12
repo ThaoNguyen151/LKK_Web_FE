@@ -30,25 +30,29 @@ const CUP_LHP_TRANSLATE_Y = -10
 const CUP_HTV_TRANSLATE_Y = 170
 
 const DESIGN_WIDTH = 1536
-const DESIGN_HEIGHT = 864
 
-function useViewportScale() {
-  const getScale = () => {
+function useViewportLayout() {
+  const getLayout = () => {
     if (typeof window === 'undefined') {
-      return 1
+      return {
+        scale: 1,
+        height: 864,
+      }
     }
 
-    return Math.min(
-      window.innerWidth / DESIGN_WIDTH,
-      window.innerHeight / DESIGN_HEIGHT
-    )
+    const scale = window.innerWidth / DESIGN_WIDTH
+
+    return {
+      scale,
+      height: window.innerHeight / scale,
+    }
   }
 
-  const [scale, setScale] = useState(getScale)
+  const [layout, setLayout] = useState(getLayout)
 
   useEffect(() => {
     const handleResize = () => {
-      setScale(getScale())
+      setLayout(getLayout())
     }
 
     handleResize()
@@ -59,7 +63,7 @@ function useViewportScale() {
     }
   }, [])
 
-  return scale
+  return layout
 }
 
 const SOCIAL_DATA = [
@@ -104,7 +108,7 @@ const FANPAGE_DATA = [
 ]
 
 export function Home() {
-  const viewportScale = useViewportScale()
+  const viewportLayout = useViewportLayout()
 
   return (
     <div className="relative h-dvh overflow-hidden bg-brand-soft">
@@ -112,8 +116,8 @@ export function Home() {
         className="absolute top-0 left-1/2 origin-top"
         style={{
           width: DESIGN_WIDTH,
-          height: DESIGN_HEIGHT,
-          transform: `translateX(-50%) scale(${viewportScale})`,
+          height: viewportLayout.height,
+          transform: `translateX(-50%) scale(${viewportLayout.scale})`,
         }}
       >
         <div className="h-full snap-y snap-mandatory overflow-y-scroll scroll-smooth bg-brand-soft">
