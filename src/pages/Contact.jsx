@@ -8,7 +8,7 @@ import {
   FormField,
   Input,
 } from '@components/ui'
-import { Container } from '@layouts'
+import { Container, MainLayout } from '@layouts'
 
 export function Contact() {
   const [formData, setFormData] = useState({
@@ -19,7 +19,6 @@ export function Contact() {
 
   const handleSubmit = e => {
     e.preventDefault()
-    // Handle form submission here
   }
 
   const handleChange = e => {
@@ -30,54 +29,56 @@ export function Contact() {
   }
 
   return (
-    <Container className="max-w-2xl">
-      <h1 className="mb-6 text-3xl font-bold text-gray-900">Contact Us</h1>
+    <MainLayout>
+      <Container className="max-w-2xl">
+        <h1 className="heading-section mb-6">Contact Us</h1>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Get in Touch</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSubmit}>
-            <FormField label="Name">
-              <Input
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                placeholder="Your name"
-                required
-              />
-            </FormField>
+        <Card>
+          <CardHeader>
+            <CardTitle>Get in Touch</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <form onSubmit={handleSubmit}>
+              <FormField label="Name">
+                <Input
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  placeholder="Your name"
+                  required
+                />
+              </FormField>
 
-            <FormField label="Email">
-              <Input
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                placeholder="your.email@example.com"
-                required
-              />
-            </FormField>
+              <FormField label="Email">
+                <Input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  placeholder="your.email@example.com"
+                  required
+                />
+              </FormField>
 
-            <FormField label="Message">
-              <textarea
-                name="message"
-                value={formData.message}
-                onChange={handleChange}
-                placeholder="Your message"
-                rows={5}
-                required
-                className="w-full rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-400 transition-colors focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"
-              />
-            </FormField>
+              <FormField label="Message">
+                <textarea
+                  name="message"
+                  value={formData.message}
+                  onChange={handleChange}
+                  placeholder="Your message"
+                  rows={5}
+                  required
+                  className="w-full rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-400 transition-colors focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"
+                />
+              </FormField>
 
-            <Button type="submit" className="w-full">
-              Send Message
-            </Button>
-          </form>
-        </CardContent>
-      </Card>
-    </Container>
+              <Button type="submit" className="w-full sm:w-auto">
+                Send Message
+              </Button>
+            </form>
+          </CardContent>
+        </Card>
+      </Container>
+    </MainLayout>
   )
 }

@@ -14,6 +14,13 @@
   --font-body: 'iCiel Internacional', system-ui, sans-serif;
 
   --spacing-25: 6.25rem;
+
+  /* Shared breakpoints (sync with src/constants/breakpoints.js) */
+  --breakpoint-sm: 40rem;
+  --breakpoint-md: 48rem;
+  --breakpoint-lg: 64rem;
+  --breakpoint-xl: 80rem;
+  --breakpoint-2xl: 96rem;
 }
 
 /* Custom Fonts - Add @font-face rules here when font files are ready */
@@ -77,5 +84,70 @@
 }
 
 @layer components {
-  /* Custom component styles go here */
+  /* Shared responsive layout — use on all pages */
+  .page-container {
+    max-width: 80rem;
+    padding-inline: 1rem;
+    padding-block: 1.5rem;
+  }
+
+  @media (min-width: 48rem) {
+    .page-container {
+      padding-inline: 1.5rem;
+      padding-block: 2rem;
+    }
+  }
+
+  @media (min-width: 64rem) {
+    .page-container {
+      padding-inline: 2rem;
+      padding-block: 2.5rem;
+    }
+  }
+
+  .page-section {
+    padding-inline: 1rem;
+    padding-block: 3rem;
+  }
+
+  @media (min-width: 48rem) {
+    .page-section {
+      padding-inline: 1.5rem;
+      padding-block: 4rem;
+    }
+  }
+
+  @media (min-width: 64rem) {
+    .page-section {
+      padding-inline: 2rem;
+      padding-block: 5rem;
+    }
+  }
+
+  .heading-display {
+    font-family: var(--font-display);
+    font-style: italic;
+    color: var(--color-brand-home1);
+    font-size: clamp(2rem, 5vw, 3.75rem);
+    line-height: 1.1;
+  }
+
+  .heading-section {
+    font-family: var(--font-display);
+    font-style: italic;
+    color: var(--color-brand-home1);
+    font-size: clamp(1.75rem, 4vw, 3rem);
+    line-height: 1.15;
+  }
+
+  .gradient-line-h {
+    height: 1px;
+    width: 100%;
+    background: linear-gradient(to right, transparent, #5a3bc4, transparent);
+  }
+
+  .gradient-line-v {
+    width: 1px;
+    background: linear-gradient(to bottom, transparent, #5a3bc4, transparent);
+  }
 }
