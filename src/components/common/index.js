@@ -1,2 +1,4 @@
 export { Header } from './Header'
 export { Footer } from './Footer'
+export { AwardCupCluster } from './AwardCupCluster'
+export { AwardBlock } from './AwardBlock'

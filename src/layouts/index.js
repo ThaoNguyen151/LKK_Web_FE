@@ -1,2 +1,5 @@
 export { MainLayout } from './MainLayout'
 export { Container } from './Container'
+export { PageShell } from './PageShell'
+export { PageSection } from './PageSection'
+export { ScaledCanvas } from './ScaledCanvas'
