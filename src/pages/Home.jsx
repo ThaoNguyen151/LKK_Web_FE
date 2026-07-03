@@ -1,3 +1,4 @@
+import { cn } from '@utils'
 import imageHome1 from '@assets/image_home_1.png'
 import imageHome2 from '@assets/image_home_2.png'
 import imageHome4 from '@assets/image_home_4.png'
@@ -62,11 +63,14 @@ const FANPAGE_DATA = [
   },
 ]
 
+/** Wrapper nội dung trong canvas 1536px — không dùng .container (phụ thuộc viewport, vỡ khi zoom). */
+const CANVAS_SECTION = 'relative z-10 mx-auto w-full max-w-full px-8'
+
 function HomeDesktop() {
   return (
     <ScaledCanvas>
       <div className="h-full snap-y snap-mandatory overflow-y-scroll scroll-smooth bg-brand-soft">
-        <Header />
+        <Header layout="canvas" />
 
         {/* Section 1 - Hero */}
         <section className="relative flex h-full snap-start items-center justify-center overflow-hidden bg-brand-soft">
@@ -85,9 +89,11 @@ function HomeDesktop() {
             src={rectBottom}
             className="pointer-events-none absolute bottom-0 left-1/2 z-0 w-[600px] -translate-x-[70%]"
           />
-          <div className="container relative mx-auto flex items-center px-8 pt-20">
+          <div
+            className={cn(CANVAS_SECTION, 'flex min-w-0 items-center pt-20')}
+          >
             {/* LEFT IMAGE */}
-            <div className="relative z-20 flex flex-1 items-end -ml-10">
+            <div className="relative z-20 flex min-w-0 flex-1 items-end -ml-10">
               <img
                 src={imageHome1}
                 alt="Lê Khánh"
@@ -106,7 +112,7 @@ function HomeDesktop() {
             </div>
 
             {/* RIGHT SIDE */}
-            <div className="relative flex flex-1 flex-col">
+            <div className="relative flex min-w-0 flex-1 flex-col">
               {/* # DIỄN VIÊN */}
               <div className="absolute right-40 bottom-23 rounded-full bg-brand-orange px-6 py-2.5 text-sm font-semibold text-white tracking-wide whitespace-nowrap shadow-[0_20px_60px_rgba(90,59,196,0.25)] backdrop-blur-md">
                 # DIỄN VIÊN
@@ -142,10 +148,10 @@ function HomeDesktop() {
             src={rectBottom}
             className="pointer-events-none absolute bottom-0 left-2/3 z-0 w-[600px] -translate-x-[70%]"
           />
-          <div className="container relative z-10 mx-auto px-8 pt-20">
-            <div className="grid grid-cols-5 items-start gap-12 lg:gap-2">
+          <div className={cn(CANVAS_SECTION, 'pt-20')}>
+            <div className="grid min-w-0 grid-cols-5 items-start gap-2">
               {/* Left side - Text and Stats */}
-              <div className="col-span-3 flex flex-col justify-center pr-2">
+              <div className="col-span-3 flex min-w-0 flex-col justify-center pr-2">
                 <h2 className="font-display-medium mb-15 px-10 pt-30 text-center font-display text-6xl italic text-brand-home1">
                   KHO TÀNG NGHỆ THUẬT
                 </h2>
@@ -190,7 +196,7 @@ function HomeDesktop() {
               </div>
 
               {/* Right side - Image: justify-start so gradient gap doesn’t show left of photo */}
-              <div className="col-span-2 relative flex items-center justify-end">
+              <div className="relative col-span-2 flex min-w-0 items-center justify-end">
                 <img
                   src={imageHome2}
                   alt="Lê Khánh"
@@ -219,9 +225,16 @@ function HomeDesktop() {
             src={rectBottom}
             className="pointer-events-none absolute bottom-0 left-2/3 z-0 w-[600px] -translate-x-[70%]"
           />
-          <div className="container relative z-10 mx-auto flex h-full w-full items-center px-8 pt-20 pb-8">
-            <div className="grid w-full grid-cols-3 items-stretch gap-5">
-              <MaiVangAward />
+          <div
+            className={cn(
+              CANVAS_SECTION,
+              'flex h-full w-full items-center pt-20 pb-8'
+            )}
+          >
+            <div className="grid w-full min-w-0 grid-cols-3 items-stretch gap-5">
+              <div className="min-w-0 overflow-hidden">
+                <MaiVangAward />
+              </div>
 
               {/* Festival Awards — 2 giải compact, không lem qua gạch ngang */}
               <div className="relative flex h-full min-h-0 flex-col overflow-hidden px-6 pt-5">
@@ -276,7 +289,9 @@ function HomeDesktop() {
                 </div>
               </div>
 
-              <HtvAward />
+              <div className="min-w-0 overflow-hidden">
+                <HtvAward />
+              </div>
             </div>
           </div>
         </section>
@@ -298,31 +313,31 @@ function HomeDesktop() {
             src={rectBottom}
             className="pointer-events-none absolute bottom-0 left-2/3 z-0 w-[600px] -translate-x-[70%]"
           />
-          <div className="container relative z-10 mx-auto w-full px-1">
-            <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-2 lg:gap-16">
+          <div className={CANVAS_SECTION}>
+            <div className="grid grid-cols-2 items-center gap-16">
               {/* Left — ảnh chân dung */}
               <div className="relative flex justify-center">
                 <img
                   src={imageHome4}
                   alt="Lê Khánh"
-                  className="h-auto w-full max-w-xl pt-5 rounded-2xl object-contain scale-94 lg:max-w-3xl"
+                  className="h-auto w-full max-w-3xl scale-94 rounded-2xl object-contain pt-5"
                 />
               </div>
 
               {/* Right — tiêu đề, thống kê 3 cột, fanpage */}
-              <div className="flex flex-col justify-center gap-6 lg:pl-0 lg:pr-30 pt-20">
+              <div className="flex flex-col justify-center gap-6 pr-30 pt-20">
                 <h2 className="font-display-medium font-display text-[50px] italic leading-tight text-center text-brand-home1">
                   MẠNG XÃ HỘI
                 </h2>
                 {/* Stats 3 ô */}
-                <div className="grid grid-cols-3 gap-3 sm:gap-4">
+                <div className="grid grid-cols-3 gap-4">
                   {SOCIAL_DATA.map(item => (
                     <a
                       key={item.platform}
                       href={item.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="group relative flex flex-col rounded-2xl border border-brand-home1 bg-white/10 p-3 shadow-[0_5px_60px_rgba(90,59,196,0.25)] transition-colors duration-200 hover:border-brand-home1 hover:bg-brand-home1 sm:p-4"
+                      className="group relative flex flex-col rounded-2xl border border-brand-home1 bg-white/10 p-4 shadow-[0_5px_60px_rgba(90,59,196,0.25)] transition-colors duration-200 hover:border-brand-home1 hover:bg-brand-home1"
                     >
                       <span className="relative h-5 w-5 shrink-0">
                         <img
@@ -338,7 +353,7 @@ function HomeDesktop() {
                           aria-hidden
                         />
                       </span>
-                      <span className="mt-3 font-body text-xl font-bold tracking-tight text-brand-home1 transition-colors duration-200 group-hover:text-brand-changehover sm:text-2xl">
+                      <span className="mt-3 font-body text-2xl font-bold tracking-tight text-brand-home1 transition-colors duration-200 group-hover:text-brand-changehover">
                         {item.followers}
                       </span>
                       <span className="mt-1 font-body text-[10px] uppercase leading-tight tracking-wide text-gray-600 transition-colors duration-200 group-hover:text-brand-changehover">
@@ -371,7 +386,7 @@ function HomeDesktop() {
                       href={page.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="rounded-3xl border-2 border-white bg-white/10 p-3 shadow-sm backdrop-blur-sm transition-all hover:border-brand-home1 hover:shadow-lg sm:p-4"
+                      className="rounded-3xl border-2 border-white bg-white/10 p-4 shadow-sm backdrop-blur-sm transition-all hover:border-brand-home1 hover:shadow-lg"
                     >
                       <div className="flex items-center gap-3">
                         <div className="h-20 w-20 shrink-0 overflow-hidden rounded-full ring-2 ring-purple-200/60 bg-purple-100">
@@ -385,7 +400,7 @@ function HomeDesktop() {
                           <div className="mb-1 inline-block rounded-full bg-brand-orange px-2 py-0.5 text-[9.5px] uppercase tracking-wide text-white">
                             Fanpage
                           </div>
-                          <h3 className="font-body text-base font-semibold text-brand-home1 sm:text-lg">
+                          <h3 className="font-body text-lg font-semibold text-brand-home1">
                             {page.name}
                           </h3>
                           <button
