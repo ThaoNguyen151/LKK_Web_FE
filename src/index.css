@@ -55,7 +55,9 @@
 @font-face {
   font-family: '1FTV VIP Amoria';
   src: url('/fonts/1FTVVIPAmoria-Italic.ttf') format('truetype');
+  font-weight: 400;
   font-style: italic;
+  font-display: swap;
 }
 
 @layer base {
@@ -124,9 +126,21 @@
     }
   }
 
+  /* Font Amoria chỉ có 1 file → font-weight 400–599 giống nhau; 600+ bị faux bold quá đậm */
+  .font-display-medium {
+    font-weight: 400;
+    font-synthesis: none;
+    -webkit-text-stroke: 0.4px currentColor;
+    paint-order: stroke fill;
+  }
+
   .heading-display {
     font-family: var(--font-display);
+    font-weight: 400;
     font-style: italic;
+    font-synthesis: none;
+    -webkit-text-stroke: 0.4px currentColor;
+    paint-order: stroke fill;
     color: var(--color-brand-home1);
     font-size: clamp(2rem, 5vw, 3.75rem);
     line-height: 1.1;

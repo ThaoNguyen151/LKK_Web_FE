@@ -1,5 +1,15 @@
 import { cn } from '@utils'
 import { AwardCupCluster } from './AwardCupCluster'
+import { AwardYearButton } from './AwardYearButton'
+
+/**
+ * @param {(string | { label: string, href?: string })[]} years
+ */
+function normalizeAwardYears(years) {
+  return years.map(year => (typeof year === 'string' ? { label: year } : year))
+}
+
+const TITLE_WEIGHT = 'font-display-medium font-display italic text-brand-home1'
 
 const VARIANTS = {
   large: {
@@ -25,7 +35,7 @@ const VARIANTS = {
 /**
  * @typedef {object} AwardBlockProps
  * @property {import('react').ReactNode | string[]} title
- * @property {string[]} years
+ * @property {(string | import('./AwardYearButton').AwardYear)[]} years
  * @property {1 | 2} [yearColumns]
  * @property {string} count
  * @property {string} cupSrc
@@ -61,6 +71,7 @@ export function AwardBlock({
   countClassName,
 }) {
   const styles = VARIANTS[variant]
+  const yearItems = normalizeAwardYears(years)
   const titleContent = Array.isArray(title)
     ? title.map((line, index) => (
         <span key={`${line}-${index}`} className="block leading-none">
@@ -80,7 +91,8 @@ export function AwardBlock({
       >
         <h3
           className={cn(
-            'shrink-0 font-display font-bold italic text-brand-home1',
+            'shrink-0',
+            TITLE_WEIGHT,
             Array.isArray(title) && styles.titleLines,
             styles.title,
             titleClassName
@@ -97,8 +109,12 @@ export function AwardBlock({
               yearsClassName
             )}
           >
-            {years.map((year, index) => (
-              <div key={`${year}-${index}`}>{year}</div>
+            {yearItems.map((year, index) => (
+              <AwardYearButton
+                key={`${year.label}-${index}`}
+                label={year.label}
+                href={year.href}
+              />
             ))}
           </div>
 
@@ -120,7 +136,7 @@ export function AwardBlock({
     <div className={cn('h-full', styles.block, className)}>
       <h3
         className={cn(
-          'font-display font-bold italic text-brand-home1',
+          TITLE_WEIGHT,
           Array.isArray(title) && styles.titleLines,
           styles.title,
           titleClassName
@@ -137,8 +153,12 @@ export function AwardBlock({
           yearsClassName
         )}
       >
-        {years.map((year, index) => (
-          <div key={`${year}-${index}`}>{year}</div>
+        {yearItems.map((year, index) => (
+          <AwardYearButton
+            key={`${year.label}-${index}`}
+            label={year.label}
+            href={year.href}
+          />
         ))}
       </div>
 

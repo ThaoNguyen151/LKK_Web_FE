@@ -1,7 +1,7 @@
 import imageCupHTV from '@assets/images/cup/HTV.png'
 import { AwardBlock } from '@components/common'
 
-const HTV_YEARS = ['2008', '2009']
+const HTV_YEARS = [{ label: '2008' }, { label: '2009' }]
 
 /** Cột HTV Awards — chỉnh layout tại file này */
 export function HtvAward() {
