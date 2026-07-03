@@ -146,7 +146,7 @@ function HomeDesktop() {
             <div className="grid grid-cols-5 items-start gap-12 lg:gap-2">
               {/* Left side - Text and Stats */}
               <div className="col-span-3 flex flex-col justify-center pr-2">
-                <h2 className="mb-15 px-10 pt-30 font-display text-6xl italic text-brand-home1 text-center">
+                <h2 className="font-display-medium mb-15 px-10 pt-30 text-center font-display text-6xl italic text-brand-home1">
                   KHO TÀNG NGHỆ THUẬT
                 </h2>
                 <p className="mb-15 font-body font-light text-lg leading-relaxed text-gray-700">
@@ -248,7 +248,7 @@ function HomeDesktop() {
                     variant="compact"
                     className="h-full"
                     title={['LIÊN HOAN', 'SÂN KHẤU']}
-                    years={['2024']}
+                    years={[{ label: '2024' }]}
                     count="1"
                     cupSrc={imageCupSK}
                     cupAlt="Cup Liên hoan sân khấu"
@@ -268,7 +268,7 @@ function HomeDesktop() {
                     variant="compact"
                     className="h-full"
                     title={['LIÊN HOAN PHIM', 'VIỆT NAM']}
-                    years={['2011']}
+                    years={[{ label: '2011' }]}
                     count="1"
                     cupSrc={imageCupLHP}
                     cupAlt="Cup Liên hoan phim"
@@ -311,7 +311,7 @@ function HomeDesktop() {
 
               {/* Right — tiêu đề, thống kê 3 cột, fanpage */}
               <div className="flex flex-col justify-center gap-6 lg:pl-0 lg:pr-30 pt-20">
-                <h2 className="font-display text-[50px] italic leading-tight text-center text-brand-home1">
+                <h2 className="font-display-medium font-display text-[50px] italic leading-tight text-center text-brand-home1">
                   MẠNG XÃ HỘI
                 </h2>
                 {/* Stats 3 ô */}
