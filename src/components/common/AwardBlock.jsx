@@ -23,7 +23,7 @@ const VARIANTS = {
   },
   compact: {
     block: '',
-    title: 'w-full text-[38px] leading-none lg:text-[42px]',
+    title: 'w-full text-[42px] leading-none',
     titleLines: 'flex flex-col gap-2',
     years: 'text-base',
     yearsGrid: '',
@@ -84,7 +84,7 @@ export function AwardBlock({
     return (
       <div
         className={cn(
-          'relative flex h-full min-h-0 flex-col overflow-hidden',
+          'relative flex h-full min-h-0 w-full min-w-0 flex-col overflow-hidden',
           styles.block,
           className
         )}
@@ -133,7 +133,7 @@ export function AwardBlock({
   }
 
   return (
-    <div className={cn('h-full', styles.block, className)}>
+    <div className={cn('h-full min-w-0 w-full', styles.block, className)}>
       <h3
         className={cn(
           TITLE_WEIGHT,

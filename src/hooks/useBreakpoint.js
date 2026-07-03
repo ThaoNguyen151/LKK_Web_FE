@@ -4,6 +4,7 @@ import {
   DEVICE,
   getDeviceFromWidth,
 } from '@/constants/breakpoints'
+import { getViewportMetrics, subscribeViewport } from '@utils/viewport'
 
 function getSnapshot() {
   if (typeof window === 'undefined') {
@@ -17,7 +18,7 @@ function getSnapshot() {
     }
   }
 
-  const width = window.innerWidth
+  const { width } = getViewportMetrics()
   const device = getDeviceFromWidth(width)
 
   return {
@@ -38,16 +39,7 @@ export function useBreakpoint() {
   const [state, setState] = useState(getSnapshot)
 
   useEffect(() => {
-    const handleResize = () => {
-      setState(getSnapshot())
-    }
-
-    handleResize()
-    window.addEventListener('resize', handleResize)
-
-    return () => {
-      window.removeEventListener('resize', handleResize)
-    }
+    return subscribeViewport(() => setState(getSnapshot()))
   }, [])
 
   return state

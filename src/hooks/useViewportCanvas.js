@@ -1,38 +1,32 @@
-import { useEffect, useState } from 'react'
-import { CANVAS_DESIGN_WIDTH, CANVAS_MAX_SCALE } from '@/constants/breakpoints'
+import { useLayoutEffect, useReducer } from 'react'
+import {
+  CANVAS_DESIGN_WIDTH,
+  CANVAS_MAX_SCALE,
+  CANVAS_VIEWPORT_INSET,
+} from '@/constants/breakpoints'
+import { getViewportMetrics, subscribeViewport } from '@utils/viewport'
 
-function getCanvasLayout() {
-  if (typeof window === 'undefined') {
-    return { scale: 1, height: 864 }
-  }
+export function getCanvasLayout() {
+  const { width, height } = getViewportMetrics()
 
-  const scale = Math.min(
-    window.innerWidth / CANVAS_DESIGN_WIDTH,
+  const rawScale = Math.min(
+    Math.max((width - CANVAS_VIEWPORT_INSET) / CANVAS_DESIGN_WIDTH, 0.01),
     CANVAS_MAX_SCALE
   )
 
+  const scale = Math.floor(rawScale * 1000) / 1000
+
   return {
     scale,
-    height: window.innerHeight / scale,
+    height: height / scale,
   }
 }
 
 /** Scale wrapper for pixel-perfect desktop landing pages (lg+ only). */
 export function useViewportCanvas() {
-  const [layout, setLayout] = useState(getCanvasLayout)
+  const [, rerender] = useReducer(n => n + 1, 0)
 
-  useEffect(() => {
-    const handleResize = () => {
-      setLayout(getCanvasLayout())
-    }
+  useLayoutEffect(() => subscribeViewport(rerender), [])
 
-    handleResize()
-    window.addEventListener('resize', handleResize)
-
-    return () => {
-      window.removeEventListener('resize', handleResize)
-    }
-  }, [])
-
-  return layout
+  return getCanvasLayout()
 }

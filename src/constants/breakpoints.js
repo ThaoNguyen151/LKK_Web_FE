@@ -21,6 +21,8 @@ export const DEVICE = {
 export const CANVAS_DESIGN_WIDTH = 1536
 export const CANVAS_MAX_VIEWPORT_WIDTH = 1920
 export const CANVAS_MAX_SCALE = CANVAS_MAX_VIEWPORT_WIDTH / CANVAS_DESIGN_WIDTH
+/** Tránh tràn ngang do làm tròn sub-pixel khi zoom 110%–125% */
+export const CANVAS_VIEWPORT_INSET = 2
 
 export function getDeviceFromWidth(width) {
   if (width < BREAKPOINTS.md) return DEVICE.MOBILE

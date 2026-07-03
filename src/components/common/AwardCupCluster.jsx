@@ -3,13 +3,13 @@ import { cn } from '@utils'
 const SIZES = {
   large: {
     wrap: 'gap-4',
-    count: 'translate-y-3 text-8xl lg:text-9xl',
-    cup: 'h-40 w-auto lg:h-52',
+    count: 'translate-y-3 text-9xl',
+    cup: 'h-52 w-auto',
   },
   compact: {
     wrap: 'gap-0',
-    count: '-mr-2 translate-y-[-8%] translate-x-[-110%] text-7xl lg:text-8xl',
-    cup: 'h-32 w-auto max-h-full translate-y-[-12%] lg:h-36',
+    count: '-mr-2 translate-y-[-8%] translate-x-[-110%] text-8xl',
+    cup: 'h-36 w-auto max-h-full translate-y-[-12%]',
   },
 }
 

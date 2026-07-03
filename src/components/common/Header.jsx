@@ -49,8 +49,9 @@ function SocialIcons({ className, iconClassName = 'h-6 w-6' }) {
   )
 }
 
-export function Header({ variant = 'fixed' }) {
+export function Header({ variant = 'fixed', layout = 'responsive' }) {
   const [menuOpen, setMenuOpen] = useState(false)
+  const isCanvas = layout === 'canvas'
 
   const positionClass =
     variant === 'fixed' ? 'fixed left-0 right-0 top-0 z-40' : 'relative z-40'
@@ -59,18 +60,28 @@ export function Header({ variant = 'fixed' }) {
     <>
       <div
         className={cn(
-          'h-16 bg-brand-header shadow-sm backdrop-blur-md lg:h-20',
+          'bg-brand-header shadow-sm backdrop-blur-md',
+          isCanvas ? 'h-20' : 'h-16 lg:h-20',
           variant === 'fixed' && 'fixed left-0 right-0 top-0 z-30'
         )}
       />
 
-      <header className={cn(positionClass, 'h-16 lg:h-20')}>
+      <header className={cn(positionClass, isCanvas ? 'h-20' : 'h-16 lg:h-20')}>
         <div className="page-container flex h-full max-w-none items-center justify-between py-0">
-          <SocialIcons className="hidden lg:flex" />
+          <SocialIcons className={isCanvas ? 'flex' : 'hidden lg:flex'} />
 
-          <img src={logo} alt="LK Logo" className="h-10 w-auto lg:hidden" />
+          <img
+            src={logo}
+            alt="LK Logo"
+            className={cn('h-10 w-auto', isCanvas ? 'hidden' : 'lg:hidden')}
+          />
 
-          <nav className="hidden items-center gap-8 xl:gap-25 lg:flex">
+          <nav
+            className={cn(
+              'items-center gap-8',
+              isCanvas ? 'flex gap-25' : 'hidden xl:gap-25 lg:flex'
+            )}
+          >
             {NAV_LINKS.slice(0, 2).map(link => (
               <a
                 key={link.label}
@@ -94,7 +105,10 @@ export function Header({ variant = 'fixed' }) {
 
           <button
             type="button"
-            className="flex h-10 w-10 items-center justify-center rounded-full text-brand-home1 transition-colors hover:bg-purple-100 lg:hidden"
+            className={cn(
+              'flex h-10 w-10 items-center justify-center rounded-full text-brand-home1 transition-colors hover:bg-purple-100',
+              isCanvas ? 'hidden' : 'lg:hidden'
+            )}
             aria-label={menuOpen ? 'Đóng menu' : 'Mở menu'}
             aria-expanded={menuOpen}
             onClick={() => setMenuOpen(open => !open)}
@@ -123,7 +137,7 @@ export function Header({ variant = 'fixed' }) {
             </svg>
           </button>
 
-          <div className="hidden lg:block">
+          <div className={isCanvas ? 'block' : 'hidden lg:block'}>
             <button
               type="button"
               className="flex h-12 w-12 items-center justify-center rounded-full text-brand-home1 transition-colors hover:bg-purple-100"
@@ -146,7 +160,7 @@ export function Header({ variant = 'fixed' }) {
           </div>
         </div>
 
-        {menuOpen && (
+        {menuOpen && !isCanvas && (
           <div className="border-t border-purple-100 bg-brand-header px-4 pb-6 pt-4 shadow-lg lg:hidden">
             <SocialIcons
               className="mb-4 justify-center"
