@@ -114,7 +114,7 @@ export function HomeResponsive() {
             <img
               src={imageHome1}
               alt="Lê Khánh"
-              className="w-full max-w-sm object-contain"
+              className="mx-auto w-full max-w-[384px] object-contain sm:max-w-[448px]"
             />
             <img
               src={imageTextHome1}

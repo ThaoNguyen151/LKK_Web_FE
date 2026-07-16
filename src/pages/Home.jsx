@@ -91,13 +91,13 @@ function HomeDesktop() {
           <div
             className={cn(CANVAS_SECTION, 'flex min-w-0 items-center pt-20')}
           >
-            {/* LEFT IMAGE — đè lên nền navbar */}
-            <div className="relative z-10 flex min-w-0 flex-1 items-end -ml-10">
+            {/* LEFT IMAGE — đè lên nền navbar; w-[945px] khớp asset, px cố định trong canvas (không rem/flex shrink) */}
+            <div className="relative z-10 shrink-0 -ml-10">
               <img
                 src={imageHome1}
                 alt="Lê Khánh"
-                className="relative h-auto w-full max-w-2xl scale-95 object-contain"
-                style={{ marginTop: '-75px', marginLeft: '0px' }}
+                className="relative h-auto w-[945px] shrink-0 object-contain"
+                style={{ marginTop: '-75px' }}
               />
 
               <div className="pointer-events-auto absolute top-114 right-[110px] rounded-full bg-brand-orange px-6 py-3 text-sm font-semibold text-white tracking-wide whitespace-nowrap shadow-[0_20px_60px_rgba(90,59,196,0.25)] backdrop-blur-md whitespace-nowrap">
