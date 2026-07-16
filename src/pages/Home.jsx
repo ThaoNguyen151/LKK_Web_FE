@@ -75,7 +75,7 @@ function HomeDesktop() {
         {/* Section 1 - Hero
             z-40: đè nền navbar (z-30), nằm dưới link navbar (z-50)
             không dùng bg opaque full — nền lấy từ scroll parent */}
-        <section className="pointer-events-none relative z-40 flex h-full snap-start items-end justify-center overflow-hidden">
+        <section className="pointer-events-none relative z-40 flex h-full snap-start items-center justify-center overflow-hidden">
           {/* DECORATION BACKGROUND */}
           <div className="absolute inset-0 z-0 overflow-hidden">
             <img src={rectLeft} className="absolute left-0 top-0 w-[590px]" />
@@ -89,7 +89,10 @@ function HomeDesktop() {
             />
           </div>
           <div
-            className={cn(CANVAS_SECTION, 'flex min-w-0 items-center pt-20')}
+            className={cn(
+              CANVAS_SECTION,
+              'flex h-full min-w-0 items-end pt-20'
+            )}
           >
             {/* LEFT IMAGE — px cố định trong canvas (không rem/flex shrink) */}
             <div className="relative z-10 shrink-0 -ml-10">
