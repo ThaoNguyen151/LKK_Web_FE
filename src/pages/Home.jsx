@@ -75,7 +75,7 @@ function HomeDesktop() {
         {/* Section 1 - Hero
             z-40: đè nền navbar (z-30), nằm dưới link navbar (z-50)
             không dùng bg opaque full — nền lấy từ scroll parent */}
-        <section className="pointer-events-none relative z-40 flex h-full snap-start items-center justify-center overflow-visible">
+        <section className="pointer-events-none relative z-40 flex h-full snap-start items-center justify-center overflow-hidden">
           {/* DECORATION BACKGROUND */}
           <div className="absolute inset-0 z-0 overflow-hidden">
             <img src={rectLeft} className="absolute left-0 top-0 w-[590px]" />
@@ -96,8 +96,8 @@ function HomeDesktop() {
               <img
                 src={imageHome1}
                 alt="Lê Khánh"
-                className="relative h-auto w-full max-w-2xl scale-92 object-contain"
-                style={{ marginTop: '-85px', marginLeft: '0px' }}
+                className="relative h-auto w-full max-w-2xl scale-95 object-contain"
+                style={{ marginTop: '-75px', marginLeft: '0px' }}
               />
 
               <div className="pointer-events-auto absolute top-114 right-[110px] rounded-full bg-brand-orange px-6 py-3 text-sm font-semibold text-white tracking-wide whitespace-nowrap shadow-[0_20px_60px_rgba(90,59,196,0.25)] backdrop-blur-md whitespace-nowrap">
@@ -129,7 +129,7 @@ function HomeDesktop() {
         </section>
 
         {/* Section 2 - Bio with Stats */}
-        <section className="pointer-events-none relative z-40 flex h-full snap-start items-center justify-center overflow-visible">
+        <section className="pointer-events-none relative z-40 flex h-full snap-start items-center justify-center overflow-hidden">
           {/* DECORATION BACKGROUND */}
           <div className="absolute inset-0 z-0 overflow-hidden">
             <img
@@ -197,8 +197,8 @@ function HomeDesktop() {
                 <img
                   src={imageHome2}
                   alt="Lê Khánh"
-                  className="relative h-auto w-full max-w-2xl scale-105 object-contain"
-                  style={{ marginTop: '-60px', marginRight: '-10px' }}
+                  className="relative h-auto w-full max-w-2xl scale-110 object-contain"
+                  style={{ marginTop: '-50px', marginRight: '-10px' }}
                 />
               </div>
             </div>
@@ -294,7 +294,7 @@ function HomeDesktop() {
         </section>
 
         {/* Section 4 - Mạng xã hội */}
-        <section className="pointer-events-none relative z-40 flex h-full snap-start items-center justify-center overflow-visible">
+        <section className="pointer-events-none relative z-40 flex h-full snap-start items-center justify-center overflow-hidden">
           {/* DECORATION BACKGROUND */}
           <div className="absolute inset-0 z-0 overflow-hidden">
             <img
@@ -318,12 +318,12 @@ function HomeDesktop() {
                   src={imageHome4}
                   alt="Lê Khánh"
                   className="relative z-50 h-auto w-full max-w-3xl scale-90 rounded-2xl object-contain"
-                  style={{ marginTop: '-20px' }}
+                  style={{ marginTop: '-10px', marginLeft: '-70px' }}
                 />
               </div>
 
               {/* Right — tiêu đề, thống kê 3 cột, fanpage */}
-              <div className="flex flex-col justify-center gap-6 pr-30 pt-20">
+              <div className="flex flex-col justify-center gap-6 pr-20 pt-20">
                 <h2 className="font-display-medium font-display text-[50px] italic leading-tight text-center text-brand-home1">
                   MẠNG XÃ HỘI
                 </h2>
