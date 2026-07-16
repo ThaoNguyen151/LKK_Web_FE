@@ -72,49 +72,46 @@ function HomeDesktop() {
       <div className="h-full snap-y snap-mandatory overflow-y-scroll scroll-smooth bg-brand-soft">
         <Header layout="canvas" />
 
-        {/* Section 1 - Hero */}
-        <section className="relative flex h-full snap-start items-center justify-center overflow-hidden bg-brand-soft">
+        {/* Section 1 - Hero
+            z-40: đè nền navbar (z-30), nằm dưới link navbar (z-50)
+            không dùng bg opaque full — nền lấy từ scroll parent */}
+        <section className="pointer-events-none relative z-40 flex h-full snap-start items-center justify-center overflow-visible">
           {/* DECORATION BACKGROUND */}
-          <img
-            src={rectLeft}
-            className="pointer-events-none absolute left-0 top-0 z-0 w-[590px]"
-          />
-
-          <img
-            src={rectRight}
-            className="pointer-events-none absolute right-0 bottom-19 z-0 w-[420px]"
-          />
-
-          <img
-            src={rectBottom}
-            className="pointer-events-none absolute bottom-0 left-1/2 z-0 w-[600px] -translate-x-[70%]"
-          />
+          <div className="absolute inset-0 z-0 overflow-hidden">
+            <img src={rectLeft} className="absolute left-0 top-0 w-[590px]" />
+            <img
+              src={rectRight}
+              className="absolute right-0 bottom-19 w-[420px]"
+            />
+            <img
+              src={rectBottom}
+              className="absolute bottom-0 left-1/2 w-[600px] -translate-x-[70%]"
+            />
+          </div>
           <div
             className={cn(CANVAS_SECTION, 'flex min-w-0 items-center pt-20')}
           >
-            {/* LEFT IMAGE */}
-            <div className="relative z-20 flex min-w-0 flex-1 items-end -ml-10">
+            {/* LEFT IMAGE — đè lên nền navbar */}
+            <div className="relative z-10 flex min-w-0 flex-1 items-end -ml-10">
               <img
                 src={imageHome1}
                 alt="Lê Khánh"
-                className="h-auto w-full max-w-2xl scale-100 object-contain"
-                style={{ marginTop: '-75px', marginLeft: '0px' }}
+                className="relative h-auto w-full max-w-2xl scale-92 object-contain"
+                style={{ marginTop: '-85px', marginLeft: '0px' }}
               />
 
-              <div className="absolute top-114 right-[110px] rounded-full bg-brand-orange px-6 py-3 text-sm font-semibold text-white tracking-wide whitespace-nowrap shadow-[0_20px_60px_rgba(90,59,196,0.25)] backdrop-blur-md whitespace-nowrap">
+              <div className="pointer-events-auto absolute top-114 right-[110px] rounded-full bg-brand-orange px-6 py-3 text-sm font-semibold text-white tracking-wide whitespace-nowrap shadow-[0_20px_60px_rgba(90,59,196,0.25)] backdrop-blur-md whitespace-nowrap">
                 # NGHỆ SĨ
               </div>
-              {/* # NGHỆ SĨ */}
 
-              <div className="absolute left-185 top-136 rounded-full bg-brand-header/20 px-6 py-3 text-sm font-semibold tracking-wide text-brand-home1 whitespace-nowrap shadow-[0_20px_60px_rgba(90,59,196,0.25)] backdrop-blur-md">
+              <div className="pointer-events-auto absolute left-185 top-136 rounded-full bg-brand-header/20 px-6 py-3 text-sm font-semibold tracking-wide text-brand-home1 whitespace-nowrap shadow-[0_20px_60px_rgba(90,59,196,0.25)] backdrop-blur-md">
                 LÊ KIM KHÁNH
               </div>
             </div>
 
             {/* RIGHT SIDE */}
-            <div className="relative flex min-w-0 flex-1 flex-col">
-              {/* # DIỄN VIÊN */}
-              <div className="absolute right-40 bottom-23 rounded-full bg-brand-orange px-6 py-2.5 text-sm font-semibold text-white tracking-wide whitespace-nowrap shadow-[0_20px_60px_rgba(90,59,196,0.25)] backdrop-blur-md">
+            <div className="relative z-10 flex min-w-0 flex-1 flex-col">
+              <div className="pointer-events-auto absolute right-40 bottom-23 rounded-full bg-brand-orange px-6 py-2.5 text-sm font-semibold text-white tracking-wide whitespace-nowrap shadow-[0_20px_60px_rgba(90,59,196,0.25)] backdrop-blur-md">
                 # DIỄN VIÊN
               </div>
 
@@ -124,7 +121,7 @@ function HomeDesktop() {
                 className="absolute left-[-120px] top-[-115px] z-30 w-[750px] object-contain"
               />
 
-              <div className="absolute right-54 top-34 rounded-full bg-white/60 px-5 py-3 text-sm font-semibold tracking-wide text-brand-home1 whitespace-nowrap shadow-[0_20px_60px_rgba(90,59,196,0.25)] backdrop-blur-md">
+              <div className="pointer-events-auto absolute right-54 top-34 rounded-full bg-white/60 px-5 py-3 text-sm font-semibold tracking-wide text-brand-home1 whitespace-nowrap shadow-[0_20px_60px_rgba(90,59,196,0.25)] backdrop-blur-md">
                 22 • 12 • 1981
               </div>
             </div>
@@ -132,26 +129,26 @@ function HomeDesktop() {
         </section>
 
         {/* Section 2 - Bio with Stats */}
-        <section className="relative flex h-full snap-start items-center justify-center overflow-hidden bg-brand-soft">
+        <section className="pointer-events-none relative z-40 flex h-full snap-start items-center justify-center overflow-visible">
           {/* DECORATION BACKGROUND */}
-          <img
-            src={rectLeft}
-            className="pointer-events-none absolute left-0 bottom-[-200px] z-0 w-[590px]"
-          />
-
-          <img
-            src={rectRight}
-            className="pointer-events-none absolute right-0 bottom-19 z-0 w-[420px]"
-          />
-
-          <img
-            src={rectBottom}
-            className="pointer-events-none absolute bottom-0 left-2/3 z-0 w-[600px] -translate-x-[70%]"
-          />
-          <div className={cn(CANVAS_SECTION, 'pt-20')}>
+          <div className="absolute inset-0 z-0 overflow-hidden">
+            <img
+              src={rectLeft}
+              className="absolute left-0 bottom-[-200px] w-[590px]"
+            />
+            <img
+              src={rectRight}
+              className="absolute right-0 bottom-19 w-[420px]"
+            />
+            <img
+              src={rectBottom}
+              className="absolute bottom-0 left-2/3 w-[600px] -translate-x-[70%]"
+            />
+          </div>
+          <div className={cn(CANVAS_SECTION, 'pointer-events-auto pt-20')}>
             <div className="grid min-w-0 grid-cols-5 items-start gap-2">
               {/* Left side - Text and Stats */}
-              <div className="col-span-3 flex min-w-0 flex-col justify-center pr-2">
+              <div className="relative z-10 col-span-3 flex min-w-0 flex-col justify-center pr-2">
                 <h2 className="font-display-medium mb-15 px-10 pt-30 text-center font-display text-6xl italic text-brand-home1">
                   KHO TÀNG NGHỆ THUẬT
                 </h2>
@@ -195,13 +192,13 @@ function HomeDesktop() {
                 </div>
               </div>
 
-              {/* Right side - Image: justify-start so gradient gap doesn’t show left of photo */}
-              <div className="relative col-span-2 flex min-w-0 items-center justify-end">
+              {/* Right side - Image đè nền navbar */}
+              <div className="pointer-events-none relative z-10 col-span-2 flex min-w-0 items-center justify-end">
                 <img
                   src={imageHome2}
                   alt="Lê Khánh"
-                  className="h-auto w-full max-w-2xl scale-115 object-contain"
-                  style={{ marginTop: '-50px', marginRight: '-10px' }}
+                  className="relative h-auto w-full max-w-2xl scale-105 object-contain"
+                  style={{ marginTop: '-60px', marginRight: '-10px' }}
                 />
               </div>
             </div>
@@ -297,30 +294,31 @@ function HomeDesktop() {
         </section>
 
         {/* Section 4 - Mạng xã hội */}
-        <section className="relative flex h-full snap-start items-center justify-center overflow-hidden bg-brand-soft">
+        <section className="pointer-events-none relative z-40 flex h-full snap-start items-center justify-center overflow-visible">
           {/* DECORATION BACKGROUND */}
-          <img
-            src={rectLeft}
-            className="pointer-events-none absolute left-0 bottom-[-200px] z-0 w-[590px]"
-          />
-
-          <img
-            src={rectRight}
-            className="pointer-events-none absolute right-0 bottom-19 z-0 w-[420px]"
-          />
-
-          <img
-            src={rectBottom}
-            className="pointer-events-none absolute bottom-0 left-2/3 z-0 w-[600px] -translate-x-[70%]"
-          />
-          <div className={CANVAS_SECTION}>
+          <div className="absolute inset-0 z-0 overflow-hidden">
+            <img
+              src={rectLeft}
+              className="absolute left-0 bottom-[-200px] w-[590px]"
+            />
+            <img
+              src={rectRight}
+              className="absolute right-0 bottom-19 w-[420px]"
+            />
+            <img
+              src={rectBottom}
+              className="absolute bottom-0 left-2/3 w-[600px] -translate-x-[70%]"
+            />
+          </div>
+          <div className={cn(CANVAS_SECTION, 'pointer-events-auto')}>
             <div className="grid grid-cols-2 items-center gap-16">
-              {/* Left — ảnh chân dung */}
-              <div className="relative flex justify-center">
+              {/* Left — ảnh chân dung, z-50 đè navbar */}
+              <div className="pointer-events-none relative z-50 flex justify-center">
                 <img
                   src={imageHome4}
                   alt="Lê Khánh"
-                  className="h-auto w-full max-w-3xl scale-94 rounded-2xl object-contain pt-5"
+                  className="relative z-50 h-auto w-full max-w-3xl scale-90 rounded-2xl object-contain"
+                  style={{ marginTop: '-20px' }}
                 />
               </div>
 

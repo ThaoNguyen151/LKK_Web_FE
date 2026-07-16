@@ -126,7 +126,6 @@
     }
   }
 
-  /* Font Amoria chỉ có 1 file → font-weight 400–599 giống nhau; 600+ bị faux bold quá đậm */
   .font-display-medium {
     font-weight: 400;
     font-synthesis: none;
