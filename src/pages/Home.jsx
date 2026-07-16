@@ -75,7 +75,7 @@ function HomeDesktop() {
         {/* Section 1 - Hero
             z-40: đè nền navbar (z-30), nằm dưới link navbar (z-50)
             không dùng bg opaque full — nền lấy từ scroll parent */}
-        <section className="pointer-events-none relative z-40 flex h-full snap-start items-end justify-center overflow-hidden">
+        <section className="pointer-events-none relative z-40 flex h-full snap-start items-center justify-center overflow-hidden">
           {/* DECORATION BACKGROUND */}
           <div className="absolute inset-0 z-0 overflow-hidden">
             <img src={rectLeft} className="absolute left-0 top-0 w-[590px]" />
@@ -89,15 +89,17 @@ function HomeDesktop() {
             />
           </div>
           <div
-            className={cn(CANVAS_SECTION, 'flex min-w-0 items-center pt-20')}
+            className={cn(
+              CANVAS_SECTION,
+              'flex h-full min-w-0 items-stretch pt-20'
+            )}
           >
-            {/* LEFT IMAGE — px cố định trong canvas (không rem/flex shrink) */}
-            <div className="relative z-10 shrink-0 -ml-10">
+            {/* LEFT IMAGE — cột full-height, ảnh bám đáy; max-h-full tránh tràn viewport */}
+            <div className="relative z-10 flex h-full shrink-0 items-end -ml-10">
               <img
                 src={imageHome1}
                 alt="Lê Khánh"
-                className="relative h-auto w-[620px] shrink-0 object-contain"
-                style={{ marginTop: '-75px' }}
+                className="relative h-auto w-[620px] shrink-0 object-contain object-bottom"
               />
 
               <div className="pointer-events-auto absolute top-114 right-[10px] rounded-full bg-brand-orange px-6 py-3 text-sm font-semibold text-white tracking-wide whitespace-nowrap shadow-[0_20px_60px_rgba(90,59,196,0.25)] backdrop-blur-md whitespace-nowrap">
@@ -109,8 +111,8 @@ function HomeDesktop() {
               </div>
             </div>
 
-            {/* RIGHT SIDE */}
-            <div className="relative z-10 flex min-w-0 flex-1 flex-col">
+            {/* RIGHT SIDE — cần h-full để absolute text không bị đẩy ra ngoài viewport */}
+            <div className="relative z-10 h-full min-w-0 flex-1">
               <div className="pointer-events-auto absolute right-45 bottom-23 rounded-full bg-brand-orange px-6 py-2.5 text-sm font-semibold text-white tracking-wide whitespace-nowrap shadow-[0_20px_60px_rgba(90,59,196,0.25)] backdrop-blur-md">
                 # DIỄN VIÊN
               </div>
@@ -118,7 +120,7 @@ function HomeDesktop() {
               <img
                 src={imageTextHome1}
                 alt="Lê Khánh"
-                className="absolute left-[-20px] top-[-120px] z-30 w-[750px] object-contain"
+                className="absolute left-[-20px] top-[200px] z-30 w-[750px] object-contain"
               />
 
               <div className="pointer-events-auto absolute right-54 top-34 rounded-full bg-white/60 px-5 py-3 text-sm font-semibold tracking-wide text-brand-home1 whitespace-nowrap shadow-[0_20px_60px_rgba(90,59,196,0.25)] backdrop-blur-md">

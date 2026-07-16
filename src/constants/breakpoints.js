@@ -19,8 +19,8 @@ export const DEVICE = {
 }
 
 export const CANVAS_DESIGN_WIDTH = 1536
-export const CANVAS_MAX_VIEWPORT_WIDTH = 1920
-export const CANVAS_MAX_SCALE = CANVAS_MAX_VIEWPORT_WIDTH / CANVAS_DESIGN_WIDTH
+/** Giữ 1 — không phóng canvas > 1536px; tránh ảnh to/nhỏ khác nhau giữa các máy cùng màn */
+export const CANVAS_MAX_SCALE = 1
 /** Tránh tràn ngang do làm tròn sub-pixel khi zoom 110%–125% */
 export const CANVAS_VIEWPORT_INSET = 2
 
