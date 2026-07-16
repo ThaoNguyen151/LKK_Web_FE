@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react'
 import {
   BREAKPOINTS,
+  CANVAS_LAYOUT_MEDIA_QUERY,
   DEVICE,
   getDeviceFromWidth,
+  matchesCanvasLayout,
 } from '@/constants/breakpoints'
 import { getViewportMetrics, subscribeViewport } from '@utils/viewport'
 
@@ -26,8 +28,8 @@ function getSnapshot() {
     device,
     isMobile: device === DEVICE.MOBILE,
     isTablet: device === DEVICE.TABLET,
-    isDesktopUp: width >= BREAKPOINTS.lg,
-    isCanvasLayout: width >= BREAKPOINTS.lg,
+    isDesktopUp: matchesCanvasLayout(),
+    isCanvasLayout: matchesCanvasLayout(),
   }
 }
 
@@ -39,7 +41,14 @@ export function useBreakpoint() {
   const [state, setState] = useState(getSnapshot)
 
   useEffect(() => {
-    return subscribeViewport(() => setState(getSnapshot()))
+    const update = () => setState(getSnapshot())
+    const mq = window.matchMedia(CANVAS_LAYOUT_MEDIA_QUERY)
+    mq.addEventListener('change', update)
+    const unsubscribeViewport = subscribeViewport(update)
+    return () => {
+      mq.removeEventListener('change', update)
+      unsubscribeViewport()
+    }
   }, [])
 
   return state
