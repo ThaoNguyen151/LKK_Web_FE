@@ -81,7 +81,7 @@ function HomeDesktop() {
             <img src={rectLeft} className="absolute left-0 top-0 w-[590px]" />
             <img
               src={rectRight}
-              className="absolute right-0 bottom-19 w-[420px]"
+              className="absolute right-0 bottom-50 w-[420px]"
             />
             <img
               src={rectBottom}
@@ -145,7 +145,7 @@ function HomeDesktop() {
               className="absolute bottom-0 left-2/3 w-[600px] -translate-x-[70%]"
             />
           </div>
-          <div className={cn(CANVAS_SECTION, 'pointer-events-auto pt-20')}>
+          <div className={cn(CANVAS_SECTION, 'pointer-events-auto pt-30')}>
             <div className="grid min-w-0 grid-cols-5 items-start gap-2">
               {/* Left side - Text and Stats */}
               <div className="relative z-10 col-span-3 flex min-w-0 flex-col justify-center pr-2">
@@ -193,12 +193,12 @@ function HomeDesktop() {
               </div>
 
               {/* Right side - Image đè nền navbar */}
-              <div className="pointer-events-none relative z-10 col-span-2 flex min-w-0 items-center justify-end">
+              <div className="pointer-events-none relative z-10 col-span-2 flex shrink-0 items-end justify-end overflow-visible">
                 <img
                   src={imageHome2}
                   alt="Lê Khánh"
-                  className="relative h-auto w-full max-w-2xl scale-110 object-contain"
-                  style={{ marginTop: '-50px', marginRight: '-10px' }}
+                  className="relative h-[700px] w-auto max-w-none shrink-0 object-contain"
+                  style={{ marginTop: '-80px', marginRight: '-10px' }}
                 />
               </div>
             </div>
@@ -313,11 +313,11 @@ function HomeDesktop() {
           <div className={cn(CANVAS_SECTION, 'pointer-events-auto')}>
             <div className="grid grid-cols-2 items-center gap-16">
               {/* Left — ảnh chân dung, z-50 đè navbar */}
-              <div className="pointer-events-none relative z-50 flex justify-center">
+              <div className="pointer-events-none relative z-50 items-end flex shrink-0 justify-center">
                 <img
                   src={imageHome4}
                   alt="Lê Khánh"
-                  className="relative z-50 h-auto w-full max-w-3xl scale-90 rounded-2xl object-contain"
+                  className="relative z-50 h-auto w-[620px] shrink-0 rounded-2xl object-contain"
                   style={{ marginTop: '-10px', marginLeft: '-70px' }}
                 />
               </div>
