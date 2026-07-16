@@ -53,8 +53,19 @@ export function Header({ variant = 'fixed', layout = 'responsive' }) {
   const [menuOpen, setMenuOpen] = useState(false)
   const isCanvas = layout === 'canvas'
 
+  /**
+   * Canvas Home stacking (ảnh đè navbar nhưng navbar vẫn hiện):
+   * - spacer z-30: nền thanh navbar
+   * - section/ảnh z-40: đè lên nền navbar
+   * - header z-50: social + link luôn nằm trên ảnh, vẫn bấm được
+   */
+  const spacerZ = isCanvas ? 'z-30' : 'z-30'
+  const headerZ = isCanvas ? 'z-50' : 'z-40'
+
   const positionClass =
-    variant === 'fixed' ? 'fixed left-0 right-0 top-0 z-40' : 'relative z-40'
+    variant === 'fixed'
+      ? `fixed left-0 right-0 top-0 ${headerZ}`
+      : `relative ${headerZ}`
 
   return (
     <>
@@ -62,11 +73,17 @@ export function Header({ variant = 'fixed', layout = 'responsive' }) {
         className={cn(
           'bg-brand-header shadow-sm backdrop-blur-md',
           isCanvas ? 'h-20' : 'h-16 lg:h-20',
-          variant === 'fixed' && 'fixed left-0 right-0 top-0 z-30'
+          variant === 'fixed' && `fixed left-0 right-0 top-0 ${spacerZ}`
         )}
       />
 
-      <header className={cn(positionClass, isCanvas ? 'h-20' : 'h-16 lg:h-20')}>
+      <header
+        className={cn(
+          positionClass,
+          'pointer-events-auto',
+          isCanvas ? 'h-20 bg-transparent' : 'h-16 bg-transparent lg:h-20'
+        )}
+      >
         <div className="page-container flex h-full max-w-none items-center justify-between py-0">
           <SocialIcons className={isCanvas ? 'flex' : 'hidden lg:flex'} />
 
