@@ -75,7 +75,7 @@ function HomeDesktop() {
         {/* Section 1 - Hero
             z-40: đè nền navbar (z-30), nằm dưới link navbar (z-50)
             không dùng bg opaque full — nền lấy từ scroll parent */}
-        <section className="pointer-events-none relative z-40 flex h-full snap-start items-center justify-center overflow-hidden">
+        <section className="pointer-events-none relative z-40 flex h-full snap-start items-end justify-center overflow-hidden">
           {/* DECORATION BACKGROUND */}
           <div className="absolute inset-0 z-0 overflow-hidden">
             <img src={rectLeft} className="absolute left-0 top-0 w-[590px]" />
@@ -129,7 +129,7 @@ function HomeDesktop() {
         </section>
 
         {/* Section 2 - Bio with Stats */}
-        <section className="pointer-events-none relative z-40 flex h-full snap-start items-center justify-center overflow-hidden">
+        <section className="pointer-events-none relative z-40 flex h-full snap-start items-end justify-center overflow-hidden">
           {/* DECORATION BACKGROUND */}
           <div className="absolute inset-0 z-0 overflow-hidden">
             <img
@@ -206,7 +206,7 @@ function HomeDesktop() {
         </section>
 
         {/* Section 3 - Awards */}
-        <section className="relative flex h-full snap-start items-center justify-center overflow-hidden bg-brand-soft">
+        <section className="relative flex h-full snap-start items-end justify-center overflow-hidden bg-brand-soft">
           {/* DECORATION BACKGROUND */}
           <img
             src={rectLeft}
@@ -294,7 +294,7 @@ function HomeDesktop() {
         </section>
 
         {/* Section 4 - Mạng xã hội */}
-        <section className="pointer-events-none relative z-40 flex h-full snap-start items-center justify-center overflow-hidden">
+        <section className="pointer-events-none relative z-40 flex h-full snap-start items-end justify-center overflow-hidden">
           {/* DECORATION BACKGROUND */}
           <div className="absolute inset-0 z-0 overflow-hidden">
             <img
