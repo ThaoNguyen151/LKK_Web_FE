@@ -91,34 +91,34 @@ function HomeDesktop() {
           <div
             className={cn(CANVAS_SECTION, 'flex min-w-0 items-center pt-20')}
           >
-            {/* LEFT IMAGE — đè lên nền navbar; w-[945px] khớp asset, px cố định trong canvas (không rem/flex shrink) */}
+            {/* LEFT IMAGE — px cố định trong canvas (không rem/flex shrink) */}
             <div className="relative z-10 shrink-0 -ml-10">
               <img
                 src={imageHome1}
                 alt="Lê Khánh"
-                className="relative h-auto w-[945px] shrink-0 object-contain"
+                className="relative h-auto w-[620px] shrink-0 object-contain"
                 style={{ marginTop: '-75px' }}
               />
 
-              <div className="pointer-events-auto absolute top-114 right-[110px] rounded-full bg-brand-orange px-6 py-3 text-sm font-semibold text-white tracking-wide whitespace-nowrap shadow-[0_20px_60px_rgba(90,59,196,0.25)] backdrop-blur-md whitespace-nowrap">
+              <div className="pointer-events-auto absolute top-114 right-[10px] rounded-full bg-brand-orange px-6 py-3 text-sm font-semibold text-white tracking-wide whitespace-nowrap shadow-[0_20px_60px_rgba(90,59,196,0.25)] backdrop-blur-md whitespace-nowrap">
                 # NGHỆ SĨ
               </div>
 
-              <div className="pointer-events-auto absolute left-185 top-136 rounded-full bg-brand-header/20 px-6 py-3 text-sm font-semibold tracking-wide text-brand-home1 whitespace-nowrap shadow-[0_20px_60px_rgba(90,59,196,0.25)] backdrop-blur-md">
+              <div className="pointer-events-auto absolute left-185 top-130 rounded-full bg-brand-header/20 px-6 py-3 text-sm font-semibold tracking-wide text-brand-home1 whitespace-nowrap shadow-[0_20px_60px_rgba(90,59,196,0.25)] backdrop-blur-md">
                 LÊ KIM KHÁNH
               </div>
             </div>
 
             {/* RIGHT SIDE */}
             <div className="relative z-10 flex min-w-0 flex-1 flex-col">
-              <div className="pointer-events-auto absolute right-40 bottom-23 rounded-full bg-brand-orange px-6 py-2.5 text-sm font-semibold text-white tracking-wide whitespace-nowrap shadow-[0_20px_60px_rgba(90,59,196,0.25)] backdrop-blur-md">
+              <div className="pointer-events-auto absolute right-45 bottom-23 rounded-full bg-brand-orange px-6 py-2.5 text-sm font-semibold text-white tracking-wide whitespace-nowrap shadow-[0_20px_60px_rgba(90,59,196,0.25)] backdrop-blur-md">
                 # DIỄN VIÊN
               </div>
 
               <img
                 src={imageTextHome1}
                 alt="Lê Khánh"
-                className="absolute left-[-120px] top-[-115px] z-30 w-[750px] object-contain"
+                className="absolute left-[-20px] top-[-120px] z-30 w-[750px] object-contain"
               />
 
               <div className="pointer-events-auto absolute right-54 top-34 rounded-full bg-white/60 px-5 py-3 text-sm font-semibold tracking-wide text-brand-home1 whitespace-nowrap shadow-[0_20px_60px_rgba(90,59,196,0.25)] backdrop-blur-md">
