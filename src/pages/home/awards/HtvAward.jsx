@@ -1,7 +1,11 @@
 import imageCupHTV from '@assets/images/cup/HTV.png'
 import { AwardBlock } from '@components/common'
+import { awardYearPath } from '../../awards/awardsData'
 
-const HTV_YEARS = [{ label: '2008' }, { label: '2009' }]
+const HTV_YEARS = [
+  { label: '2008', href: `#${awardYearPath('2008')}` },
+  { label: '2009', href: `#${awardYearPath('2009')}` },
+]
 
 /** Cột HTV Awards — chỉnh layout tại file này */
 export function HtvAward() {
