@@ -8,7 +8,7 @@ import { useState } from 'react'
 const NAV_LINKS = [
   { label: 'HOẠT ĐỘNG', href: ROUTES.HOME },
   { label: 'THƯ VIỆN', href: ROUTES.ABOUT },
-  { label: 'GIẢI THƯỞNG', href: ROUTES.HOME },
+  { label: 'GIẢI THƯỞNG', href: ROUTES.AWARDS },
   { label: 'TIN TỨC', href: ROUTES.CONTACT },
 ]
 
@@ -84,7 +84,7 @@ export function Header({ variant = 'fixed', layout = 'responsive' }) {
           isCanvas ? 'h-20 bg-transparent' : 'h-16 bg-transparent lg:h-20'
         )}
       >
-        <div className="page-container flex h-full max-w-none items-center justify-between py-0">
+        <div className="page-container flex h-full max-w-none items-center justify-between py-0 px-20">
           <SocialIcons className={isCanvas ? 'flex' : 'hidden lg:flex'} />
 
           <img

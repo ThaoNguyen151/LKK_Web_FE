@@ -9,6 +9,7 @@ import { useBreakpoint } from '@hooks'
 import { ScaledCanvas } from '@layouts'
 import { HomeResponsive } from './home/HomeResponsive'
 import { MaiVangAward, HtvAward } from './home/awards'
+import { awardYearPath } from './awards/awardsData'
 import imageTextHome1 from '@assets/images/le-khanh.png'
 import rectLeft from '@assets/Rectangle-2.png'
 import rectRight from '@assets/Rectangle-1.png'
@@ -260,7 +261,9 @@ function HomeDesktop() {
                     variant="compact"
                     className="h-full"
                     title={['LIÊN HOAN', 'SÂN KHẤU']}
-                    years={[{ label: '2024' }]}
+                    years={[
+                      { label: '2024', href: `#${awardYearPath('2024')}` },
+                    ]}
                     count="1"
                     cupSrc={imageCupSK}
                     cupAlt="Cup Liên hoan sân khấu"
@@ -280,7 +283,9 @@ function HomeDesktop() {
                     variant="compact"
                     className="h-full"
                     title={['LIÊN HOAN PHIM', 'VIỆT NAM']}
-                    years={[{ label: '2011' }]}
+                    years={[
+                      { label: '2011', href: `#${awardYearPath('2011')}` },
+                    ]}
                     count="1"
                     cupSrc={imageCupLHP}
                     cupAlt="Cup Liên hoan phim"

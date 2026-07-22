@@ -16,6 +16,7 @@ import tiktokWhiteIcon from '@assets/images/icon/tiktok_white.png'
 import instagramWhiteIcon from '@assets/images/icon/instagram_white.png'
 import { Header } from '@components/common'
 import { PageSection, PageShell } from '@layouts'
+import { awardYearPath } from '../awards/awardsData'
 
 const SOCIAL_DATA = [
   {
@@ -177,12 +178,13 @@ export function HomeResponsive() {
                 </h3>
                 <div className="mb-4 flex flex-wrap gap-2">
                   {award.years.map(year => (
-                    <span
+                    <a
                       key={year}
-                      className="rounded-full bg-white/50 px-3 py-1 font-body text-sm text-black"
+                      href={`#${awardYearPath(year)}`}
+                      className="rounded-full bg-white/50 px-3 py-1 font-body text-sm text-black transition-colors hover:bg-brand-home1/15 hover:text-brand-home1"
                     >
                       {year}
-                    </span>
+                    </a>
                   ))}
                 </div>
                 <div className="flex items-end justify-between gap-4">
