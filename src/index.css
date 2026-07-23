@@ -164,45 +164,79 @@
     background: linear-gradient(to bottom, transparent, #5a3bc4, transparent);
   }
 
-  /* Awards year transition — trượt/xoay nhẹ từ dưới lên (không phá layout) */
+  /* Awards year transition */
   .award-anim-layer {
-    transform-origin: 50% 60%;
     will-change: transform, opacity;
   }
 
-  .award-anim-exit {
-    animation: award-exit-up 480ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  /* Logo + chữ: từ trên xuống */
+  .award-anim-content-exit {
+    animation: award-content-exit 900ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
   }
 
-  .award-anim-enter {
-    animation: award-enter-up 560ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  .award-anim-content-enter {
+    animation: award-content-enter 1100ms cubic-bezier(0.22, 1, 0.36, 1)
+      forwards;
   }
 
-  @keyframes award-exit-up {
+  @keyframes award-content-exit {
     from {
       opacity: 1;
-      transform: translate3d(0, 0, 0) rotateX(0deg);
+      transform: translate3d(0, 0, 0);
     }
     to {
       opacity: 0;
-      transform: translate3d(0, -12%, 0) rotateX(-16deg);
+      transform: translate3d(0, 14%, 0);
     }
   }
 
-  @keyframes award-enter-up {
+  @keyframes award-content-enter {
     from {
       opacity: 0;
-      transform: translate3d(0, 16%, 0) rotateX(16deg);
+      transform: translate3d(0, -18%, 0);
     }
     to {
       opacity: 1;
-      transform: translate3d(0, 0, 0) rotateX(0deg);
+      transform: translate3d(0, 0, 0);
+    }
+  }
+
+  /* Cúp: từ dưới lên (exit và enter cùng chiều) */
+  .award-anim-cup-exit {
+    animation: award-cup-exit 900ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
+
+  .award-anim-cup-enter {
+    animation: award-cup-enter 1100ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+
+  @keyframes award-cup-exit {
+    from {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+    to {
+      opacity: 0;
+      transform: translate3d(0, -22%, 0);
+    }
+  }
+
+  @keyframes award-cup-enter {
+    from {
+      opacity: 0;
+      transform: translate3d(0, 22%, 0);
+    }
+    to {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
     }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .award-anim-exit,
-    .award-anim-enter {
+    .award-anim-content-exit,
+    .award-anim-content-enter,
+    .award-anim-cup-exit,
+    .award-anim-cup-enter {
       animation: none;
       opacity: 1;
       transform: none;
