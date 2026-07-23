@@ -35,8 +35,8 @@ export function AwardYearSidebar({
             className={cn(
               'shrink-0 rounded-full px-4 py-1.5 text-center font-body text-sm font-semibold tracking-wide transition-colors',
               isActive
-                ? 'bg-brand-home1/15 text-brand-home1'
-                : 'text-gray-500 hover:bg-white/60 hover:text-brand-home1'
+                ? 'border-2 border-white bg-white/45 text-brand-home1 shadow-sm backdrop-blur-md'
+                : 'border-2 border-transparent text-gray-500 hover:bg-white/50 hover:text-brand-home1'
             )}
           >
             {year}
