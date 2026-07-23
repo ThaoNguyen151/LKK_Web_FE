@@ -82,7 +82,7 @@ function NewsScrollAside({ showHint, showBackTop, onBackTop }) {
     <>
       <div
         className={cn(
-          'pointer-events-none fixed right-2 top-1/2 z-30 hidden -translate-y-1/2 flex-col items-center transition-opacity duration-300 sm:right-4 sm:flex lg:right-6',
+          'pointer-events-none fixed right-2 top-1/2 z-30 hidden -translate-y-1/2 flex-col items-center transition-opacity duration-300 sm:right-4 sm:flex lg:right-2',
           showHint ? 'opacity-100' : 'opacity-0'
         )}
         aria-hidden={!showHint}
@@ -128,13 +128,13 @@ function NewsCard({ item }) {
         ) : null}
       </div>
       <div className="flex flex-1 flex-col gap-2 p-3 sm:p-4">
-        <span className="inline-flex w-fit rounded-full bg-brand-orange px-2.5 py-0.5 font-body text-[10px] font-semibold uppercase tracking-wide text-white sm:text-xs">
+        <span className="inline-flex w-fit rounded-full bg-brand-orange px-2 py-0.5 font-body font-semibold uppercase tracking-wide text-white sm:text-[9.5px]">
           {item.source}
         </span>
-        <h2 className="line-clamp-3 font-body text-sm font-bold leading-snug text-brand-home1 sm:text-sm">
+        <h2 className="line-clamp-3 font-body text-sm font-bold leading-snug text-brand-home1 pt-1 sm:text-sm">
           {item.title}
         </h2>
-        <time className="mt-auto pt-2 font-body text-xs text-gray-400">
+        <time className="mt-auto pt-1 font-body text-[10px] text-gray-400">
           {item.date}
         </time>
       </div>
@@ -293,8 +293,8 @@ export function News() {
         <div className="mx-auto w-full max-w-[1400px] px-4 py-6 sm:px-6 lg:px-10 lg:py-8">
           {/* Banner + cards: cards đè nửa lên khối tím */}
           <div className="relative">
-            <div className="relative overflow-hidden rounded-[1.75rem] bg-brand-home1 px-5 pb-28 pt-5 shadow-md sm:rounded-[2rem] sm:px-8 sm:pb-36 sm:pt-6 lg:rounded-[2.5rem] lg:px-10 lg:pb-44 lg:pt-7">
-              <p className="absolute left-5 top-5 font-body text-[10px] text-white/80 sm:left-8 sm:top-6 sm:text-xs lg:left-10 lg:top-15">
+            <div className="relative overflow-hidden rounded-[1.75rem] bg-brand-home1 px-5 pb-28 pt-5 shadow-md sm:rounded-[2rem] sm:px-8 sm:pb-36 sm:pt-6 lg:rounded-[2.5rem] lg:px-10 lg:pb-40 lg:pt-5">
+              <p className="absolute left-5 top-5 font-body text-[10px] text-white/80 sm:left-8 sm:top-6 sm:text-xs lg:left-10 lg:top-11">
                 <a
                   href={`#${ROUTES.HOME}`}
                   className="text-white hover:underline"

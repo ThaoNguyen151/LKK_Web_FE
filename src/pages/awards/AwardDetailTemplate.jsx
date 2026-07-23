@@ -17,8 +17,8 @@ const CUP_ZONE_CLASS =
 const CENTER_ZONE_LEFT_CLASS =
   'pl-4 sm:pl-6 lg:pl-[calc(5.5rem+2.5rem)] xl:pl-[calc(5.5rem+3.5rem)]'
 
-const EXIT_MS = 460
-const ENTER_MS = 540
+const EXIT_MS = 900
+const ENTER_MS = 1400
 
 /**
  * @param {object} props
@@ -58,14 +58,14 @@ function AwardEntryBlock({ entry, variant = 'single' }) {
     : 'h-16 w-auto shrink-0 object-contain sm:h-10 lg:h-15 xl:h-20'
 
   const metaClass = isDual
-    ? 'mt-4 flex w-full flex-wrap items-center justify-center gap-x-6 gap-y-1 font-body text-xs text-gray-800 sm:mt-5 sm:gap-x-10 sm:text-sm lg:text-xs'
-    : 'mt-10 w-full space-y-2 font-body text-sm text-gray-800 sm:mt-14 sm:space-y-3 sm:text-base lg:mt-12 lg:text-xs'
+    ? 'mt-4 flex w-full flex-wrap items-center justify-center gap-x-6 gap-y-1 font-body text-sm text-gray-800 sm:mt-5 sm:gap-x-10'
+    : 'mt-10 w-full space-y-0.5 font-body text-sm text-gray-800 sm:mt-14 sm:space-y-1 lg:mt-12'
 
   return (
     <div className="flex w-full flex-col items-center text-center">
       <img src={entry.logoSrc} alt="" className={logoClass} />
 
-      <div className="inline-flex w-fit max-w-full items-center justify-center gap-2 sm:gap-3 lg:gap-4">
+      <div className="inline-flex w-fit max-w-full items-center justify-center gap-2 sm:gap-3 lg:gap-2">
         <img src={wreathL} alt="" className={wreathClass} aria-hidden />
         <div className="min-w-0 px-0.5 text-center sm:px-5">
           <p className={titleStyles.title}>{entry.title}</p>
@@ -89,15 +89,11 @@ function AwardEntryBlock({ entry, variant = 'single' }) {
         <div className={metaClass}>
           <p className="whitespace-nowrap">
             <span className="italic text-gray-600">Vai diễn:</span>{' '}
-            <span className="font-semibold uppercase lg:text-sm">
-              {entry.role}
-            </span>
+            <span className="font-semibold uppercase">{entry.role}</span>
           </p>
           <p className="whitespace-nowrap">
             <span className="italic text-gray-600">{playLabel}:</span>{' '}
-            <span className="font-semibold uppercase lg:text-sm">
-              {entry.play}
-            </span>
+            <span className="font-semibold uppercase">{entry.play}</span>
           </p>
         </div>
       )}
@@ -177,7 +173,8 @@ function AwardContentLayer({ entries, isDual, className = '', animKey }) {
  * Layout:
  * [Năm — cột trái ngoài cùng] | [Home / Giải thưởng + nội dung 2 cột]
  * Năm dual (2011): 2 giải xếp dọc + 2 cúp trên block-Cup.
- * Đổi năm: logo/text/cúp xoay từ dưới lên (exit + enter).
+ * Đổi năm: logo/chữ từ trên xuống; cúp từ dưới lên (exit + enter).
+ * block-Cup giữ cố định.
  *
  * @param {object} props
  * @param {string} props.year
@@ -247,11 +244,17 @@ export function AwardDetailTemplate({ year, award }) {
   const entries = getAwardEntries(displayAward)
   const cups = getAwardCups(displayAward)
   const isDual = entries.length > 1
-  const animClass =
+  const contentAnimClass =
     phase === 'exit'
-      ? 'award-anim-exit'
+      ? 'award-anim-content-exit'
       : phase === 'enter'
-        ? 'award-anim-enter'
+        ? 'award-anim-content-enter'
+        : ''
+  const cupAnimClass =
+    phase === 'exit'
+      ? 'award-anim-cup-exit'
+      : phase === 'enter'
+        ? 'award-anim-cup-enter'
         : ''
 
   return (
@@ -276,7 +279,7 @@ export function AwardDetailTemplate({ year, award }) {
           className="absolute bottom-0 left-2/3 w-[600px] -translate-x-[70%]"
           aria-hidden
         />
-        {/* block-Cup nền cố định; cúp animate — giữ đúng layout cũ */}
+        {/* block-Cup cố định; cúp trượt từ dưới lên */}
         <div className="absolute bottom-0 right-0 z-[1] flex h-[min(48vh,380px)] w-[min(55vw,600px)] items-center justify-center">
           <img
             src={blockCup}
@@ -288,7 +291,7 @@ export function AwardDetailTemplate({ year, award }) {
             cups={cups}
             entries={entries}
             animKey={`cups-${displayYear}-${phase}`}
-            className={animClass}
+            className={cupAnimClass}
           />
         </div>
       </div>
@@ -345,7 +348,7 @@ export function AwardDetailTemplate({ year, award }) {
           entries={entries}
           isDual={isDual}
           animKey={`content-${displayYear}-${phase}`}
-          className={animClass}
+          className={contentAnimClass}
         />
       </div>
     </div>
