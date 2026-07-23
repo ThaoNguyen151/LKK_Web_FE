@@ -7,9 +7,9 @@ import { useState } from 'react'
 
 const NAV_LINKS = [
   { label: 'HOẠT ĐỘNG', href: ROUTES.HOME },
-  { label: 'THƯ VIỆN', href: ROUTES.ABOUT },
+  { label: 'THƯ VIỆN', href: ROUTES.HOME },
   { label: 'GIẢI THƯỞNG', href: ROUTES.AWARDS },
-  { label: 'TIN TỨC', href: ROUTES.CONTACT },
+  { label: 'TIN TỨC', href: ROUTES.NEWS },
 ]
 
 const SOCIAL_LINKS = [
@@ -30,6 +30,11 @@ const SOCIAL_LINKS = [
   },
 ]
 
+/**
+ * @param {object} props
+ * @param {string} [props.className]
+ * @param {string} [props.iconClassName]
+ */
 function SocialIcons({ className, iconClassName = 'h-6 w-6' }) {
   return (
     <div className={cn('flex items-center gap-4', className)}>
@@ -49,6 +54,11 @@ function SocialIcons({ className, iconClassName = 'h-6 w-6' }) {
   )
 }
 
+/**
+ * @param {object} props
+ * @param {'fixed' | 'static'} [props.variant]
+ * @param {'responsive' | 'canvas'} [props.layout]
+ */
 export function Header({ variant = 'fixed', layout = 'responsive' }) {
   const [menuOpen, setMenuOpen] = useState(false)
   const isCanvas = layout === 'canvas'

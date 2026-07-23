@@ -60,7 +60,7 @@ const FANPAGE_DATA = [
     href: 'https://www.facebook.com/profile.php?id=61555671172772',
     facebookUsername: '61555671172772', // thay bằng username thật
     avatar: avatar1200HotE,
-    fallbackEmoji: '🎭',
+    fallbackEmoji: null,
   },
 ]
 
@@ -82,7 +82,7 @@ function HomeDesktop() {
             <img src={rectLeft} className="absolute left-0 top-0 w-[590px]" />
             <img
               src={rectRight}
-              className="absolute right-0 bottom-50 w-[420px]"
+              className="absolute bottom-[8%] right-0 w-[420px]"
             />
             <img
               src={rectBottom}
@@ -141,7 +141,7 @@ function HomeDesktop() {
             />
             <img
               src={rectRight}
-              className="absolute right-0 bottom-19 w-[420px]"
+              className="absolute right-0 bottom-5 w-[420px]"
             />
             <img
               src={rectBottom}
@@ -310,7 +310,7 @@ function HomeDesktop() {
             />
             <img
               src={rectRight}
-              className="absolute right-0 bottom-19 w-[420px]"
+              className="absolute right-0 bottom-10 w-[420px]"
             />
             <img
               src={rectBottom}
