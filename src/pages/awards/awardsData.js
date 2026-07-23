@@ -29,16 +29,33 @@ export const DEFAULT_AWARD_YEAR = YEARS[0]
  */
 
 /**
- * @typedef {object} AwardYearDetail
- * @property {string} slug
- * @property {string} eventName
+ * @typedef {object} AwardEntry
+ * @property {string} [slug]
+ * @property {string} [eventName]
  * @property {string} logoSrc
  * @property {string} title
  * @property {string} subtitle
  * @property {string} role
  * @property {string} play
- * @property {string} cupSrc
+ * @property {string} [playLabel] Label cho dòng play — mặc định "Vở diễn"
+ * @property {string} [cupSrc]
  * @property {AwardTitleStyle} [titleStyle]
+ */
+
+/**
+ * @typedef {object} AwardYearDetail
+ * @property {string} slug
+ * @property {string} [eventName]
+ * @property {string} [logoSrc]
+ * @property {string} [title]
+ * @property {string} [subtitle]
+ * @property {string} [role]
+ * @property {string} [play]
+ * @property {string} [playLabel]
+ * @property {string} [cupSrc]
+ * @property {AwardTitleStyle} [titleStyle]
+ * @property {AwardEntry[]} [entries] Nhiều giải trong 1 năm (vd. 2011)
+ * @property {string[]} [cupSrcs] Nhiều cúp (vd. 2011); mặc định lấy từ entries/cupSrc
  */
 
 /** Classes cho 2 kiểu typography title / subtitle */
@@ -48,12 +65,12 @@ export const AWARD_TITLE_STYLES = {
     title:
       'whitespace-nowrap font-body text-sm font-medium leading-none tracking-wide text-brand-orange sm:text-base lg:text-lg xl:text-xl',
     subtitle:
-      'mt-3 whitespace-nowrap font-body text-xl font-extrabold leading-none text-brand-orange sm:mt-4 sm:text-3xl md:text-4xl lg:mt-5 lg:text-5xl xl:text-4xl',
+      'mt-3 whitespace-nowrap font-body text-xl font-extrabold leading-none text-brand-orange sm:mt-4 sm:text-3xl md:text-4xl lg:mt-5 lg:text-5xl xl:text-3xl',
   },
   /** Title đậm + to, subtitle nhạt + nhỏ */
   'title-emphasis': {
     title:
-      'whitespace-nowrap font-body text-xl font-extrabold leading-none text-brand-orange sm:text-3xl md:text-4xl lg:text-5xl xl:text-4xl',
+      'whitespace-nowrap font-body text-xl font-extrabold leading-none text-brand-orange sm:text-3xl md:text-4xl lg:text-5xl xl:text-3xl',
     subtitle:
       'mt-3 whitespace-nowrap font-body text-sm font-medium leading-none tracking-wide text-brand-orange sm:mt-4 sm:text-base lg:text-lg xl:text-xl',
   },
@@ -86,80 +103,134 @@ export const AWARDS_BY_YEAR = {
   2015: {
     slug: 'mai-vang',
     eventName: 'GIẢI MAI VÀNG 2015',
-    logoSrc: logoHTV,
-    title: 'GIẢI MAI VÀNG',
-    subtitle: 'NỮ DIỄN VIÊN ĐIỆN ẢNH – SÂN KHẤU',
-    role: 'Đang cập nhật',
-    play: 'Đang cập nhật',
+    logoSrc: logoMV,
+    title: 'NỮ DIỄN VIÊN SÂN KHẤU',
+    subtitle: 'ĐƯỢC YÊU THÍCH NHẤT',
+    role: 'HỒNG',
+    play: 'CẦN AI ĐÓ ĐỂ YÊU THƯƠNG',
     cupSrc: imageCupMV,
-    titleStyle: 'subtitle-emphasis',
+    titleStyle: 'title-emphasis',
   },
   2013: {
     slug: 'mai-vang',
     eventName: 'GIẢI MAI VÀNG 2013',
-    logoSrc: logoLHP,
-    title: 'GIẢI MAI VÀNG',
-    subtitle: 'NỮ DIỄN VIÊN ĐIỆN ẢNH – SÂN KHẤU',
-    role: 'Đang cập nhật',
-    play: 'Đang cập nhật',
+    logoSrc: logoMV,
+    title: 'NỮ DIỄN VIÊN SÂN KHẤU',
+    subtitle: 'ĐƯỢC YÊU THÍCH NHẤT',
+    role: 'TYRA BỘI NGỌC',
+    play: 'HỒN BƯỚM MƠ ĐIÊN',
     cupSrc: imageCupMV,
-    titleStyle: 'subtitle-emphasis',
+    titleStyle: 'title-emphasis',
   },
   2012: {
     slug: 'mai-vang',
     eventName: 'GIẢI MAI VÀNG 2012',
     logoSrc: logoMV,
-    title: 'GIẢI MAI VÀNG',
-    subtitle: 'NỮ DIỄN VIÊN ĐIỆN ẢNH – SÂN KHẤU',
-    role: 'Đang cập nhật',
-    play: 'Đang cập nhật',
+    title: 'NỮ DIỄN VIÊN SÂN KHẤU',
+    subtitle: 'ĐƯỢC YÊU THÍCH NHẤT',
+    role: 'HOA',
+    play: 'LẨU TRĂN',
     cupSrc: imageCupMV,
-    titleStyle: 'subtitle-emphasis',
+    titleStyle: 'title-emphasis',
   },
   2011: {
     slug: 'mai-vang-lhp',
-    eventName: 'GIẢI MAI VÀNG & LIÊN HOAN PHIM VIỆT NAM 2011',
-    logoSrc: logoMV,
-    title: 'GIẢI MAI VÀNG',
-    subtitle: 'NỮ DIỄN VIÊN / LIÊN HOAN PHIM',
-    role: 'Đang cập nhật',
-    play: 'Đang cập nhật',
-    cupSrc: imageCupLHP,
-    titleStyle: 'subtitle-emphasis',
+    entries: [
+      {
+        slug: 'lien-hoan-phim',
+        eventName: 'LIÊN HOAN PHIM VIỆT NAM 2011',
+        logoSrc: logoLHP,
+        title: 'NỮ DIỄN VIÊN PHỤ XUẤT SẮC',
+        subtitle: 'PHIM TRUYỆN ĐIỆN ẢNH',
+        role: 'LÊ QUYÊN',
+        play: 'CÔ DÂU ĐẠI CHIẾN',
+        playLabel: 'Phim',
+        cupSrc: imageCupLHP,
+        titleStyle: 'title-emphasis',
+      },
+      {
+        slug: 'mai-vang',
+        eventName: 'GIẢI MAI VÀNG 2011',
+        logoSrc: logoMV,
+        title: 'NỮ DIỄN VIÊN SÂN KHẤU',
+        subtitle: 'ĐƯỢC YÊU THÍCH NHẤT',
+        role: 'FAN HÂM MỘ',
+        play: 'CA SĨ NGÔI SAO',
+        playLabel: 'Vở diễn',
+        cupSrc: imageCupMV,
+        titleStyle: 'title-emphasis',
+      },
+    ],
+    cupSrcs: [imageCupLHP, imageCupMV],
   },
   2010: {
     slug: 'mai-vang',
     eventName: 'GIẢI MAI VÀNG 2010',
     logoSrc: logoMV,
-    title: 'GIẢI MAI VÀNG',
-    subtitle: 'NỮ DIỄN VIÊN ĐIỆN ẢNH – SÂN KHẤU',
-    role: 'Đang cập nhật',
-    play: 'Đang cập nhật',
+    title: 'NỮ DIỄN VIÊN SÂN KHẤU',
+    subtitle: 'ĐƯỢC YÊU THÍCH NHẤT',
+    role: 'KAY',
+    play: 'MỘT CUỘC ĐỜI BỊ ĐÁNH CẮP',
     cupSrc: imageCupMV,
-    titleStyle: 'subtitle-emphasis',
+    titleStyle: 'title-emphasis',
   },
   2009: {
     slug: 'htv-awards',
     eventName: 'HTV AWARDS 2009',
-    logoSrc: imageCupHTV,
-    title: 'NỮ DIỄN VIÊN SÂN KHẤU',
+    logoSrc: logoHTV,
+    title: 'NỮ DIỄN VIÊN PHỤ',
     subtitle: 'ĐƯỢC YÊU THÍCH NHẤT',
-    role: 'Đang cập nhật',
-    play: 'Đang cập nhật',
+    role: 'SANALY',
+    play: 'MÙI NGÒ GAI',
     cupSrc: imageCupHTV,
     titleStyle: 'title-emphasis',
   },
   2008: {
     slug: 'htv-awards',
     eventName: 'HTV AWARDS 2008',
-    logoSrc: imageCupHTV,
-    title: 'NỮ DIỄN VIÊN SÂN KHẤU',
+    logoSrc: logoHTV,
+    title: 'NỮ DIỄN VIÊN PHỤ',
     subtitle: 'ĐƯỢC YÊU THÍCH NHẤT',
-    role: 'Đang cập nhật',
-    play: 'Đang cập nhật',
+    role: 'SANALY',
+    play: 'MÙI NGÒ GAI',
     cupSrc: imageCupHTV,
     titleStyle: 'title-emphasis',
   },
+}
+
+/**
+ * @param {AwardYearDetail} award
+ * @returns {AwardEntry[]}
+ */
+export function getAwardEntries(award) {
+  if (award.entries?.length) return award.entries
+  return [
+    {
+      slug: award.slug,
+      eventName: award.eventName,
+      logoSrc: award.logoSrc ?? '',
+      title: award.title ?? '',
+      subtitle: award.subtitle ?? '',
+      role: award.role ?? '',
+      play: award.play ?? '',
+      playLabel: award.playLabel,
+      cupSrc: award.cupSrc,
+      titleStyle: award.titleStyle,
+    },
+  ]
+}
+
+/**
+ * @param {AwardYearDetail} award
+ * @returns {string[]}
+ */
+export function getAwardCups(award) {
+  if (award.cupSrcs?.length) return award.cupSrcs
+  const fromEntries = getAwardEntries(award)
+    .map(entry => entry.cupSrc)
+    .filter(/** @returns {cup is string} */ cup => Boolean(cup))
+  if (fromEntries.length) return fromEntries
+  return award.cupSrc ? [award.cupSrc] : []
 }
 
 /**
