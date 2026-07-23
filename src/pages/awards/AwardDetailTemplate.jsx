@@ -77,23 +77,35 @@ function AwardEntryBlock({ entry, variant = 'single' }) {
       {isDual ? (
         <div className={metaClass}>
           <p className="whitespace-nowrap">
-            <span className="italic text-gray-600">Vai diễn:</span>{' '}
-            <span className="font-semibold uppercase">{entry.role}</span>
+            <span className="text-[12px] italic text-gray-600">Vai diễn:</span>{' '}
+            <span className="text-sm font-semibold uppercase">
+              {entry.role}
+            </span>
           </p>
           <p className="whitespace-nowrap">
-            <span className="italic text-gray-600">{playLabel}:</span>{' '}
-            <span className="font-semibold uppercase">{entry.play}</span>
+            <span className="text-[12px] italic text-gray-600">
+              {playLabel}:
+            </span>{' '}
+            <span className="text-sm font-semibold uppercase">
+              {entry.play}
+            </span>
           </p>
         </div>
       ) : (
         <div className={metaClass}>
           <p className="whitespace-nowrap">
-            <span className="italic text-gray-600">Vai diễn:</span>{' '}
-            <span className="font-semibold uppercase">{entry.role}</span>
+            <span className="text-[12px] italic text-gray-600">Vai diễn:</span>{' '}
+            <span className="text-sm font-semibold uppercase">
+              {entry.role}
+            </span>
           </p>
           <p className="whitespace-nowrap">
-            <span className="italic text-gray-600">{playLabel}:</span>{' '}
-            <span className="font-semibold uppercase">{entry.play}</span>
+            <span className="text-[12px] italic text-gray-600">
+              {playLabel}:
+            </span>{' '}
+            <span className="text-sm font-semibold uppercase">
+              {entry.play}
+            </span>
           </p>
         </div>
       )}

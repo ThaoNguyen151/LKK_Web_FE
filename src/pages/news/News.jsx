@@ -118,7 +118,7 @@ function NewsScrollAside({ showHint, showBackTop, onBackTop }) {
 function NewsCard({ item }) {
   const body = (
     <>
-      <div className="aspect-[4/3] w-full overflow-hidden rounded-t-2xl bg-[#d4c8e8]">
+      <div className="aspect-[4/3] w-full overflow-hidden bg-[#d4c8e8]">
         {item.imageSrc ? (
           <img
             src={item.imageSrc}
@@ -131,7 +131,7 @@ function NewsCard({ item }) {
         <span className="inline-flex w-fit rounded-full bg-brand-orange px-2 py-0.5 font-body font-semibold uppercase tracking-wide text-white sm:text-[9.5px]">
           {item.source}
         </span>
-        <h2 className="line-clamp-3 font-body text-sm font-bold leading-snug text-brand-home1 pt-1 sm:text-sm">
+        <h2 className="line-clamp-3 pt-1 font-body text-sm font-bold leading-snug text-brand-home1 sm:text-sm">
           {item.title}
         </h2>
         <time className="mt-auto pt-1 font-body text-[10px] text-gray-400">
@@ -142,7 +142,7 @@ function NewsCard({ item }) {
   )
 
   const cardClass =
-    'flex h-full flex-col overflow-hidden rounded-2xl bg-white shadow-sm transition-shadow hover:shadow-md'
+    'flex h-full flex-col overflow-hidden rounded-2xl border-2 border-white bg-white/10 shadow-sm backdrop-blur-sm transition-all hover:border-brand-home1 hover:shadow-lg'
 
   if (item.href && item.href !== '#') {
     return (
@@ -305,11 +305,11 @@ export function News() {
                 <span>Tin Tức</span>
               </p>
 
-              <h1 className="pointer-events-none py-6 text-center font-display text-3xl italic tracking-wide text-white sm:py-8 sm:text-4xl lg:py-10 lg:text-5xl">
+              <h1 className="pointer-events-none py-6 text-center font-display text-3xl italic tracking-wide text-white sm:py-8 sm:text-4xl lg:py-7 lg:text-5xl">
                 TIN TỨC
               </h1>
 
-              <div className="absolute right-5 top-5 flex items-center gap-3 text-white sm:right-8 sm:top-6 sm:gap-4 lg:right-10 lg:top-7">
+              <div className="absolute right-5 top-5 flex items-center gap-3 text-white sm:right-8 sm:top-6 sm:gap-4 lg:right-10 lg:top-10">
                 <button
                   type="button"
                   aria-label="Tìm kiếm"
