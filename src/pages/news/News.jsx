@@ -142,7 +142,7 @@ function NewsCard({ item }) {
   )
 
   const cardClass =
-    'group flex h-full flex-col overflow-hidden rounded-2xl border-2 border-white bg-white/10 shadow-[0_5px_60px_rgba(90,59,196,0.25)] backdrop-blur-sm transition-all duration-200 hover:border hover:border-brand-home1 hover:shadow-[0_0_10px_5px_rgba(90,59,196,0.1),0_12px_48px_rgba(90,59,196,0.45)]'
+    'group flex h-full flex-col overflow-hidden rounded-2xl border-2 border-white bg-white/10 backdrop-blur-sm transition-all duration-200 hover:border hover:border-brand-home1 hover:shadow-[0_0_10px_5px_rgba(90,59,196,0.1),0_12px_48px_rgba(90,59,196,0.45)]'
 
   if (item.href && item.href !== '#') {
     return (
@@ -175,37 +175,23 @@ function NewsPagination({ page, totalPages, onChange }) {
     return [...set].filter(n => n >= 1 && n <= totalPages).sort((a, b) => a - b)
   }, [page, totalPages])
 
-  const pageBtnBase =
-    'flex h-9 min-w-9 items-center justify-center rounded-full px-2 font-body text-sm text-brand-home1 transition-all duration-200 hover:border hover:border-brand-home1 hover:shadow-[0_0_10px_5px_rgba(90,59,196,0.1),0_12px_48px_rgba(90,59,196,0.45)]'
-
-  const pageBtnIdle =
-    'border-2 border-white bg-white/10 shadow-[0_5px_60px_rgba(90,59,196,0.25)] backdrop-blur-sm'
-
-  const pageBtnActive =
-    'border border-brand-home1 bg-[#ffffff] font-semibold shadow-[0_0_10px_5px_rgba(90,59,196,0.1),0_12px_48px_rgba(90,59,196,0.45)]'
-
   return (
     <nav
       aria-label="Phân trang tin tức"
-      className="mt-10 flex items-center justify-center gap-1.5 sm:gap-2"
+      className="mt-10 flex items-center justify-center gap-1 sm:gap-2"
     >
       <button
         type="button"
         aria-label="Trang trước"
         disabled={page <= 1}
         onClick={() => onChange(page - 1)}
-        className={cn(
-          pageBtnBase,
-          pageBtnIdle,
-          'disabled:pointer-events-none disabled:opacity-30'
-        )}
+        className="flex h-9 w-9 items-center justify-center rounded-full font-body text-brand-home1 transition-colors hover:bg-white disabled:opacity-30"
       >
         ‹
       </button>
       {pages.map((n, index) => {
         const prev = pages[index - 1]
         const showEllipsis = prev != null && n - prev > 1
-        const isActive = n === page
         return (
           <span key={n} className="contents">
             {showEllipsis ? (
@@ -213,11 +199,13 @@ function NewsPagination({ page, totalPages, onChange }) {
             ) : null}
             <button
               type="button"
-              aria-current={isActive ? 'page' : undefined}
+              aria-current={n === page ? 'page' : undefined}
               onClick={() => onChange(n)}
               className={cn(
-                pageBtnBase,
-                isActive ? pageBtnActive : pageBtnIdle
+                'flex h-9 min-w-9 items-center justify-center rounded-full px-2 font-body text-sm transition-colors',
+                n === page
+                  ? 'border-2 border-white font-semibold bg-white/10 backdrop-blur-sm shadow-[0_0_10px_5px_rgba(90,59,196,0.1),0_12px_48px_rgba(90,59,196,0.45)] transition-all duration-200 hover:border hover:border-brand-home1 '
+                  : 'text-gray-500 hover:bg-white/70 hover:text-brand-home1'
               )}
             >
               {n}
@@ -230,11 +218,7 @@ function NewsPagination({ page, totalPages, onChange }) {
         aria-label="Trang sau"
         disabled={page >= totalPages}
         onClick={() => onChange(page + 1)}
-        className={cn(
-          pageBtnBase,
-          pageBtnIdle,
-          'disabled:pointer-events-none disabled:opacity-30'
-        )}
+        className="flex h-9 w-9 items-center justify-center rounded-full font-body text-brand-home1 transition-colors hover:bg-white disabled:opacity-30"
       >
         ›
       </button>
