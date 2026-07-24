@@ -99,7 +99,7 @@ function NewsScrollAside({ showHint, showBackTop, onBackTop }) {
         tabIndex={showBackTop ? 0 : -1}
         onClick={onBackTop}
         className={cn(
-          'fixed bottom-6 right-4 z-30 flex h-11 w-11 items-center justify-center rounded-full bg-white text-brand-home1 shadow-md transition-all duration-300 hover:bg-brand-soft sm:bottom-8 sm:right-5 lg:bottom-10 lg:right-7 lg:h-12 lg:w-12',
+          'fixed bottom-6 right-4 z-30 flex h-11 w-11 items-center justify-center rounded-full bg-white text-brand-home1 shadow-[0_0_10px_5px_rgba(90,59,196,0.1),0_12px_48px_rgba(90,59,196,0.45)] transition-all duration-300 hover:bg-brand-home1 hover:text-white sm:bottom-8 sm:right-5 lg:bottom-10 lg:right-7 lg:h-12 lg:w-12',
           showBackTop
             ? 'translate-y-0 opacity-100'
             : 'pointer-events-none translate-y-3 opacity-0'
@@ -142,7 +142,7 @@ function NewsCard({ item }) {
   )
 
   const cardClass =
-    'flex h-full flex-col overflow-hidden rounded-2xl border-2 border-white bg-white/10 shadow-sm backdrop-blur-sm transition-all hover:border-brand-home1 hover:shadow-lg'
+    'group flex h-full flex-col overflow-hidden rounded-2xl border-2 border-white bg-white/10 shadow-[0_5px_60px_rgba(90,59,196,0.25)] backdrop-blur-sm transition-all duration-200 hover:border hover:border-brand-home1 hover:shadow-[0_0_10px_5px_rgba(90,59,196,0.1),0_12px_48px_rgba(90,59,196,0.45)]'
 
   if (item.href && item.href !== '#') {
     return (
@@ -175,23 +175,37 @@ function NewsPagination({ page, totalPages, onChange }) {
     return [...set].filter(n => n >= 1 && n <= totalPages).sort((a, b) => a - b)
   }, [page, totalPages])
 
+  const pageBtnBase =
+    'flex h-9 min-w-9 items-center justify-center rounded-full px-2 font-body text-sm text-brand-home1 transition-all duration-200 hover:border hover:border-brand-home1 hover:shadow-[0_0_10px_5px_rgba(90,59,196,0.1),0_12px_48px_rgba(90,59,196,0.45)]'
+
+  const pageBtnIdle =
+    'border-2 border-white bg-white/10 shadow-[0_5px_60px_rgba(90,59,196,0.25)] backdrop-blur-sm'
+
+  const pageBtnActive =
+    'border border-brand-home1 bg-[#ffffff] font-semibold shadow-[0_0_10px_5px_rgba(90,59,196,0.1),0_12px_48px_rgba(90,59,196,0.45)]'
+
   return (
     <nav
       aria-label="Phân trang tin tức"
-      className="mt-10 flex items-center justify-center gap-1 sm:gap-2"
+      className="mt-10 flex items-center justify-center gap-1.5 sm:gap-2"
     >
       <button
         type="button"
         aria-label="Trang trước"
         disabled={page <= 1}
         onClick={() => onChange(page - 1)}
-        className="flex h-9 w-9 items-center justify-center rounded-full font-body text-brand-home1 transition-colors hover:bg-white disabled:opacity-30"
+        className={cn(
+          pageBtnBase,
+          pageBtnIdle,
+          'disabled:pointer-events-none disabled:opacity-30'
+        )}
       >
         ‹
       </button>
       {pages.map((n, index) => {
         const prev = pages[index - 1]
         const showEllipsis = prev != null && n - prev > 1
+        const isActive = n === page
         return (
           <span key={n} className="contents">
             {showEllipsis ? (
@@ -199,13 +213,11 @@ function NewsPagination({ page, totalPages, onChange }) {
             ) : null}
             <button
               type="button"
-              aria-current={n === page ? 'page' : undefined}
+              aria-current={isActive ? 'page' : undefined}
               onClick={() => onChange(n)}
               className={cn(
-                'flex h-9 min-w-9 items-center justify-center rounded-full px-2 font-body text-sm transition-colors',
-                n === page
-                  ? 'bg-white font-semibold text-brand-home1 shadow-sm'
-                  : 'text-gray-500 hover:bg-white/70 hover:text-brand-home1'
+                pageBtnBase,
+                isActive ? pageBtnActive : pageBtnIdle
               )}
             >
               {n}
@@ -218,7 +230,11 @@ function NewsPagination({ page, totalPages, onChange }) {
         aria-label="Trang sau"
         disabled={page >= totalPages}
         onClick={() => onChange(page + 1)}
-        className="flex h-9 w-9 items-center justify-center rounded-full font-body text-brand-home1 transition-colors hover:bg-white disabled:opacity-30"
+        className={cn(
+          pageBtnBase,
+          pageBtnIdle,
+          'disabled:pointer-events-none disabled:opacity-30'
+        )}
       >
         ›
       </button>
