@@ -391,7 +391,7 @@ function HomeDesktop() {
                       href={page.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="rounded-3xl border-2 border-white bg-white/10 p-4 shadow-sm backdrop-blur-sm transition-all hover:border-brand-home1 hover:shadow-lg"
+                      className="group relative rounded-3xl border-2 border-white bg-white/10 p-4 shadow-[0_5px_60px_rgba(90,59,196,0.25)] transition-all duration-200  hover:border hover:border-brand-home1 hover:shadow-[0_0_10px_5px_rgba(90,59,196,0.1),0_12px_48px_rgba(90,59,196,0.45)]"
                     >
                       <div className="flex items-center gap-3">
                         <div className="h-20 w-20 shrink-0 overflow-hidden rounded-full ring-2 ring-purple-200/60 bg-purple-100">
@@ -401,24 +401,24 @@ function HomeDesktop() {
                             className="h-full w-full object-cover"
                           />
                         </div>
-                        <div className="min-w-0 flex-1">
+                        <div className="min-w-0 flex-1 pr-8">
                           <div className="mb-1 inline-block rounded-full bg-brand-orange px-2 py-0.5 text-[9.5px] uppercase tracking-wide text-white">
                             Fanpage
                           </div>
-                          <h3 className="font-body text-lg font-semibold text-brand-home1">
+                          <h3 className="font-body text-lg font-semibold text-brand-home1 transition-colors duration-200">
                             {page.name}
                           </h3>
-                          <button
-                            type="button"
-                            className="mt-1 font-body text-xs font-medium text-gray-600 transition-colors hover:text-purple-800"
-                          >
-                            <span>FOLLOW NGAY</span>
-                            <span className="absolute bottom-4 left-54 text-xl text-gray-400 scale-150">
-                              →
-                            </span>
-                          </button>
+                          <span className="mt-1 inline-block font-body text-xs font-medium text-gray-600 transition-colors duration-200">
+                            FOLLOW NGAY
+                          </span>
                         </div>
                       </div>
+                      <span
+                        className="absolute bottom-4 right-5 scale-150 text-xl text-gray-400 transition-colors duration-200"
+                        aria-hidden="true"
+                      >
+                        →
+                      </span>
                     </a>
                   ))}
                 </div>
