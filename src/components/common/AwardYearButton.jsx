@@ -6,8 +6,12 @@ import { cn } from '@utils'
  * @property {string} [href]
  */
 
+/** Shadow giống hover card trang Tin tức */
+export const AWARD_YEAR_CLICK_SHADOW =
+  'shadow-[0_0_10px_5px_rgba(90,59,196,0.1),0_12px_48px_rgba(90,59,196,0.45)]'
+
 const YEAR_BUTTON_CLASS =
-  'cursor-pointer bg-transparent p-0 font-inherit text-inherit text-left transition-colors shrink-0 rounded-full px-4 py-1.5 text-center hover:text-brand-home1 focus-visible:rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-home1 hover:bg-white/50 hover:text-brand-home1'
+  'shrink-0 cursor-pointer rounded-full border-2 border-transparent bg-transparent px-4 py-1.5 text-center font-body text-sm font-semibold tracking-wide text-inherit transition-all duration-200 hover:bg-white/50 hover:text-brand-home1 active:border-white active:bg-white/45 active:text-brand-home1 active:shadow-[0_0_10px_5px_rgba(90,59,196,0.1),0_12px_48px_rgba(90,59,196,0.45)] active:backdrop-blur-md focus-visible:border-white focus-visible:bg-white/45 focus-visible:text-brand-home1 focus-visible:shadow-[0_0_10px_5px_rgba(90,59,196,0.1),0_12px_48px_rgba(90,59,196,0.45)] focus-visible:backdrop-blur-md focus-visible:outline-none'
 
 /**
  * Nút năm giải thưởng — gắn href sau khi có trang chi tiết.

@@ -97,12 +97,13 @@ export function Header({ variant = 'fixed', layout = 'responsive' }) {
         <div className="page-container flex h-full max-w-none items-center justify-between py-0 px-20">
           <SocialIcons className={isCanvas ? 'flex' : 'hidden lg:flex'} />
 
-          <img
-            src={logo}
-            alt="LK Logo"
-            className={cn('h-10 w-auto', isCanvas ? 'hidden' : 'lg:hidden')}
-          />
-
+          <a
+            href={`#${ROUTES.HOME}`}
+            className={cn(isCanvas ? 'hidden' : 'lg:hidden')}
+            aria-label="Về trang chủ"
+          >
+            <img src={logo} alt="LK Logo" className="h-10 w-auto" />
+          </a>
           <nav
             className={cn(
               'items-center gap-8',
@@ -118,7 +119,13 @@ export function Header({ variant = 'fixed', layout = 'responsive' }) {
                 {link.label}
               </a>
             ))}
-            <img src={logo} alt="LK Logo" className="mx-2 h-12 w-auto" />
+            <a
+              href={`#${ROUTES.HOME}`}
+              className="mx-2 shrink-0"
+              aria-label="Về trang chủ"
+            >
+              <img src={logo} alt="LK Logo" className="h-12 w-auto" />
+            </a>{' '}
             {NAV_LINKS.slice(2).map(link => (
               <a
                 key={link.label}

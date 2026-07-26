@@ -1,13 +1,17 @@
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { Header } from '@components/common'
 import { PageShell } from '@layouts'
 import { ROUTES } from '@utils'
 import { AwardDetailTemplate } from './awards/AwardDetailTemplate'
 import {
   DEFAULT_AWARD_YEAR,
+  YEARS,
   getAwardByYear,
   awardYearPath,
 } from './awards/awardsData'
+
+const AUTO_YEAR_MS = 7_000
+const WHEEL_COOLDOWN_MS = 700
 
 /**
  * Parse year from hash path like `/awards/2024` or `/awards`.
@@ -25,6 +29,27 @@ export function parseAwardYearFromRoute(route) {
 }
 
 /**
+ * @param {string} year
+ * @param {1 | -1} step
+ */
+function adjacentAwardYear(year, step) {
+  const index = YEARS.indexOf(year)
+  const from = index >= 0 ? index : 0
+  const next = (from + step + YEARS.length) % YEARS.length
+  return YEARS[next]
+}
+
+/**
+ * @param {string} year
+ */
+function navigateToAwardYear(year) {
+  const nextHash = `#${awardYearPath(year)}`
+  if (window.location.hash !== nextHash) {
+    window.location.hash = nextHash
+  }
+}
+
+/**
  * @param {object} props
  * @param {string} props.route Current hash path without `#`
  */
@@ -35,6 +60,7 @@ export function Awards({ route }) {
       ? yearFromRoute
       : DEFAULT_AWARD_YEAR
   const award = getAwardByYear(year)
+  const wheelLockRef = useRef(false)
 
   useEffect(() => {
     const target = awardYearPath(year)
@@ -45,6 +71,36 @@ export function Awards({ route }) {
       window.location.replace(nextHash)
     }
   }, [route, year])
+
+  // Tự nhảy năm sau 10s; lăn chuột đổi năm (xuống = năm dưới, lên = năm trên)
+  useEffect(() => {
+    const goNext = () => navigateToAwardYear(adjacentAwardYear(year, 1))
+    const goPrev = () => navigateToAwardYear(adjacentAwardYear(year, -1))
+
+    const timerId = window.setInterval(goNext, AUTO_YEAR_MS)
+
+    /** @param {WheelEvent} event */
+    const onWheel = event => {
+      if (Math.abs(event.deltaY) < 8) return
+      event.preventDefault()
+      if (wheelLockRef.current) return
+
+      wheelLockRef.current = true
+      if (event.deltaY > 0) goNext()
+      else goPrev()
+
+      window.setTimeout(() => {
+        wheelLockRef.current = false
+      }, WHEEL_COOLDOWN_MS)
+    }
+
+    window.addEventListener('wheel', onWheel, { passive: false })
+
+    return () => {
+      window.clearInterval(timerId)
+      window.removeEventListener('wheel', onWheel)
+    }
+  }, [year])
 
   if (!award) return null
 
