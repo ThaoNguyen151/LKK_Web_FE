@@ -241,5 +241,27 @@
       opacity: 1;
       transform: none;
     }
+
+    .home-section-content,
+    .home-section-content.is-inview {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+
+  /* Home: content section slide từ dưới lên (nền + header không animate) */
+  .home-section-content {
+    opacity: 0;
+    transform: translate3d(0, 56px, 0);
+    transition:
+      opacity 1400ms cubic-bezier(0.22, 1, 0.36, 1),
+      transform 1400ms cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: transform, opacity;
+  }
+
+  .home-section-content.is-inview {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
   }
 }
