@@ -151,11 +151,11 @@ function HomeDesktop() {
           <div className={cn(CANVAS_SECTION, 'pointer-events-auto pt-30')}>
             <div className="grid min-w-0 grid-cols-5 items-start gap-2">
               {/* Left side - Text and Stats */}
-              <div className="relative z-10 col-span-3 flex min-w-0 flex-col justify-center pr-2">
-                <h2 className="font-display-medium mb-15 px-10 pt-30 text-center font-display text-6xl italic text-brand-home1">
+              <div className="relative z-10 col-span-3 flex min-w-0 flex-col justify-center pl-15 pr-2">
+                <h2 className="font-display-medium mb-15 pt-30 text-center font-display text-6xl italic text-brand-home1">
                   KHO TÀNG NGHỆ THUẬT
                 </h2>
-                <p className="mb-15 font-body font-light text-lg leading-relaxed text-gray-700">
+                <p className="mb-15 font-body font-light text-[16px] leading-relaxed text-gray-700">
                   Sau hơn 20 năm chăm chỉ hoạt động nghệ thuật, Lê Khánh sở hữu
                   một kho tàng vai diễn
                   <br />
@@ -391,7 +391,7 @@ function HomeDesktop() {
                       href={page.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="group relative rounded-3xl border-2 border-white bg-white/10 p-4 shadow-[0_5px_60px_rgba(90,59,196,0.25)] transition-all duration-200  hover:border hover:border-brand-home1 hover:shadow-[0_0_10px_5px_rgba(90,59,196,0.1),0_12px_48px_rgba(90,59,196,0.45)]"
+                      className="group relative rounded-3xl border-2 border-white bg-white/10 p-4 transition-all duration-200  hover:border hover:border-brand-home1 hover:shadow-[0_0_10px_5px_rgba(90,59,196,0.1),0_12px_48px_rgba(90,59,196,0.45)]"
                     >
                       <div className="flex items-center gap-3">
                         <div className="h-20 w-20 shrink-0 overflow-hidden rounded-full ring-2 ring-purple-200/60 bg-purple-100">

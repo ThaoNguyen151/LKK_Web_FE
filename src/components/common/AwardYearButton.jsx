@@ -7,7 +7,7 @@ import { cn } from '@utils'
  */
 
 const YEAR_BUTTON_CLASS =
-  'cursor-pointer bg-transparent p-0 font-inherit text-inherit text-left transition-colors hover:text-brand-home1 focus-visible:rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-home1/40'
+  'cursor-pointer bg-transparent p-0 font-inherit text-inherit text-left transition-colors shrink-0 rounded-full px-4 py-1.5 text-center hover:text-brand-home1 focus-visible:rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-home1 hover:bg-white/50 hover:text-brand-home1'
 
 /**
  * Nút năm giải thưởng — gắn href sau khi có trang chi tiết.
