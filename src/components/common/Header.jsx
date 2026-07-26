@@ -113,7 +113,7 @@ export function Header({ variant = 'fixed', layout = 'responsive' }) {
               <a
                 key={link.label}
                 href={`#${link.href}`}
-                className="font-body text-sm font-semibold uppercase tracking-wide text-brand-textheader/50 transition-colors hover:text-purple-600"
+                className="font-body text-sm font-semibold uppercase tracking-wide text-brand-textheader/50 transition-colors hover:text-brand-home1"
               >
                 {link.label}
               </a>
@@ -123,7 +123,7 @@ export function Header({ variant = 'fixed', layout = 'responsive' }) {
               <a
                 key={link.label}
                 href={`#${link.href}`}
-                className="font-body text-sm font-semibold uppercase tracking-wide text-brand-textheader/50 transition-colors hover:text-purple-600"
+                className="font-body text-sm font-semibold uppercase tracking-wide text-brand-textheader/50 transition-colors hover:text-brand-home1"
               >
                 {link.label}
               </a>
