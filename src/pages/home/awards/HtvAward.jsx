@@ -19,7 +19,7 @@ export function HtvAward() {
       cupAlt="Cup HTV"
       className="h-full pt-12"
       titleClassName="px-5 pb-10"
-      yearsClassName="px-10 pb-2"
+      yearsClassName="px-0 pb-2"
       cupClusterClassName="-mt-12 mr-20"
       cupClassName="scale-90"
     />
