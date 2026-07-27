@@ -10,8 +10,8 @@ import {
   awardYearPath,
 } from './awards/awardsData'
 
-const AUTO_YEAR_MS = 7_000
-const WHEEL_COOLDOWN_MS = 700
+const AUTO_YEAR_MS = 4_000
+const WHEEL_COOLDOWN_MS = 400
 
 /**
  * Parse year from hash path like `/awards/2024` or `/awards`.
@@ -72,7 +72,7 @@ export function Awards({ route }) {
     }
   }, [route, year])
 
-  // Tự nhảy năm sau 10s; lăn chuột đổi năm (xuống = năm dưới, lên = năm trên)
+  // Tự nhảy năm sau 40s; lăn chuột đổi năm (xuống = năm dưới, lên = năm trên)
   useEffect(() => {
     const goNext = () => navigateToAwardYear(adjacentAwardYear(year, 1))
     const goPrev = () => navigateToAwardYear(adjacentAwardYear(year, -1))
