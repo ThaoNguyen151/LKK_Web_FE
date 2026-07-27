@@ -243,25 +243,84 @@
     }
 
     .home-section-content,
-    .home-section-content.is-inview {
+    .home-section-content.is-inview,
+    .home-section-content.anim-enter-up,
+    .home-section-content.anim-enter-down,
+    .home-section-content.anim-exit-up,
+    .home-section-content.anim-exit-down {
+      animation: none;
       opacity: 1;
       transform: none;
       transition: none;
     }
   }
 
-  /* Home: content section slide từ dưới lên (nền + header không animate) */
+  /* Home: slide theo chiều lăn (xuống = từ dưới lên; lên = từ trên xuống) */
   .home-section-content {
     opacity: 0;
     transform: translate3d(0, 56px, 0);
-    transition:
-      opacity 1400ms cubic-bezier(0.22, 1, 0.36, 1),
-      transform 1400ms cubic-bezier(0.22, 1, 0.36, 1);
     will-change: transform, opacity;
   }
 
-  .home-section-content.is-inview {
-    opacity: 1;
-    transform: translate3d(0, 0, 0);
+  .home-section-content.anim-enter-up {
+    animation: home-enter-from-below 1400ms cubic-bezier(0.22, 1, 0.36, 1)
+      forwards;
+  }
+
+  .home-section-content.anim-enter-down {
+    animation: home-enter-from-above 1400ms cubic-bezier(0.22, 1, 0.36, 1)
+      forwards;
+  }
+
+  .home-section-content.anim-exit-up {
+    animation: home-exit-to-above 700ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
+
+  .home-section-content.anim-exit-down {
+    animation: home-exit-to-below 700ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
+
+  @keyframes home-enter-from-below {
+    from {
+      opacity: 0;
+      transform: translate3d(0, 56px, 0);
+    }
+    to {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+  }
+
+  @keyframes home-enter-from-above {
+    from {
+      opacity: 0;
+      transform: translate3d(0, -56px, 0);
+    }
+    to {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+  }
+
+  @keyframes home-exit-to-above {
+    from {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+    to {
+      opacity: 0;
+      transform: translate3d(0, -56px, 0);
+    }
+  }
+
+  @keyframes home-exit-to-below {
+    from {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+    to {
+      opacity: 0;
+      transform: translate3d(0, 56px, 0);
+    }
   }
 }

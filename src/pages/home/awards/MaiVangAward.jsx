@@ -24,7 +24,7 @@ export function MaiVangAward() {
       cupAlt="Cup Mai Vàng"
       className="h-full pt-5"
       titleClassName="px-15 pb-10"
-      yearsClassName="px-20 pb-2"
+      yearsClassName="px-15 py-4"
       cupClusterClassName="-mt-15"
     />
   )

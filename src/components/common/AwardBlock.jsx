@@ -14,12 +14,12 @@ const TITLE_WEIGHT = 'font-display-medium font-display italic text-brand-home1'
 const VARIANTS = {
   large: {
     block: 'flex flex-col',
-    title: 'shrink-0 text-[70px]',
+    title: 'shrink-0 text-[70px] pb-10',
     titleLines: 'flex flex-col gap-2',
     years: 'relative z-10 shrink-0 text-lg',
-    yearsGrid: 'grid grid-cols-2 gap-x-15 gap-y-8',
-    yearsStack: 'flex flex-col gap-y-8',
-    cup: 'relative z-0 shrink-0 self-end',
+    yearsGrid: 'grid grid-cols-2 gap-x-16 gap-y-4',
+    yearsStack: 'flex flex-col gap-y-4',
+    cup: 'relative z-0 shrink-0 self-end pb-6',
   },
   compact: {
     block: '',
@@ -104,7 +104,7 @@ export function AwardBlock({
         <div className={cn(styles.stage, contentClassName)}>
           <div
             className={cn(
-              'absolute bottom-0 left-0 z-10 w-fit font-body text-black pb-15 px-5',
+              'absolute bottom-0 left-0 z-10 w-fit font-body text-black pb-15 px-0',
               styles.years,
               yearsClassName
             )}

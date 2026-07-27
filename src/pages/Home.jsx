@@ -73,6 +73,9 @@ function HomeDesktop() {
   const scrollRef = useRef(/** @type {HTMLDivElement | null} */ (null))
   const sectionRefs = useRef(/** @type {(HTMLElement | null)[]} */ ([]))
   const [activeSection, setActiveSection] = useState(0)
+  const scrollDirRef = useRef(/** @type {'forward' | 'reverse'} */ ('forward'))
+  const lastScrollTopRef = useRef(0)
+  const activeSectionRef = useRef(0)
 
   useEffect(() => {
     const root = scrollRef.current
@@ -91,15 +94,51 @@ function HomeDesktop() {
 
     /** @type {Record<number, number>} */
     const ratios = {}
+    /** @type {Record<number, boolean>} */
+    const inViewState = {}
 
     /**
      * @param {HTMLElement} sectionEl
      * @param {boolean} inView
+     * @param {'forward' | 'reverse'} direction
      */
-    const syncInView = (sectionEl, inView) => {
+    const syncInView = (sectionEl, inView, direction) => {
       const content = sectionEl.querySelector('[data-home-section-content]')
-      if (!content) return
-      content.classList.toggle('is-inview', inView || reducedMotion)
+      if (!(content instanceof HTMLElement)) return
+
+      if (reducedMotion) {
+        content.classList.remove(
+          'anim-enter-up',
+          'anim-enter-down',
+          'anim-exit-up',
+          'anim-exit-down'
+        )
+        content.classList.toggle('is-inview', true)
+        content.style.opacity = '1'
+        content.style.transform = 'none'
+        return
+      }
+
+      content.classList.remove(
+        'anim-enter-up',
+        'anim-enter-down',
+        'anim-exit-up',
+        'anim-exit-down',
+        'is-inview'
+      )
+      // Restart CSS animation
+      void content.offsetWidth
+
+      if (inView) {
+        content.classList.add(
+          direction === 'forward' ? 'anim-enter-up' : 'anim-enter-down',
+          'is-inview'
+        )
+      } else {
+        content.classList.add(
+          direction === 'forward' ? 'anim-exit-up' : 'anim-exit-down'
+        )
+      }
     }
 
     const updateActive = () => {
@@ -111,25 +150,46 @@ function HomeDesktop() {
           bestIndex = Number(key)
         }
       })
-      if (bestRatio > 0) setActiveSection(bestIndex)
+      if (bestRatio > 0) {
+        activeSectionRef.current = bestIndex
+        setActiveSection(bestIndex)
+      }
+    }
+
+    const onScroll = () => {
+      const top = root.scrollTop
+      const delta = top - lastScrollTopRef.current
+      if (Math.abs(delta) > 2) {
+        scrollDirRef.current = delta > 0 ? 'forward' : 'reverse'
+      }
+      lastScrollTopRef.current = top
     }
 
     const observer = new IntersectionObserver(
       entries => {
+        const direction = scrollDirRef.current
         entries.forEach(entry => {
           const index = Number(
             /** @type {HTMLElement} */ (entry.target).dataset.homeSection
           )
           ratios[index] = entry.isIntersecting ? entry.intersectionRatio : 0
-          syncInView(
-            /** @type {HTMLElement} */ (entry.target),
-            entry.isIntersecting
-          )
+
+          const nowInView = entry.isIntersecting
+          if (inViewState[index] !== nowInView) {
+            inViewState[index] = nowInView
+            syncInView(
+              /** @type {HTMLElement} */ (entry.target),
+              nowInView,
+              direction
+            )
+          }
         })
         updateActive()
       },
       { root, threshold: [0.35, 0.55, 0.7] }
     )
+
+    root.addEventListener('scroll', onScroll, { passive: true })
 
     sections.forEach(section => {
       observer.observe(section)
@@ -140,19 +200,26 @@ function HomeDesktop() {
       if (visible) {
         const index = Number(section.dataset.homeSection)
         ratios[index] = 1
-        syncInView(section, true)
+        inViewState[index] = true
+        syncInView(section, true, 'forward')
       }
     })
     updateActive()
 
-    return () => observer.disconnect()
+    return () => {
+      observer.disconnect()
+      root.removeEventListener('scroll', onScroll)
+    }
   }, [])
 
   /** @param {number} index */
   const goToSection = index => {
     const section = sectionRefs.current[index]
     if (!section) return
+    scrollDirRef.current =
+      index >= activeSectionRef.current ? 'forward' : 'reverse'
     section.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    activeSectionRef.current = index
     setActiveSection(index)
   }
 
@@ -322,7 +389,7 @@ function HomeDesktop() {
                 'home-section-content flex h-full w-full items-center pt-20 pb-8'
               )}
             >
-              <div className="grid w-full min-w-0 grid-cols-3 items-stretch gap-5">
+              <div className="grid w-full min-w-0 grid-cols-3 items-stretch gap-8">
                 <div className="min-w-0 overflow-hidden">
                   <MaiVangAward />
                 </div>
