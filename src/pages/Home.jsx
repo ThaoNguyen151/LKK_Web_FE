@@ -297,7 +297,7 @@ function HomeDesktop() {
                 />
 
                 <div className="pointer-events-auto absolute right-54 top-34 rounded-full bg-white/60 px-5 py-3 text-sm font-semibold tracking-wide whitespace-nowrap text-brand-home1 shadow-[0_20px_60px_rgba(90,59,196,0.25)] backdrop-blur-md">
-                  22 • 12 • 1981
+                  22/12/1981
                 </div>
               </div>
             </div>

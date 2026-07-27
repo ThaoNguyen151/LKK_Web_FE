@@ -17,8 +17,8 @@ const VARIANTS = {
     title: 'shrink-0 text-[70px] pb-10',
     titleLines: 'flex flex-col gap-2',
     years: 'relative z-10 shrink-0 text-lg',
-    yearsGrid: 'grid grid-cols-2 gap-x-16 gap-y-4',
-    yearsStack: 'flex flex-col gap-y-4',
+    yearsGrid: 'grid grid-cols-2 gap-x-5 gap-y-3 pb-10',
+    yearsStack: 'flex flex-col gap-y-3',
     cup: 'relative z-0 shrink-0 self-end pb-6',
   },
   compact: {
