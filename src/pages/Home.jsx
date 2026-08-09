@@ -21,31 +21,67 @@ import avatar1200HotE from '@assets/images/avatar/avatar-12hote.jpg'
 import facebookIcon from '@assets/images/icon/facebook.png'
 import tiktokIcon from '@assets/images/icon/tiktok.png'
 import instagramIcon from '@assets/images/icon/instagram.png'
+import youtubeIcon from '@assets/images/icon/youtube.png'
 import facebookWhiteIcon from '@assets/images/icon/face_white.png'
 import tiktokWhiteIcon from '@assets/images/icon/tiktok_white.png'
 import instagramWhiteIcon from '@assets/images/icon/instagram_white.png'
+import youtubeWhiteIcon from '@assets/images/icon/youtube_white.png'
+import socialSelfImage from '@assets/images/social/self.png'
+import socialFamilyImage from '@assets/images/social/family.png'
+import warrow from '@assets/images/subicon/iconWarrow.png'
 
-const SOCIAL_DATA = [
+const SOCIAL_PROFILE_DATA = [
   {
-    platform: 'facebook',
-    followers: '169k',
-    href: 'https://www.facebook.com/DvLeKhanh.Official',
-    icon: facebookIcon,
-    iconHover: facebookWhiteIcon,
+    id: 'self',
+    name: 'Diễn viên Lê Khánh',
+    image: socialSelfImage,
+    imageClassName: 'bottom-0 left-[-8%] top-1 w-[100%] -translate-y-8',
+    links: [
+      {
+        label: 'Facebook',
+        href: 'https://www.facebook.com/DvLeKhanh.Official',
+        icon: facebookIcon,
+        iconHover: facebookWhiteIcon,
+      },
+      {
+        label: 'TikTok',
+        href: 'https://www.tiktok.com/@dienvienlekhanh',
+        icon: tiktokIcon,
+        iconHover: tiktokWhiteIcon,
+      },
+      {
+        label: 'Instagram',
+        href: 'https://www.instagram.com/dienvienlekhanh/',
+        icon: instagramIcon,
+        iconHover: instagramWhiteIcon,
+      },
+    ],
   },
   {
-    platform: 'tiktok',
-    followers: '106.4k',
-    href: 'https://www.tiktok.com/@dienvienlekhanh',
-    icon: tiktokIcon,
-    iconHover: tiktokWhiteIcon,
-  },
-  {
-    platform: 'instagram',
-    followers: '2.629',
-    href: 'https://www.instagram.com/dienvienlekhanh/',
-    icon: instagramIcon,
-    iconHover: instagramWhiteIcon,
+    id: 'family',
+    name: 'Chuyện nhà\nLê Khánh - Tuấn Khải',
+    image: socialFamilyImage,
+    imageClassName: 'bottom-0 left-0 top-1 w-[90%] -translate-y-8',
+    links: [
+      {
+        label: 'Facebook',
+        href: 'https://www.facebook.com/profile.php?id=61590618325034&locale=vi_VN',
+        icon: facebookIcon,
+        iconHover: facebookWhiteIcon,
+      },
+      {
+        label: 'TikTok',
+        href: 'https://www.tiktok.com/@chuyennhalekhanhtuankhai',
+        icon: tiktokIcon,
+        iconHover: tiktokWhiteIcon,
+      },
+      {
+        label: 'YouTube',
+        href: 'https://www.youtube.com/@ChuyenNhaLeKhanhTuanKhai',
+        icon: youtubeIcon,
+        iconHover: youtubeWhiteIcon,
+      },
+    ],
   },
 ]
 
@@ -273,7 +309,7 @@ function HomeDesktop() {
                 <img
                   src={imageHome1}
                   alt="Lê Khánh"
-                  className="relative h-auto w-[620px] shrink-0 object-contain object-bottom"
+                  className="relative h-auto w-[610px] shrink-0 object-contain object-bottom"
                 />
 
                 <div className="pointer-events-auto absolute top-114 right-[10px] rounded-full bg-brand-orange px-6 py-3 text-sm font-semibold tracking-wide whitespace-nowrap text-white shadow-[0_20px_60px_rgba(90,59,196,0.25)] backdrop-blur-md">
@@ -366,7 +402,7 @@ function HomeDesktop() {
                   <img
                     src={imageHome2}
                     alt="Lê Khánh"
-                    className="relative h-[700px] w-auto max-w-none shrink-0 object-contain"
+                    className="relative h-[690px] w-auto max-w-none shrink-0 object-contain"
                     style={{ marginTop: '-80px', marginRight: '-10px' }}
                   />
                 </div>
@@ -421,6 +457,8 @@ function HomeDesktop() {
                       count="1"
                       cupSrc={imageCupSK}
                       cupAlt="Cup Liên hoan sân khấu"
+                      cupClassName="!h-40"
+                      countClassName="!translate-y-[-16%]"
                     />
                   </div>
 
@@ -443,6 +481,8 @@ function HomeDesktop() {
                       count="1"
                       cupSrc={imageCupLHP}
                       cupAlt="Cup Liên hoan phim"
+                      cupClassName="!h-40"
+                      countClassName="!translate-y-[-16%]"
                     />
                   </div>
                 </div>
@@ -469,102 +509,125 @@ function HomeDesktop() {
                 'home-section-content pointer-events-auto'
               )}
             >
-              <div className="grid grid-cols-2 items-center gap-16">
+              <div className="grid grid-cols-2 items-center gap-1">
                 <div className="pointer-events-none relative z-50 flex shrink-0 items-end justify-center">
                   <img
                     src={imageHome4}
                     alt="Lê Khánh"
-                    className="relative z-50 h-auto w-[620px] shrink-0 rounded-2xl object-contain"
+                    className="relative z-50 h-auto w-[610px] shrink-0 rounded-2xl object-contain"
                     style={{ marginTop: '-10px', marginLeft: '-70px' }}
                   />
                 </div>
 
-                <div className="flex flex-col justify-center gap-6 pr-20 pt-20">
+                <div className="flex origin-center scale-90 flex-col justify-center pr-16 pt-14">
                   <h2 className="font-display-medium text-center font-display text-[50px] italic leading-tight text-brand-home1">
                     MẠNG XÃ HỘI
                   </h2>
-                  <div className="grid grid-cols-3 gap-4">
-                    {SOCIAL_DATA.map(item => (
-                      <a
-                        key={item.platform}
-                        href={item.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="group relative flex flex-col rounded-2xl border border-brand-home1 bg-white/10 p-4 shadow-[0_5px_60px_rgba(90,59,196,0.25)] transition-colors duration-200 hover:border-brand-home1 hover:bg-brand-home1"
+
+                  <div className="mt-7 grid grid-cols-2 gap-12 px-2">
+                    {SOCIAL_PROFILE_DATA.map(profile => (
+                      <article
+                        key={profile.id}
+                        className="relative h-[265px] rounded-2xl bg-brand-home1 shadow-[0_10px_35px_rgba(90,59,196,0.24)]"
                       >
-                        <span className="relative h-5 w-5 shrink-0">
-                          <img
-                            src={item.icon}
-                            alt=""
-                            className="absolute inset-0 h-5 w-5 object-contain opacity-100 transition-opacity duration-200 group-hover:opacity-0"
-                            aria-hidden
-                          />
-                          <img
-                            src={item.iconHover}
-                            alt=""
-                            className="absolute inset-0 h-5 w-5 object-contain opacity-0 transition-opacity duration-200 group-hover:opacity-100"
-                            aria-hidden
-                          />
-                        </span>
-                        <span className="mt-3 font-body text-2xl font-bold tracking-tight text-brand-home1 transition-colors duration-200 group-hover:text-brand-changehover">
-                          {item.followers}
-                        </span>
-                        <span className="mt-1 font-body text-[10px] uppercase leading-tight tracking-wide text-gray-600 transition-colors duration-200 group-hover:text-brand-changehover">
-                          Người theo dõi
-                        </span>
-                        <span
-                          className="absolute right-5 bottom-3 scale-150 text-xl text-gray-400 transition-colors duration-200 group-hover:text-brand-changehover"
-                          aria-hidden="true"
-                        >
-                          →
-                        </span>
-                      </a>
+                        <img
+                          src={profile.image}
+                          alt={profile.name.replace('\n', ' ')}
+                          className={cn(
+                            'pointer-events-none absolute z-10 h-72 object-contain object-bottom',
+                            profile.imageClassName
+                          )}
+                        />
+
+                        <div
+                          className="pointer-events-none absolute inset-x-0 bottom-0 z-[15] h-28 rounded-b-2xl bg-gradient-to-t from-brand-home1 via-brand-home1/75 to-transparent"
+                          aria-hidden
+                        />
+
+                        <h3 className="absolute bottom-4 left-5 z-20 whitespace-pre-line font-body text-lg font-semibold leading-[1.5] text-white">
+                          {profile.name}
+                        </h3>
+
+                        <div className="absolute -right-6 bottom-10 z-30 flex flex-col gap-3">
+                          {profile.links.map(link => (
+                            <a
+                              key={link.label}
+                              href={link.href}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              aria-label={`${link.label} – ${profile.name.replace('\n', ' ')}`}
+                              className="group relative flex h-13 w-13 items-center justify-center rounded-full border-2 border-brand-home1 bg-white shadow-[0_6px_18px_rgba(90,59,196,0.2)] transition-colors hover:bg-brand-home1 hover:border-white"
+                            >
+                              <img
+                                src={link.icon}
+                                alt=""
+                                className="absolute h-6 w-6 object-contain transition-opacity group-hover:opacity-0"
+                              />
+                              <img
+                                src={link.iconHover}
+                                alt=""
+                                className="absolute h-6 w-6 object-contain opacity-0 transition-opacity group-hover:opacity-100"
+                              />
+                            </a>
+                          ))}
+                        </div>
+                      </article>
                     ))}
                   </div>
 
                   <div
-                    className="my-0 mt-3 mb-3 h-[1px] w-full"
+                    className="mb-5 mt-12 h-px w-full"
                     style={{
                       background:
                         'linear-gradient(to right, transparent, #5A3BC4, transparent)',
                     }}
                   />
 
-                  <div className="flex flex-col gap-4">
+                  <h2 className="font-display-medium text-center font-display text-[42px] italic leading-tight text-brand-home1">
+                    FANSITE
+                  </h2>
+
+                  <div className="mt-5 grid grid-cols-2 gap-5">
                     {FANPAGE_DATA.map(page => (
                       <a
                         key={page.name}
                         href={page.href}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="group relative rounded-3xl border-2 border-white bg-white/10 p-4 transition-all duration-200 hover:border hover:border-brand-home1 hover:shadow-[0_0_10px_5px_rgba(90,59,196,0.1),0_12px_48px_rgba(90,59,196,0.45)]"
+                        className="group relative flex min-h-24 items-center gap-4 rounded-2xl border-2 border-white bg-white/20 p-4 transition-all duration-200 hover:border-brand-home1 hover:shadow-[0_8px_30px_rgba(90,59,196,0.18)]"
                       >
-                        <div className="flex items-center gap-3">
-                          <div className="h-20 w-20 shrink-0 overflow-hidden rounded-full bg-purple-100 ring-2 ring-purple-200/60">
-                            <img
-                              src={page.avatar}
-                              alt={page.name}
-                              className="h-full w-full object-cover"
-                            />
-                          </div>
-                          <div className="min-w-0 flex-1 pr-8">
-                            <div className="mb-1 inline-block rounded-full bg-brand-orange px-2 py-0.5 text-[9.5px] uppercase tracking-wide text-white">
-                              Fanpage
-                            </div>
-                            <h3 className="font-body text-lg font-semibold text-brand-home1 transition-colors duration-200">
-                              {page.name}
-                            </h3>
-                            <span className="mt-1 inline-block font-body text-xs font-medium text-gray-600 transition-colors duration-200">
-                              FOLLOW NGAY
-                            </span>
-                          </div>
+                        <div className="h-16 w-16 shrink-0 overflow-hidden rounded-full bg-purple-100 ring-2 ring-purple-200/60">
+                          <img
+                            src={page.avatar}
+                            alt={page.name}
+                            className="h-full w-full object-cover"
+                          />
                         </div>
+
+                        <div className="min-w-0 flex-1">
+                          <h3 className="font-body text-[18px] font-semibold leading-snug text-brand-home1">
+                            {page.name}
+                          </h3>
+
+                          <span className="mt-1 inline-flex items-center gap-2 font-body text-[10px] font-medium uppercase tracking-wide leading-none text-gray-500">
+                            <span className="flex items-center mt-0.5">
+                              Theo dõi
+                            </span>
+
+                            <span aria-hidden className="flex items-center">
+                              <img
+                                src={warrow}
+                                alt=""
+                                className="h-3 w-4 brightness-0 opacity-50"
+                              />
+                            </span>
+                          </span>
+                        </div>
+
                         <span
-                          className="absolute right-5 bottom-4 scale-150 text-xl text-gray-400 transition-colors duration-200"
+                          className="absolute inset-0 -z-10 rounded-2xl bg-white/10 opacity-0 transition-opacity group-hover:opacity-100"
                           aria-hidden="true"
-                        >
-                          →
-                        </span>
+                        />
                       </a>
                     ))}
                   </div>
