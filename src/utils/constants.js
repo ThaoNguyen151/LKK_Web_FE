@@ -11,6 +11,8 @@ export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api'
 // Routes
 export const ROUTES = {
   HOME: '/',
+  ACTIVITIES: '/activities',
+  LIBRARY: '/library',
   AWARDS: '/awards',
   NEWS: '/news',
 }
