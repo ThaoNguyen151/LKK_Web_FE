@@ -25,7 +25,8 @@ export function MaiVangAward() {
       className="h-full pt-5"
       titleClassName="px-15 pb-10"
       yearsClassName="px-15 py-4"
-      cupClusterClassName="-mt-15"
+      cupClusterClassName="-mt-15 scale-120 mr-2"
+      countClassName="!translate-y-0.5"
     />
   )
 }

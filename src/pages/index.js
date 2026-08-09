@@ -1,3 +1,5 @@
 export { Home } from './Home'
 export { Awards } from './Awards'
 export { News } from './news'
+export { Library } from './library'
+export { Activities } from './activities'
