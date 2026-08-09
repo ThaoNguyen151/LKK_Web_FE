@@ -8,12 +8,11 @@ import { ROUTES, cn } from '@utils'
 import {
   ACTIVITY_CATEGORIES,
   activityCategoryPath,
-  activityDetailPath,
   getActivityItems,
   getCategoryById,
-  normalizeActivityDetail,
   parseActivityRoute,
 } from './activityData'
+import { ActivityCard } from './ActivityCard'
 import { ActivityDetail } from './ActivityDetail'
 
 const SCROLL_TOP_THRESHOLD = 120
@@ -154,23 +153,6 @@ function SortIcon({ className }) {
         strokeLinecap="round"
         strokeLinejoin="round"
       />
-    </svg>
-  )
-}
-
-/**
- * @param {object} props
- * @param {string} [props.className]
- */
-function PlayIcon({ className }) {
-  return (
-    <svg
-      className={className}
-      viewBox="0 0 24 24"
-      fill="currentColor"
-      aria-hidden
-    >
-      <path d="M8 5.5v13l11-6.5-11-6.5z" />
     </svg>
   )
 }
@@ -321,92 +303,6 @@ function ActivitySidebar({ activeId, orientation = 'vertical' }) {
 
 /**
  * @param {object} props
- * @param {string} props.subtitle
- */
-function ActivitySubtitle({ subtitle }) {
-  const sep = subtitle.indexOf(':')
-  if (sep === -1) {
-    return (
-      <p className="font-body text-[11px] text-gray-500 sm:text-xs">
-        {subtitle}
-      </p>
-    )
-  }
-
-  const label = subtitle.slice(0, sep + 1)
-  const value = subtitle.slice(sep + 1).trim()
-
-  return (
-    <p className="font-body text-[11px] text-gray-500 sm:text-xs ">
-      <span className="text-[9px] sm:text-[10px] italic">{label}</span>
-      {value ? <> {value}</> : null}
-    </p>
-  )
-}
-
-/**
- * @param {object} props
- * @param {import('./activityData').ActivityItem} props.item
- */
-function ActivityCard({ item }) {
-  const detail = normalizeActivityDetail(item)
-  const detailHref = `#${activityDetailPath(item.categoryId, item.id)}`
-  const hasVideoTab = (detail.detailTabs ?? ['info', 'images']).includes(
-    'video'
-  )
-  const videoHref = hasVideoTab ? `${detailHref}` : item.videoUrl || detailHref
-
-  return (
-    <article className="group relative flex overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm transition-shadow duration-300 hover:shadow-[0_8px_32px_rgba(90,59,196,0.18)]">
-      <div className="relative w-[42%] shrink-0 overflow-hidden bg-[#cbb8e8] sm:w-[38%]">
-        {item.image ? (
-          <img
-            src={item.image}
-            alt=""
-            className="h-full min-h-[7.5rem] w-full object-cover transition duration-300 group-hover:scale-105 group-hover:blur-[2px] sm:min-h-[8.5rem]"
-          />
-        ) : (
-          <div className="h-full min-h-[7.5rem] w-full bg-[#cbb8e8] transition duration-300 group-hover:blur-[2px] sm:min-h-[8.5rem]" />
-        )}
-      </div>
-
-      <div className="relative flex min-w-0 flex-1 flex-col justify-center gap-2 px-3 py-3 sm:gap-2.5 sm:px-4 sm:py-4">
-        <div className="flex items-start justify-between gap-2 sm:gap-3">
-          <span className="inline-flex rounded-full bg-brand-orange px-2.5 py-0.5 font-body text-[10px] font-bold uppercase tracking-wide text-white sm:text-[9.5px]">
-            {item.badge}
-          </span>
-          <span className="shrink-0 font-body text-[9.5px] text-gray-400">
-            {item.year}
-          </span>
-        </div>
-        <h3 className="font-body text-sm font-bold leading-snug text-brand-home1 sm:text-base">
-          {item.title}
-        </h3>
-        <ActivitySubtitle subtitle={item.subtitle} />
-      </div>
-
-      <div className="pointer-events-none absolute inset-0 flex items-center justify-center gap-2 bg-white/40 opacity-0 backdrop-blur-[2px] transition-opacity duration-300 group-hover:pointer-events-auto group-hover:opacity-100 sm:gap-3">
-        <a
-          href={videoHref}
-          className="inline-flex items-center gap-1.5 rounded-full bg-brand-orange px-3 py-2 font-body text-[10px] font-bold uppercase tracking-wide text-white shadow-md transition hover:brightness-105 sm:px-4 sm:text-xs"
-        >
-          <PlayIcon className="h-3.5 w-3.5" />
-          Xem video
-        </a>
-        <a
-          href={detailHref}
-          className="inline-flex items-center gap-1 rounded-full bg-brand-orange px-3 py-2 font-body text-[10px] font-bold uppercase tracking-wide text-white shadow-md transition hover:brightness-105 sm:px-4 sm:text-xs"
-        >
-          Thông tin
-          <span aria-hidden>â†’</span>
-        </a>
-      </div>
-    </article>
-  )
-}
-
-/**
- * @param {object} props
  * @param {string} props.route Current hash path without `#`
  * @param {string} props.categoryId
  */
@@ -421,7 +317,10 @@ function ActivitiesList({ route, categoryId }) {
   const [scrolled, setScrolled] = useState(false)
   const [showTopFade, setShowTopFade] = useState(false)
   const [showBottomFade, setShowBottomFade] = useState(true)
+  const [scrollBleed, setScrollBleed] = useState({ left: 0, right: 0 })
   const gridScrollRef = useRef(/** @type {HTMLDivElement | null} */ (null))
+  const gridAreaRef = useRef(/** @type {HTMLDivElement | null} */ (null))
+  const sidebarWrapRef = useRef(/** @type {HTMLDivElement | null} */ (null))
 
   const tabId = tabByCategory[categoryId] ?? category.tabs[0]?.id ?? ''
 
@@ -434,6 +333,36 @@ function ActivitiesList({ route, categoryId }) {
       }
     }
   }, [route, categoryId])
+
+  useLayoutEffect(() => {
+    const updateBleed = () => {
+      const gridEl = gridAreaRef.current
+      if (!gridEl) return
+
+      const gridRect = gridEl.getBoundingClientRect()
+      const right = Math.max(0, window.innerWidth - gridRect.right)
+
+      let left = 0
+      const sidebarEl = sidebarWrapRef.current
+      const sidebarVisible =
+        sidebarEl &&
+        window.getComputedStyle(sidebarEl).display !== 'none' &&
+        sidebarEl.getBoundingClientRect().width > 0
+
+      if (sidebarVisible) {
+        const sideRect = sidebarEl.getBoundingClientRect()
+        left = Math.max(0, gridRect.left - sideRect.right)
+      }
+
+      setScrollBleed(prev =>
+        prev.left === left && prev.right === right ? prev : { left, right }
+      )
+    }
+
+    updateBleed()
+    window.addEventListener('resize', updateBleed)
+    return () => window.removeEventListener('resize', updateBleed)
+  }, [])
 
   useEffect(() => {
     const el = gridScrollRef.current
@@ -482,7 +411,10 @@ function ActivitiesList({ route, categoryId }) {
 
       <main className="relative z-10 flex min-h-0 flex-1 flex-col pt-16 lg:pt-20">
         <div className="mx-auto flex min-h-0 w-full max-w-[1440px] flex-1 items-stretch px-4 py-6 sm:px-6 lg:px-10">
-          <div className="hidden min-h-0 shrink-0 self-stretch md:block">
+          <div
+            ref={sidebarWrapRef}
+            className="hidden min-h-0 shrink-0 self-stretch md:block"
+          >
             <ActivitySidebar activeId={categoryId} />
           </div>
 
@@ -577,26 +509,38 @@ function ActivitiesList({ route, categoryId }) {
               </div>
             </div>
 
-            <div className="relative min-h-0 flex-1">
+            <div ref={gridAreaRef} className="relative min-h-0 flex-1">
               <div
-                ref={gridScrollRef}
-                className="h-full overflow-y-auto overscroll-contain pr-1 pb-3 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+                className="absolute inset-y-0 flex flex-col"
+                style={{
+                  left: -scrollBleed.left,
+                  width: `calc(100% + ${scrollBleed.left + scrollBleed.right}px)`,
+                }}
               >
-                {listItems.length === 0 ? (
-                  <p className="font-body text-sm text-gray-500">
-                    Chưa có nội dung trong mục này.
-                  </p>
-                ) : (
-                  <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-5 xl:gap-6">
-                    {listItems.map(item => (
-                      <ActivityCard key={item.id} item={item} />
-                    ))}
-                  </div>
-                )}
-              </div>
+                <div
+                  ref={gridScrollRef}
+                  className="h-full overflow-y-auto overscroll-contain pb-3 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+                  style={{
+                    paddingLeft: scrollBleed.left || undefined,
+                    paddingRight: scrollBleed.right || undefined,
+                  }}
+                >
+                  {listItems.length === 0 ? (
+                    <p className="font-body text-sm text-gray-500">
+                      Chưa có nội dung trong mục này.
+                    </p>
+                  ) : (
+                    <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-5 xl:gap-6">
+                      {listItems.map(item => (
+                        <ActivityCard key={item.id} item={item} />
+                      ))}
+                    </div>
+                  )}
+                </div>
 
-              <GridEdgeBlur edge="top" show={showTopFade} />
-              <GridEdgeBlur edge="bottom" show={showBottomFade} />
+                <GridEdgeBlur edge="top" show={showTopFade} />
+                <GridEdgeBlur edge="bottom" show={showBottomFade} />
+              </div>
             </div>
           </div>
         </div>
