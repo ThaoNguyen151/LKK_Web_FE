@@ -378,9 +378,9 @@ export function ActivityDetail({ itemId, categoryId, sidebar }) {
   }
   if (!item) {
     return (
-      <PageShell className="relative h-dvh overflow-hidden">
+      <PageShell className="relative flex h-dvh flex-col overflow-hidden">
         <Header variant="fixed" />
-        <main className="relative z-10 flex h-dvh flex-col items-center justify-center pt-16 lg:pt-20">
+        <main className="relative z-10 flex min-h-0 flex-1 flex-col items-center justify-center pt-16 lg:pt-20">
           <p className="font-body text-sm text-gray-500">
             Không tìm thấy nội dung.
           </p>
@@ -396,7 +396,7 @@ export function ActivityDetail({ itemId, categoryId, sidebar }) {
   }
 
   return (
-    <PageShell className="relative h-dvh overflow-hidden">
+    <PageShell className="relative flex h-dvh flex-col overflow-hidden">
       <Header variant="fixed" />
 
       <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
@@ -420,10 +420,12 @@ export function ActivityDetail({ itemId, categoryId, sidebar }) {
         />
       </div>
 
-      <main className="relative z-10 flex h-dvh flex-col pt-16 lg:pt-20">
-        <div className="mx-auto flex min-h-0 w-full max-w-[1440px] flex-1 px-4 py-6 sm:px-6 lg:px-10 lg:py-6">
+      <main className="relative z-10 flex min-h-0 flex-1 flex-col pt-16 lg:pt-20">
+        <div className="mx-auto flex min-h-0 w-full max-w-[1440px] flex-1 items-stretch px-4 py-6 sm:px-6 lg:px-10">
           {sidebar ? (
-            <div className="hidden shrink-0 self-start md:block">{sidebar}</div>
+            <div className="hidden min-h-0 shrink-0 self-stretch md:block">
+              {sidebar}
+            </div>
           ) : null}
 
           <div className="flex min-h-0 min-w-0 flex-1 flex-col pl-4 sm:pl-6 lg:pl-8">
@@ -434,7 +436,7 @@ export function ActivityDetail({ itemId, categoryId, sidebar }) {
               onTabChange={onTabChange}
             />
 
-            <div className="min-h-0 flex-1 overflow-y-auto hide-scrollbar pb-8">
+            <div className="min-h-0 flex-1 overflow-y-auto hide-scrollbar pb-6">
               {activeTab === 'info' ? <InfoPanel item={item} /> : null}
               {activeTab === 'images' ? <ImagesPanel item={item} /> : null}
               {activeTab === 'video' ? (
