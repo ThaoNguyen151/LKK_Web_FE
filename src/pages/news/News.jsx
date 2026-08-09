@@ -305,7 +305,7 @@ export function News() {
           {/* Banner + cards: cards đè nửa lên khối tím */}
           <div className="relative">
             <div className="relative overflow-hidden rounded-[1.75rem] bg-brand-home1 px-5 pb-28 pt-5 shadow-md sm:rounded-[2rem] sm:px-8 sm:pb-36 sm:pt-6 lg:rounded-[2.5rem] lg:px-10 lg:pb-40 lg:pt-5">
-              <p className="absolute left-8 top-5 font-body leading-tight text-[10px] text-white/50 sm:left-12 sm:top-6 sm:text-xs lg:left-25 lg:top-11">
+              <p className="absolute left-8 top-5 font-body leading-tight text-[8px] text-white/50 sm:left-12 sm:top-6 sm:text-[11px] lg:left-25 lg:top-11">
                 <a
                   href={`#${ROUTES.HOME}`}
                   className="text-white hover:underline"
