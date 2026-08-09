@@ -141,7 +141,7 @@ function ActivitySidebar({ activeId, orientation = 'vertical' }) {
       className={cn(
         isHorizontal
           ? 'flex gap-2 overflow-x-auto pb-0'
-          : 'flex w-[7.5rem] shrink-0 flex-col items-stretch gap-4 rounded-l-[2.5rem] bg-brand-home1 px-2.5 py-3 shadow-lg sm:w-40 sm:px-3 lg:w-44 lg:py-9.5 xl:w-46'
+          : 'flex h-full w-[7.5rem] shrink-0 flex-col items-stretch justify-between gap-4 rounded-l-[2.5rem] bg-brand-home1 px-2.5 py-8 shadow-lg sm:w-40 sm:px-3 lg:w-44 xl:w-46'
       )}
     >
       {ACTIVITY_CATEGORIES.map(cat => {
@@ -371,7 +371,7 @@ function ActivitiesList({ route, categoryId }) {
   }
 
   return (
-    <PageShell className="relative h-dvh overflow-hidden">
+    <PageShell className="relative flex h-dvh flex-col overflow-hidden">
       <Header variant="fixed" />
 
       <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
@@ -397,9 +397,9 @@ function ActivitiesList({ route, categoryId }) {
 
       <ActivityScrollAside showBackTop={scrolled} onBackTop={scrollToTop} />
 
-      <main className="relative z-10 flex h-dvh flex-col pt-16 lg:pt-20">
-        <div className="mx-auto flex min-h-0 w-full max-w-[1440px] flex-1 px-4 py-6 sm:px-6 lg:px-10 lg:py-6">
-          <div className="hidden shrink-0 self-start md:block">
+      <main className="relative z-10 flex min-h-0 flex-1 flex-col pt-16 lg:pt-20">
+        <div className="mx-auto flex min-h-0 w-full max-w-[1440px] flex-1 items-stretch px-4 py-6 sm:px-6 lg:px-10">
+          <div className="hidden min-h-0 shrink-0 self-stretch md:block">
             <ActivitySidebar activeId={categoryId} />
           </div>
 
