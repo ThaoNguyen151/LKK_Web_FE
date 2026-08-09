@@ -318,7 +318,7 @@ export function AwardDetailTemplate({ year, award }) {
       </div>
 
       {/* Desktop: 2 cột — năm trái ngoài cùng | phần còn lại */}
-      <div className="relative z-10 mx-auto grid h-full min-h-0 w-full max-w-[1400px] grid-cols-1 px-4 py-3 sm:px-6 lg:grid-cols-[5.5rem_1fr] lg:gap-12 lg:px-10 lg:py-5 xl:px-14">
+      <div className="relative z-10 mx-auto grid h-full min-h-0 w-full max-w-[1400px] grid-cols-1 px-4 py-3 sm:px-6 lg:grid-cols-[5.5rem_1fr] lg:gap-12 lg:px-10 lg:py-6 xl:px-14">
         <AwardYearSidebar
           activeYear={year}
           orientation="vertical"
@@ -334,7 +334,7 @@ export function AwardDetailTemplate({ year, award }) {
               aria-hidden
             />
             <div className="absolute inset-0 z-10 mt-3 flex flex-col justify-start px-10 py-2 sm:px-6 lg:px-7">
-              <p className="mb-3 font-body text-[8px] leading-tight text-white/70 sm:text-[11px]">
+              <p className="mb-3 font-body text-[8px] leading-tight text-white/50 sm:text-[11px]">
                 <a
                   href={`#${ROUTES.HOME}`}
                   className="font-semibold text-white hover:underline"
@@ -344,7 +344,10 @@ export function AwardDetailTemplate({ year, award }) {
                 <span className="mx-1">/</span>
                 <span>Giải Thưởng</span>
               </p>
-              <h1 className="font-display text-2xl italic tracking-wide text-white sm:text-3xl lg:text-5xl">
+              <h1
+                className="font-display text-2xl italic tracking-wide text-white sm:text-3xl lg:text-5xl"
+                style={{ WebkitTextStroke: '0.2px white' }}
+              >
                 GIẢI THƯỞNG
               </h1>
             </div>
