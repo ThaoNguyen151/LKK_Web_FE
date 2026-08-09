@@ -1,4 +1,4 @@
-﻿import { useEffect, useRef, useState } from 'react'
+﻿import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import rectLeft from '@assets/Rectangle-2.png'
 import rectRight from '@assets/Rectangle-1.png'
 import rectBottom from '@assets/Rectangle.png'
@@ -18,6 +18,97 @@ import { ActivityDetail } from './ActivityDetail'
 
 const SCROLL_TOP_THRESHOLD = 120
 const SCROLL_BOTTOM_OFFSET = 48
+const GRID_EDGE_BLUR_TOP = 'h-10'
+const GRID_EDGE_BLUR_BOTTOM = 'h-20'
+
+/**
+ * Nền trang + chấm trang trí (left / right / bottom).
+ * @param {object} props
+ * @param {string} [props.className]
+ * @param {import('react').CSSProperties} [props.style]
+ */
+function ActivitiesBackdrop({ className, style }) {
+  return (
+    <div
+      className={cn('overflow-hidden bg-brand-soft', className)}
+      style={style}
+    >
+      <img
+        src={rectLeft}
+        alt=""
+        className="absolute left-0 top-[20%] h-full w-[min(40vw,420px)] opacity-70"
+        aria-hidden
+      />
+      <img
+        src={rectRight}
+        alt=""
+        className="absolute bottom-[10%] right-0 w-[min(35vw,380px)] opacity-70"
+        aria-hidden
+      />
+      <img
+        src={rectBottom}
+        alt=""
+        className="absolute bottom-0 left-1/2 w-[600px] -translate-x-[70%]"
+        aria-hidden
+      />
+    </div>
+  )
+}
+
+/**
+ * Blur mép lưới: clone nền (có chấm) khớp viewport rồi blur + mask.
+ * @param {object} props
+ * @param {'top' | 'bottom'} props.edge
+ * @param {boolean} props.show
+ */
+function GridEdgeBlur({ edge, show }) {
+  const stripRef = useRef(/** @type {HTMLDivElement | null} */ (null))
+  const [origin, setOrigin] = useState({ top: 0, left: 0 })
+
+  useLayoutEffect(() => {
+    const update = () => {
+      const rect = stripRef.current?.getBoundingClientRect()
+      if (!rect) return
+      setOrigin({ top: rect.top, left: rect.left })
+    }
+
+    update()
+    window.addEventListener('resize', update)
+    return () => window.removeEventListener('resize', update)
+  }, [show, edge])
+
+  const isTop = edge === 'top'
+  const mask = isTop
+    ? 'linear-gradient(to bottom, #000 0%, #000 40%, transparent 100%)'
+    : 'linear-gradient(to top, #000 0%, #000 40%, transparent 100%)'
+
+  return (
+    <div
+      ref={stripRef}
+      className={cn(
+        'pointer-events-none absolute inset-x-0 z-10 overflow-hidden transition-opacity duration-300',
+        isTop ? GRID_EDGE_BLUR_TOP : GRID_EDGE_BLUR_BOTTOM,
+        isTop ? 'top-0' : '-bottom-6',
+        show ? 'opacity-100' : 'opacity-0'
+      )}
+      style={{
+        WebkitMaskImage: mask,
+        maskImage: mask,
+      }}
+      aria-hidden
+    >
+      <ActivitiesBackdrop
+        className={cn('absolute', isTop ? 'blur-[12px]' : 'blur-[9px]')}
+        style={{
+          top: -origin.top,
+          left: -origin.left,
+          width: '100vw',
+          height: '100dvh',
+        }}
+      />
+    </div>
+  )
+}
 
 /**
  * @param {object} props
@@ -141,7 +232,7 @@ function ActivitySidebar({ activeId, orientation = 'vertical' }) {
       className={cn(
         isHorizontal
           ? 'flex gap-2 overflow-x-auto pb-0'
-          : 'flex h-full w-[7.5rem] shrink-0 flex-col items-stretch justify-between gap-4 rounded-l-[2.5rem] bg-brand-home1 px-2.5 py-8 shadow-lg sm:w-40 sm:px-3 lg:w-44 xl:w-46'
+          : 'flex h-full w-[7.5rem] shrink-0 flex-col items-stretch justify-between gap-0 rounded-l-[2.5rem] bg-brand-home1 px-2.5 py-6 shadow-lg sm:w-40 sm:px-3 lg:w-44 xl:w-46'
       )}
     >
       {ACTIVITY_CATEGORIES.map(cat => {
@@ -183,22 +274,24 @@ function ActivitySidebar({ activeId, orientation = 'vertical' }) {
             key={cat.id}
             href={`#${activityCategoryPath(cat.id)}`}
             aria-current={active ? 'page' : undefined}
-            className="group relative flex flex-col items-center px-1 pt-8 pb-1 text-center"
+            className="group relative flex min-h-0 flex-1 flex-col items-center justify-center px-1 pt-7 pb-1 text-center"
           >
-            <div
-              className={cn(
-                'relative flex min-h-[4.75rem] w-full flex-col items-center justify-end rounded-tl-3xl rounded-br-3xl rounded-tr-none rounded-bl-none px-3 pb-4 pt-10 transition-colors',
-                active
-                  ? 'bg-white/20 backdrop-blur-sm'
-                  : 'bg-transparent group-hover:bg-white/10'
-              )}
-            >
+            <div className="relative flex h-[4.75rem] w-full flex-col items-center justify-end px-3 pb-3 pt-8">
+              <span
+                aria-hidden
+                className={cn(
+                  'pointer-events-none absolute inset-x-0 top-0 h-[4.75rem] rounded-tl-3xl rounded-br-3xl rounded-tr-none rounded-bl-none transition-all duration-200',
+                  active
+                    ? 'translate-y-2 bg-white/20 backdrop-blur-sm'
+                    : 'translate-y-0 bg-transparent'
+                )}
+              />
               <span
                 className={cn(
-                  'absolute left-1/2 top-0 flex h-14 w-14 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-tl-[1.25rem] rounded-br-[1.25rem] rounded-tr-none rounded-bl-none transition-all sm:h-16 sm:w-16',
+                  'absolute left-1/2 top-0 z-10 flex h-14 w-14 -translate-x-1/2 items-center justify-center rounded-tl-[1.25rem] rounded-br-[1.25rem] rounded-tr-none rounded-bl-none transition-all duration-200 sm:h-16 sm:w-16',
                   active
-                    ? 'bg-brand-orange shadow-[0_6px_18px_rgba(255,172,63,0.35)]'
-                    : 'bg-transparent'
+                    ? '-translate-y-2/5 bg-brand-orange'
+                    : '-translate-y-1/4 opacity-50 group-hover:-translate-y-[18%] group-hover:opacity-100'
                 )}
               >
                 <img
@@ -208,7 +301,14 @@ function ActivitySidebar({ activeId, orientation = 'vertical' }) {
                   aria-hidden
                 />
               </span>
-              <span className="font-body text-[10px] font-semibold uppercase leading-tight tracking-wide text-white sm:text-[11px] lg:text-xs">
+              <span
+                className={cn(
+                  'relative z-10 font-body text-[10px] uppercase leading-none tracking-wide transition-[color,opacity,font-weight] duration-200 sm:text-[11px] lg:text-xs',
+                  active
+                    ? 'font-semibold text-white'
+                    : 'font-light text-white/50 group-hover:font-normal group-hover:text-white'
+                )}
+              >
                 {cat.label}
               </span>
             </div>
@@ -319,6 +419,7 @@ function ActivitiesList({ route, categoryId }) {
   const [query, setQuery] = useState('')
   const [sort, setSort] = useState(/** @type {'desc' | 'asc'} */ ('desc'))
   const [scrolled, setScrolled] = useState(false)
+  const [showTopFade, setShowTopFade] = useState(false)
   const [showBottomFade, setShowBottomFade] = useState(true)
   const gridScrollRef = useRef(/** @type {HTMLDivElement | null} */ (null))
 
@@ -341,6 +442,7 @@ function ActivitiesList({ route, categoryId }) {
     const updateScrollState = () => {
       const maxScroll = el.scrollHeight - el.clientHeight
       setScrolled(el.scrollTop > SCROLL_TOP_THRESHOLD)
+      setShowTopFade(el.scrollTop > 8)
       setShowBottomFade(
         maxScroll > 0 && el.scrollTop < maxScroll - SCROLL_BOTTOM_OFFSET
       )
@@ -374,26 +476,7 @@ function ActivitiesList({ route, categoryId }) {
     <PageShell className="relative flex h-dvh flex-col overflow-hidden">
       <Header variant="fixed" />
 
-      <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
-        <img
-          src={rectLeft}
-          alt=""
-          className="absolute left-0 top-[20%] h-full w-[min(40vw,420px)] opacity-70"
-          aria-hidden
-        />
-        <img
-          src={rectRight}
-          alt=""
-          className="absolute bottom-[10%] right-0 w-[min(35vw,380px)] opacity-70"
-          aria-hidden
-        />
-        <img
-          src={rectBottom}
-          alt=""
-          className="absolute bottom-0 left-1/2 w-[600px] -translate-x-[70%]"
-          aria-hidden
-        />
-      </div>
+      <ActivitiesBackdrop className="pointer-events-none fixed inset-0 z-0" />
 
       <ActivityScrollAside showBackTop={scrolled} onBackTop={scrollToTop} />
 
@@ -512,13 +595,8 @@ function ActivitiesList({ route, categoryId }) {
                 )}
               </div>
 
-              <div
-                className={cn(
-                  'pointer-events-none absolute inset-x-0 bottom-0 z-10 h-10 bg-gradient-to-t from-brand-soft via-brand-soft/70 to-transparent transition-opacity duration-300',
-                  showBottomFade ? 'opacity-100' : 'opacity-0'
-                )}
-                aria-hidden
-              />
+              <GridEdgeBlur edge="top" show={showTopFade} />
+              <GridEdgeBlur edge="bottom" show={showBottomFade} />
             </div>
           </div>
         </div>
