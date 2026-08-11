@@ -34,7 +34,7 @@ export function AwardYearSidebar({
             href={`#${awardYearPath(year)}`}
             aria-current={isActive ? 'page' : undefined}
             className={cn(
-              'shrink-0 rounded-full px-4 py-1.5 text-center font-body text-sm font-semibold tracking-wide transition-all duration-200',
+              'shrink-0 rounded-full px-0 py-1.5 text-center font-body text-sm font-semibold tracking-wide transition-all duration-200',
               isActive
                 ? cn(
                     'border-2 border-white bg-white/45 text-brand-home1 backdrop-blur-md',

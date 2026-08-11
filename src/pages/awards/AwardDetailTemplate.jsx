@@ -318,7 +318,7 @@ export function AwardDetailTemplate({ year, award }) {
       </div>
 
       {/* Desktop: 2 cột — năm trái ngoài cùng | phần còn lại */}
-      <div className="relative z-10 mx-auto grid h-full min-h-0 w-full max-w-[1400px] grid-cols-1 px-4 py-3 sm:px-6 lg:grid-cols-[5.5rem_1fr] lg:gap-12 lg:px-10 lg:py-6 xl:px-14">
+      <div className="relative z-10 mx-auto grid h-full min-h-0 w-full max-w-[1440px] grid-cols-1 px-4 py-3 sm:px-6 lg:grid-cols-[5.5rem_1fr] lg:gap-12 lg:px-10 lg:py-6 xl:px-10">
         <AwardYearSidebar
           activeYear={year}
           orientation="vertical"

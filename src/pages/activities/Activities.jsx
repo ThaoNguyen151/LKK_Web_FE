@@ -3,6 +3,7 @@ import rectLeft from '@assets/Rectangle-2.png'
 import rectRight from '@assets/Rectangle-1.png'
 import rectBottom from '@assets/Rectangle.png'
 import { Header } from '@components/common'
+import { BackToTopButton, SearchButton, SortButton } from '@components/icon'
 import { PageShell } from '@layouts'
 import { ROUTES, cn } from '@utils'
 import {
@@ -17,8 +18,8 @@ import { ActivityDetail } from './ActivityDetail'
 
 const SCROLL_TOP_THRESHOLD = 120
 const SCROLL_BOTTOM_OFFSET = 48
-const GRID_EDGE_BLUR_TOP = 'h-10'
-const GRID_EDGE_BLUR_BOTTOM = 'h-20'
+const GRID_EDGE_BLUR_TOP = 'h-8'
+const GRID_EDGE_BLUR_BOTTOM = 'h-13'
 
 /**
  * Nền trang + chấm trang trí (left / right / bottom).
@@ -78,14 +79,14 @@ function GridEdgeBlur({ edge, show }) {
 
   const isTop = edge === 'top'
   const mask = isTop
-    ? 'linear-gradient(to bottom, #000 0%, #000 40%, transparent 100%)'
-    : 'linear-gradient(to top, #000 0%, #000 40%, transparent 100%)'
+    ? 'linear-gradient(to bottom, #000 0%, #000 50%, transparent 100%)'
+    : 'linear-gradient(to top, #000 0%, #000 50%, transparent 100%)'
 
   return (
     <div
       ref={stripRef}
       className={cn(
-        'pointer-events-none absolute inset-x-0 z-10 overflow-hidden transition-opacity duration-300',
+        'pointer-events-none absolute inset-x-0 z-10 overflow-hidden transition-opacity duration-0',
         isTop ? GRID_EDGE_BLUR_TOP : GRID_EDGE_BLUR_BOTTOM,
         isTop ? 'top-0' : '-bottom-6',
         show ? 'opacity-100' : 'opacity-0'
@@ -111,92 +112,17 @@ function GridEdgeBlur({ edge, show }) {
 
 /**
  * @param {object} props
- * @param {string} [props.className]
- */
-function SearchIcon({ className }) {
-  return (
-    <svg
-      className={className}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      aria-hidden
-    >
-      <circle cx="11" cy="11" r="7" />
-      <path d="M20 20l-3.5-3.5" strokeLinecap="round" />
-    </svg>
-  )
-}
-
-/**
- * @param {object} props
- * @param {string} [props.className]
- */
-function SortIcon({ className }) {
-  return (
-    <svg
-      className={className}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      aria-hidden
-    >
-      <path
-        d="M8 6v12M8 6l-3 3M8 6l3 3"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M16 18V6M16 18l-3-3M16 18l3-3"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  )
-}
-
-/**
- * @param {object} props
- * @param {string} [props.className]
- */
-function ChevronUpIcon({ className }) {
-  return (
-    <svg
-      className={className}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2.25"
-      aria-hidden
-    >
-      <path d="M6 14l6-6 6 6" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  )
-}
-
-/**
- * @param {object} props
  * @param {boolean} props.showBackTop
  * @param {() => void} props.onBackTop
  */
 function ActivityScrollAside({ showBackTop, onBackTop }) {
   return (
-    <button
-      type="button"
-      aria-label="Lên đầu danh sách"
-      tabIndex={showBackTop ? 0 : -1}
+    <BackToTopButton
+      show={showBackTop}
       onClick={onBackTop}
-      className={cn(
-        'fixed bottom-6 right-4 z-30 flex h-11 w-11 items-center justify-center rounded-full bg-white text-brand-home1 shadow-[0_0_10px_5px_rgba(90,59,196,0.1),0_12px_48px_rgba(90,59,196,0.45)] transition-all duration-300 hover:bg-brand-home1 hover:text-white sm:bottom-8 sm:right-5 lg:bottom-10 lg:right-6 lg:h-12 lg:w-12',
-        showBackTop
-          ? 'translate-y-0 opacity-100'
-          : 'pointer-events-none translate-y-3 opacity-0'
-      )}
-    >
-      <ChevronUpIcon className="h-5 w-5" />
-    </button>
+      label="Lên đầu danh sách"
+      className="lg:right-[20px]"
+    />
   )
 }
 
@@ -313,7 +239,9 @@ function ActivitiesList({ route, categoryId }) {
     /** @type {Record<string, string>} */ ({})
   )
   const [query, setQuery] = useState('')
-  const [sort, setSort] = useState(/** @type {'desc' | 'asc'} */ ('desc'))
+  const [sort, setSort] = useState(
+    /** @type {'desc' | 'asc' | 'az' | 'za'} */ ('desc')
+  )
   const [scrolled, setScrolled] = useState(false)
   const [showTopFade, setShowTopFade] = useState(false)
   const [showBottomFade, setShowBottomFade] = useState(true)
@@ -436,7 +364,7 @@ function ActivitiesList({ route, categoryId }) {
               </span>
             </p>
 
-            <div className="mb-6 flex shrink-0 flex-col gap-4 lg:mb-8 lg:flex-row lg:items-center lg:justify-between">
+            <div className="mb-6 flex shrink-0 flex-col gap-4 lg:mb-2 lg:flex-row lg:items-center lg:justify-between">
               <div className="flex min-w-0 flex-col gap-3 sm:flex-row sm:items-center sm:gap-5">
                 <h1
                   className="shrink-0 font-display text-3xl italic tracking-wide text-brand-home1 sm:text-4xl lg:text-5xl"
@@ -445,7 +373,13 @@ function ActivitiesList({ route, categoryId }) {
                   {category.label}
                 </h1>
 
-                <div className="hidden h-8 w-px shrink-0 self-center bg-brand-home1/25 sm:block" />
+                <div
+                  className="hidden h-12 w-px shrink-0 self-center bg-brand-home1/25 sm:block mr-5 ml-6"
+                  style={{
+                    background:
+                      'linear-gradient(to bottom, transparent, rgb(90, 59, 196), transparent)',
+                  }}
+                />
 
                 <div className="flex min-w-0 flex-wrap items-center gap-x-4 gap-y-2 sm:gap-x-10">
                   {category.tabs.map(tab => {
@@ -470,42 +404,17 @@ function ActivitiesList({ route, categoryId }) {
               </div>
 
               <div className="relative z-20 flex shrink-0 items-center gap-2 sm:gap-3">
-                <div className="group relative">
-                  <button
-                    type="button"
-                    aria-label="Tìm kiếm"
-                    className="flex h-9 w-9 items-center justify-center rounded-full text-brand-home1 transition-colors group-hover:bg-brand-home1/10 group-focus-within:bg-brand-home1/10"
-                  >
-                    <SearchIcon className="h-5 w-5" />
-                  </button>
+                <SearchButton
+                  variant="activities"
+                  value={query}
+                  onChange={setQuery}
+                />
 
-                  <div className="invisible absolute right-0 top-full z-30 mt-1 min-w-[14rem] translate-y-1 opacity-0 transition-all duration-200 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100 sm:min-w-[16rem]">
-                    <div className="flex items-center overflow-hidden rounded-full border border-brand-home1/25 bg-white shadow-[0_12px_35px_rgba(90,59,196,0.18)]">
-                      <input
-                        type="search"
-                        value={query}
-                        onChange={event => setQuery(event.target.value)}
-                        placeholder="Tìm kiếm…"
-                        className="w-full bg-transparent px-4 py-2.5 font-body text-sm text-brand-home1 outline-none placeholder:text-gray-400"
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                <button
-                  type="button"
-                  aria-label={
-                    sort === 'desc'
-                      ? 'Sắp xếp năm tăng dần'
-                      : 'Sắp xếp năm giảm dần'
-                  }
-                  onClick={() =>
-                    setSort(value => (value === 'desc' ? 'asc' : 'desc'))
-                  }
-                  className="flex h-9 w-9 items-center justify-center rounded-full text-brand-home1 transition-colors hover:bg-brand-home1/10"
-                >
-                  <SortIcon className="h-5 w-5" />
-                </button>
+                <SortButton
+                  variant="activities"
+                  value={sort}
+                  onChange={setSort}
+                />
               </div>
             </div>
 
@@ -519,7 +428,7 @@ function ActivitiesList({ route, categoryId }) {
               >
                 <div
                   ref={gridScrollRef}
-                  className="h-full overflow-y-auto overscroll-contain pb-3 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+                  className="h-full overflow-y-auto overscroll-contain pb-3 pt-6 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
                   style={{
                     paddingLeft: scrollBleed.left || undefined,
                     paddingRight: scrollBleed.right || undefined,

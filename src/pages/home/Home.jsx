@@ -8,10 +8,10 @@ import imageCupLHP from '@assets/images/cup/LHP.png'
 import { Header, AwardBlock } from '@components/common'
 import { useBreakpoint } from '@hooks'
 import { ScaledCanvas } from '@layouts'
-import { HomeResponsive } from './home/HomeResponsive'
-import { HomeSectionDots } from './home/HomeSectionDots'
-import { MaiVangAward, HtvAward } from './home/awards'
-import { awardYearPath } from './awards/awardsData'
+import { HomeResponsive } from './HomeResponsive'
+import { HomeSectionDots } from './HomeSectionDots'
+import { MaiVangAward, HtvAward } from './awards'
+import { awardYearPath } from '../awards/awardsData'
 import imageTextHome1 from '@assets/images/le-khanh.png'
 import rectLeft from '@assets/Rectangle-2.png'
 import rectRight from '@assets/Rectangle-1.png'
@@ -609,16 +609,16 @@ function HomeDesktop() {
                             {page.name}
                           </h3>
 
-                          <span className="mt-1 inline-flex items-center gap-2 font-body text-[10px] font-medium uppercase tracking-wide leading-none text-gray-500">
-                            <span className="flex items-center mt-0.5">
+                          <span className="mt-1 inline-flex items-center gap-2 font-body text-[11px] font-medium uppercase tracking-wide leading-none text-gray-500">
+                            <span className="flex items-center mt-0.3">
                               Theo dõi
                             </span>
 
-                            <span aria-hidden className="flex items-center">
+                            <span aria-hidden className="flex items-start">
                               <img
                                 src={warrow}
                                 alt=""
-                                className="h-3 w-4 brightness-0 opacity-50"
+                                className="h-3 w-3 brightness-0 opacity-50"
                               />
                             </span>
                           </span>

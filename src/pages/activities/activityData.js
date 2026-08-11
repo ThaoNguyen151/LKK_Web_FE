@@ -686,7 +686,7 @@ export function parseActivityCategory(route) {
  * @param {string} opts.categoryId
  * @param {string} opts.tabId
  * @param {string} [opts.query]
- * @param {'desc' | 'asc'} [opts.sort]
+ * @param {'desc' | 'asc' | 'az' | 'za'} [opts.sort]
  */
 export function getActivityItems({
   categoryId,
@@ -709,6 +709,10 @@ export function getActivityItems({
   }
 
   list = [...list].sort((a, b) => {
+    if (sort === 'az' || sort === 'za') {
+      const cmp = a.title.localeCompare(b.title, 'vi', { sensitivity: 'base' })
+      return sort === 'az' ? cmp : -cmp
+    }
     const ya = Number(a.year) || 0
     const yb = Number(b.year) || 0
     return sort === 'asc' ? ya - yb : yb - ya

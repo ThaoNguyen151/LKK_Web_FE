@@ -3,31 +3,17 @@ import rectLeft from '@assets/Rectangle-2.png'
 import rectRight from '@assets/Rectangle-1.png'
 import rectBottom from '@assets/Rectangle.png'
 import { Header } from '@components/common'
+import {
+  BackToTopButton,
+  CloseButton,
+  NavChevronButton,
+} from '@components/icon'
 import { PageShell } from '@layouts'
 import { ROUTES, cn } from '@utils'
 import { fetchLibraryImages } from './libraryData'
 
 const SCROLL_TOP_THRESHOLD = 120
 const SCROLL_BOTTOM_OFFSET = 48
-
-/**
- * @param {object} props
- * @param {string} [props.className]
- */
-function ChevronUpIcon({ className }) {
-  return (
-    <svg
-      className={className}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2.25"
-      aria-hidden
-    >
-      <path d="M6 14l6-6 6 6" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  )
-}
 
 /**
  * @param {object} props
@@ -51,20 +37,7 @@ function LibraryScrollAside({ showHint, showBackTop, onBackTop }) {
         <span className="mt-12 h-20 w-px bg-brand-home1/35 lg:mt-14 lg:h-24" />
       </div>
 
-      <button
-        type="button"
-        aria-label="Lên đầu trang"
-        tabIndex={showBackTop ? 0 : -1}
-        onClick={onBackTop}
-        className={cn(
-          'fixed bottom-6 right-4 z-30 flex h-11 w-11 items-center justify-center rounded-full bg-white text-brand-home1 shadow-[0_0_10px_5px_rgba(90,59,196,0.1),0_12px_48px_rgba(90,59,196,0.45)] transition-all duration-300 hover:bg-brand-home1 hover:text-white sm:bottom-8 sm:right-5 lg:bottom-10 lg:right-7 lg:h-12 lg:w-12',
-          showBackTop
-            ? 'translate-y-0 opacity-100'
-            : 'pointer-events-none translate-y-3 opacity-0'
-        )}
-      >
-        <ChevronUpIcon className="h-5 w-5" />
-      </button>
+      <BackToTopButton show={showBackTop} onClick={onBackTop} />
     </>
   )
 }
@@ -137,41 +110,33 @@ function LibraryLightbox({
       aria-label={item.alt || 'Xem ảnh'}
       onClick={onClose}
     >
-      <button
-        type="button"
-        aria-label="Đóng"
+      <CloseButton
         onClick={onClose}
-        className="absolute right-4 top-4 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white/90 font-body text-xl text-brand-home1 shadow-md transition-colors hover:bg-white sm:right-6 sm:top-6"
-      >
-        ×
-      </button>
+        className="absolute right-4 top-4 z-10 sm:right-20 sm:top-6"
+      />
 
       {hasPrev ? (
-        <button
-          type="button"
-          aria-label="Ảnh trước"
+        <NavChevronButton
+          direction="prev"
+          label="Ảnh trước"
           onClick={event => {
             event.stopPropagation()
             onPrev?.()
           }}
-          className="absolute left-3 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white/90 font-body text-2xl text-brand-home1 shadow-md transition-colors hover:bg-white sm:left-6"
-        >
-          ‹
-        </button>
+          className="absolute left-3 z-10 sm:left-6"
+        />
       ) : null}
 
       {hasNext ? (
-        <button
-          type="button"
-          aria-label="Ảnh sau"
+        <NavChevronButton
+          direction="next"
+          label="Ảnh sau"
           onClick={event => {
             event.stopPropagation()
             onNext?.()
           }}
-          className="absolute right-3 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white/90 font-body text-2xl text-brand-home1 shadow-md transition-colors hover:bg-white sm:right-6"
-        >
-          ›
-        </button>
+          className="absolute right-3 z-10 sm:right-6"
+        />
       ) : null}
 
       <div

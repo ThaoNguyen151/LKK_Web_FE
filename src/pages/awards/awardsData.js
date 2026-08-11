@@ -65,7 +65,7 @@ export const AWARD_TITLE_STYLES = {
     title:
       'whitespace-nowrap font-body text-sm font-medium leading-none tracking-wide text-brand-orange sm:text-base lg:text-lg xl:text-xl',
     subtitle:
-      'mt-3 whitespace-nowrap font-body text-xl font-extrabold leading-none text-brand-orange sm:mt-4 sm:text-3xl md:text-4xl lg:mt-5 lg:text-5xl xl:text-3xl',
+      'mt-3 whitespace-nowrap font-body text-xl font-extrabold leading-none text-brand-orange sm:mt-4 sm:text-3xl md:text-4xl lg:mt-4 lg:text-5xl xl:text-3xl',
   },
   /** Title đậm + to, subtitle nhạt + nhỏ */
   'title-emphasis': {
