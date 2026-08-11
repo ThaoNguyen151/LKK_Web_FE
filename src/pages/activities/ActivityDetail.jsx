@@ -3,6 +3,7 @@ import rectLeft from '@assets/Rectangle-2.png'
 import rectRight from '@assets/Rectangle-1.png'
 import rectBottom from '@assets/Rectangle.png'
 import { Header } from '@components/common'
+import { SearchIcon, SortButton } from '@components/icon'
 import { PageShell } from '@layouts'
 import { ROUTES, cn } from '@utils'
 import {
@@ -16,54 +17,6 @@ const DETAIL_TAB_LABELS = {
   info: 'Thông tin',
   images: 'Hình ảnh',
   video: 'Video',
-}
-
-/**
- * @param {object} props
- * @param {string} [props.className]
- */
-function SearchIcon({ className }) {
-  return (
-    <svg
-      className={className}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      aria-hidden
-    >
-      <circle cx="11" cy="11" r="7" />
-      <path d="M20 20l-3.5-3.5" strokeLinecap="round" />
-    </svg>
-  )
-}
-
-/**
- * @param {object} props
- * @param {string} [props.className]
- */
-function SortIcon({ className }) {
-  return (
-    <svg
-      className={className}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      aria-hidden
-    >
-      <path
-        d="M8 6v12M8 6l-3 3M8 6l3 3"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M16 18V6M16 18l-3-3M16 18l3-3"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  )
 }
 
 /**
@@ -285,7 +238,7 @@ function VideoPanel({ item }) {
           )}
 
           <div className="flex items-center gap-2">
-            <div className="flex items-center overflow-hidden rounded-full border border-brand-home1/20 bg-white">
+            <div className="flex items-center overflow-hidden rounded-full border border-brand-home1/20 bg-white pl-1">
               <input
                 type="search"
                 value={query}
@@ -293,18 +246,21 @@ function VideoPanel({ item }) {
                 placeholder="Tìm…"
                 className="w-28 bg-transparent px-3 py-1.5 font-body text-sm text-brand-home1 outline-none placeholder:text-gray-400 sm:w-36"
               />
-              <span className="flex h-8 w-8 items-center justify-center text-brand-home1">
-                <SearchIcon className="h-4 w-4" />
+              <span className="flex h-8 w-8 items-center justify-center">
+                <SearchIcon tone="purple" className="h-4 w-4" />
               </span>
             </div>
-            <button
-              type="button"
-              aria-label="Sắp xếp tập"
-              onClick={() => setSortAsc(value => !value)}
-              className="flex h-9 w-9 items-center justify-center rounded-full text-brand-home1 hover:bg-brand-home1/10"
-            >
-              <SortIcon className="h-5 w-5" />
-            </button>
+            <SortButton
+              variant="activities"
+              value={sortAsc ? 'asc' : 'desc'}
+              onChange={next => setSortAsc(next === 'asc')}
+              options={[
+                { value: 'desc', label: 'Mới nhất' },
+                { value: 'asc', label: 'Cũ nhất' },
+              ]}
+              buttonClassName="h-9 w-9"
+              iconClassName="h-5 w-5"
+            />
           </div>
         </div>
 

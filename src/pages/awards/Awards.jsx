@@ -2,13 +2,13 @@ import { useEffect, useRef } from 'react'
 import { Header } from '@components/common'
 import { PageShell } from '@layouts'
 import { ROUTES } from '@utils'
-import { AwardDetailTemplate } from './awards/AwardDetailTemplate'
+import { AwardDetailTemplate } from './AwardDetailTemplate'
 import {
   DEFAULT_AWARD_YEAR,
   YEARS,
   getAwardByYear,
   awardYearPath,
-} from './awards/awardsData'
+} from './awardsData'
 
 const AUTO_YEAR_MS = 4_000
 const WHEEL_COOLDOWN_MS = 400

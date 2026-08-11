@@ -32,10 +32,10 @@ export function HomeSectionDots({ activeIndex, onSelect, className }) {
             aria-current={isActive ? 'true' : undefined}
             onClick={() => onSelect(index)}
             className={cn(
-              'rounded-full transition-all duration-300',
+              'origin-center',
               isActive
-                ? 'h-2 w-2 bg-brand-home1/60 shadow-[0_0_0_4px_rgba(90,59,196,0.2)]'
-                : 'h-2.5 w-2.5 bg-brand-home1/30 hover:bg-brand-home1/60'
+                ? 'w-[2px] h-[50px] bg-brand-home1 scale-y-100'
+                : 'w-[2px] h-[50px] bg-brand-home1/30 hover:bg-brand-home1/60 scale-y-100'
             )}
           />
         )
