@@ -286,7 +286,7 @@ function HomeDesktop() {
 
         <div
           ref={scrollRef}
-          className="relative z-10 h-full snap-y snap-mandatory overflow-y-scroll scroll-smooth bg-transparent"
+          className="relative z-10 h-full snap-y snap-mandatory overflow-y-scroll scroll-smooth bg-transparent hide-scrollbar"
         >
           <Header layout="canvas" />
 
@@ -637,7 +637,10 @@ function HomeDesktop() {
           </section>
         </div>
 
-        <HomeSectionDots activeIndex={activeSection} onSelect={goToSection} />
+        {/* Canh giữa theo vùng nội dung (trừ header h-20), không theo cả viewport */}
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 top-20 z-50">
+          <HomeSectionDots activeIndex={activeSection} onSelect={goToSection} />
+        </div>
       </div>
     </ScaledCanvas>
   )

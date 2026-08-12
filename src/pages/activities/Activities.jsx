@@ -112,17 +112,33 @@ function GridEdgeBlur({ edge, show }) {
 
 /**
  * @param {object} props
+ * @param {boolean} props.showHint
  * @param {boolean} props.showBackTop
  * @param {() => void} props.onBackTop
  */
-function ActivityScrollAside({ showBackTop, onBackTop }) {
+function ActivityScrollAside({ showHint, showBackTop, onBackTop }) {
   return (
-    <BackToTopButton
-      show={showBackTop}
-      onClick={onBackTop}
-      label="Lên đầu danh sách"
-      className="lg:right-[20px]"
-    />
+    <>
+      <div
+        className={cn(
+          'pointer-events-none fixed right-2 top-1/2 z-30 hidden -translate-y-1/2 flex-col items-center transition-opacity duration-300 sm:right-4 sm:flex lg:right-[20px]',
+          showHint ? 'opacity-100' : 'opacity-0'
+        )}
+        aria-hidden={!showHint}
+      >
+        <p className="mt-15 -mr-5 rotate-90 whitespace-nowrap font-body text-[11px] tracking-wide text-brand-home1/50 lg:text-xs">
+          Cuộn để xem
+        </p>
+        <span className="mt-12 -mr-5 h-20 w-px bg-brand-home1/35 lg:mt-14 lg:h-24" />
+      </div>
+
+      <BackToTopButton
+        show={showBackTop}
+        onClick={onBackTop}
+        label="Lên đầu danh sách"
+        className="lg:right-[20px]"
+      />
+    </>
   )
 }
 
@@ -335,7 +351,11 @@ function ActivitiesList({ route, categoryId }) {
 
       <ActivitiesBackdrop className="pointer-events-none fixed inset-0 z-0" />
 
-      <ActivityScrollAside showBackTop={scrolled} onBackTop={scrollToTop} />
+      <ActivityScrollAside
+        showHint={showBottomFade}
+        showBackTop={scrolled}
+        onBackTop={scrollToTop}
+      />
 
       <main className="relative z-10 flex min-h-0 flex-1 flex-col pt-16 lg:pt-20">
         <div className="mx-auto flex min-h-0 w-full max-w-[1440px] flex-1 items-stretch px-4 py-6 sm:px-6 lg:px-10">
@@ -374,7 +394,7 @@ function ActivitiesList({ route, categoryId }) {
                 </h1>
 
                 <div
-                  className="hidden h-12 w-px shrink-0 self-center bg-brand-home1/25 sm:block mr-5 ml-6"
+                  className="hidden h-12 w-px shrink-0 self-center bg-brand-home1/25 sm:block mr-3 ml-4"
                   style={{
                     background:
                       'linear-gradient(to bottom, transparent, rgb(90, 59, 196), transparent)',
