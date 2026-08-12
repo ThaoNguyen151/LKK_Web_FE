@@ -3,6 +3,7 @@ export {
   ToneSwapIcon,
   ICON_ROUND_BUTTON_CLASS,
   ICON_GHOST_BUTTON_CLASS,
+  ICON_PANEL_CLASS,
 } from './ToneSwapIcon'
 export { ArrowIcon } from './ArrowIcon'
 export { ChevronLeftIcon } from './ChevronLeftIcon'

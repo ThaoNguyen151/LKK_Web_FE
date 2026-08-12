@@ -7,6 +7,8 @@ import facebookWhiteIcon from '@assets/images/icon/face_white.png'
 import tiktokWhiteIcon from '@assets/images/icon/tiktok_white.png'
 import instagramWhiteIcon from '@assets/images/icon/instagram_white.png'
 import youtubeWhiteIcon from '@assets/images/icon/youtube_white.png'
+import socialSelfImage from '@assets/images/social/self.png'
+import socialFamilyImage from '@assets/images/social/family.png'
 import { cn, ROUTES } from '@utils'
 import { useEffect, useState } from 'react'
 
@@ -85,19 +87,23 @@ const SOCIAL_LINKS = [
   },
 ]
 
-const LEFT_SOCIAL_DROPDOWNS = [
+/** Dropdown MXH — mỗi nền tảng có N link; 1 link thì dropdown chỉ hiện 1 dòng */
+const SOCIAL_DROPDOWNS = [
   {
     label: 'Facebook',
     icon: facebookIcon,
     iconHover: facebookWhiteIcon,
     accounts: [
       {
-        name: 'Lê Khánh (Diễn viên Lê Khánh)',
+        name: 'Diễn viên Lê Khánh',
         href: 'https://www.facebook.com/DvLeKhanh.Official',
+        avatar: socialSelfImage,
+        avatarClassName: '-translate-x-0.5',
       },
       {
-        name: 'Chuyện Nhà Lê Khánh - Tuấn Khải',
+        name: 'Chuyện nhà Lê Khánh - Tuấn Khải',
         href: 'https://www.facebook.com/profile.php?id=61590618325034&locale=vi_VN',
+        avatar: socialFamilyImage,
       },
     ],
   },
@@ -107,29 +113,42 @@ const LEFT_SOCIAL_DROPDOWNS = [
     iconHover: tiktokWhiteIcon,
     accounts: [
       {
-        name: 'Lê Khánh',
+        name: 'Diễn viên Lê Khánh',
         href: 'https://www.tiktok.com/@dienvienlekhanh',
+        avatar: socialSelfImage,
+        avatarClassName: '-translate-x-0.5',
       },
       {
-        name: 'Chuyện Nhà Lê Khánh - Tuấn Khải',
+        name: 'Chuyện nhà Lê Khánh - Tuấn Khải',
         href: 'https://www.tiktok.com/@chuyennhalekhanhtuankhai',
+        avatar: socialFamilyImage,
       },
     ],
   },
-]
-
-const RIGHT_SOCIAL_LINKS = [
   {
     label: 'YouTube',
     icon: youtubeIcon,
     iconHover: youtubeWhiteIcon,
-    href: 'https://www.youtube.com/@ChuyenNhaLeKhanhTuanKhai',
+    accounts: [
+      {
+        name: 'Chuyện nhà Lê Khánh - Tuấn Khải',
+        href: 'https://www.youtube.com/@ChuyenNhaLeKhanhTuanKhai',
+        avatar: socialFamilyImage,
+      },
+    ],
   },
   {
     label: 'Instagram',
     icon: instagramIcon,
     iconHover: instagramWhiteIcon,
-    href: 'https://www.instagram.com/dienvienlekhanh/',
+    accounts: [
+      {
+        name: 'Diễn viên Lê Khánh',
+        href: 'https://www.instagram.com/dienvienlekhanh/',
+        avatar: socialSelfImage,
+        avatarClassName: '-translate-x-0.5',
+      },
+    ],
   },
 ]
 
@@ -158,86 +177,124 @@ function SocialIcons({ className, iconClassName = 'h-6 w-6' }) {
 }
 
 /**
- * Facebook và TikTok: mỗi icon mở danh sách tài khoản tương ứng.
+ * Icon MXH + dropdown tài khoản (1 link → 1 dòng).
  * @param {object} props
  * @param {string} [props.className]
+ * @param {'left' | 'right'} [props.align]
+ * @param {typeof SOCIAL_DROPDOWNS} [props.items]
  */
-function SocialDropdowns({ className }) {
+function SocialDropdowns({
+  className,
+  align = 'left',
+  items = SOCIAL_DROPDOWNS,
+}) {
+  const [openLabel, setOpenLabel] = useState(
+    /** @type {string | null} */ (null)
+  )
+  const [locked, setLocked] = useState(false)
+
   return (
     <div className={cn('flex items-center gap-1', className)}>
-      {LEFT_SOCIAL_DROPDOWNS.map(social => (
-        <div key={social.label} className="group relative">
-          <button
-            type="button"
-            className="relative flex h-10 w-10 items-center justify-center rounded-full transition-all group-hover:bg-brand-home1 group-hover:shadow-[0_5px_20px_rgba(90,59,196,0.25)] group-focus-within:bg-brand-home1"
-            aria-label={`Mở danh sách ${social.label}`}
-          >
-            <img
-              src={social.icon}
-              alt=""
-              className="h-5 w-5 object-contain transition-opacity group-hover:opacity-0 group-focus-within:opacity-0"
-            />
-            <img
-              src={social.iconHover}
-              alt=""
-              className="absolute h-5 w-5 object-contain opacity-0 transition-opacity group-hover:opacity-100 group-focus-within:opacity-100"
-            />
-          </button>
+      {items.map(social => {
+        const open = openLabel === social.label
 
-          <div className="invisible absolute left-0 top-full z-[60] min-w-52 translate-y-1 pt-2 opacity-0 transition-all duration-200 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100">
-            <div className="rounded-2xl border border-purple-100 bg-white p-2 shadow-[0_12px_35px_rgba(90,59,196,0.2)]">
-              {social.accounts.map(account => (
-                <a
-                  key={account.href}
-                  href={account.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-3 rounded-xl px-3 py-2.5 font-body text-sm font-semibold whitespace-nowrap text-brand-home1 transition-colors hover:bg-purple-50"
-                >
-                  <img
-                    src={social.icon}
-                    alt=""
-                    className="h-5 w-5 shrink-0 object-contain"
-                  />
-                  <span>{account.name}</span>
-                </a>
-              ))}
+        return (
+          <div
+            key={social.label}
+            className="relative"
+            onMouseEnter={() => {
+              if (locked) return
+              setOpenLabel(social.label)
+            }}
+            onMouseLeave={() => {
+              setOpenLabel(null)
+              setLocked(false)
+            }}
+          >
+            <button
+              type="button"
+              aria-label={`Mở danh sách ${social.label}`}
+              aria-haspopup="menu"
+              aria-expanded={open}
+              className={cn(
+                'relative flex h-10 w-10 items-center justify-center rounded-full transition-all',
+                open &&
+                  'bg-brand-home1 shadow-[0_5px_20px_rgba(90,59,196,0.25)]'
+              )}
+            >
+              <img
+                src={social.icon}
+                alt=""
+                className={cn(
+                  'h-5 w-5 object-contain transition-opacity',
+                  open && 'opacity-0'
+                )}
+              />
+              <img
+                src={social.iconHover}
+                alt=""
+                className={cn(
+                  'absolute h-5 w-5 object-contain opacity-0 transition-opacity',
+                  open && 'opacity-100'
+                )}
+              />
+            </button>
+
+            <div
+              className={cn(
+                'absolute top-full z-[60] min-w-[14.5rem] pt-2 transition-all duration-200',
+                align === 'right' ? 'right-0' : 'left-0',
+                open
+                  ? 'visible translate-y-0 opacity-100'
+                  : 'invisible pointer-events-none translate-y-1 opacity-0'
+              )}
+            >
+              <div
+                role="menu"
+                className="overflow-hidden rounded-2xl bg-white shadow-[0_12px_35px_rgba(90,59,196,0.18)]"
+              >
+                {social.accounts.map((account, index) => {
+                  const count = social.accounts.length
+                  const isFirst = index === 0
+                  const isLast = index === count - 1
+
+                  return (
+                    <a
+                      key={account.href}
+                      href={account.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      role="menuitem"
+                      onClick={() => {
+                        setOpenLabel(null)
+                        setLocked(true)
+                      }}
+                      className={cn(
+                        'flex w-full items-center gap-3 px-3 py-3 font-body text-xs font-bold text-gray-900 transition-colors hover:bg-brand-home1/10',
+                        count === 1 && 'rounded-2xl',
+                        count > 1 && isFirst && 'rounded-t-2xl',
+                        count > 1 && isLast && 'rounded-b-2xl'
+                      )}
+                    >
+                      <span className="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-full bg-brand-home1">
+                        <img
+                          src={account.avatar}
+                          alt=""
+                          className={cn(
+                            'h-full w-full mt-2 object-contain',
+                            account.avatarClassName
+                          )}
+                        />
+                      </span>
+                      <span className="leading-snug">{account.name}</span>
+                    </a>
+                  )
+                })}
+              </div>
             </div>
           </div>
-        </div>
-      ))}
-    </div>
-  )
-}
-
-/**
- * @param {object} props
- * @param {string} [props.className]
- */
-function RightSocialIcons({ className }) {
-  return (
-    <div className={cn('flex items-center gap-1', className)}>
-      {RIGHT_SOCIAL_LINKS.map(social => (
-        <a
-          key={social.label}
-          href={social.href}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label={social.label}
-          className="group relative flex h-10 w-10 items-center justify-center rounded-full transition-all hover:bg-brand-home1 hover:shadow-[0_5px_20px_rgba(90,59,196,0.25)]"
-        >
-          <img
-            src={social.icon}
-            alt=""
-            className="h-5 w-5 object-contain transition-opacity group-hover:opacity-0"
-          />
-          <img
-            src={social.iconHover}
-            alt=""
-            className="absolute h-5 w-5 object-contain opacity-0 transition-opacity group-hover:opacity-100"
-          />
-        </a>
-      ))}
+        )
+      })}
     </div>
   )
 }
@@ -276,6 +333,9 @@ export function Header({ variant = 'fixed', layout = 'responsive' }) {
       ? `fixed left-0 right-0 top-0 ${headerZ}`
       : `relative ${headerZ}`
 
+  const leftSocials = SOCIAL_DROPDOWNS.slice(0, 2)
+  const rightSocials = SOCIAL_DROPDOWNS.slice(2)
+
   return (
     <>
       <div
@@ -294,7 +354,10 @@ export function Header({ variant = 'fixed', layout = 'responsive' }) {
         )}
       >
         <div className="page-container flex h-full max-w-none items-center justify-between px-20 py-0">
-          <SocialDropdowns className={isCanvas ? 'flex' : 'hidden lg:flex'} />
+          <SocialDropdowns
+            items={leftSocials}
+            className={isCanvas ? 'flex' : 'hidden lg:flex'}
+          />
 
           <a
             href={`#${ROUTES.HOME}`}
@@ -368,7 +431,11 @@ export function Header({ variant = 'fixed', layout = 'responsive' }) {
             </svg>
           </button>
 
-          <RightSocialIcons className={isCanvas ? 'flex' : 'hidden lg:flex'} />
+          <SocialDropdowns
+            items={rightSocials}
+            align="right"
+            className={isCanvas ? 'flex' : 'hidden lg:flex'}
+          />
         </div>
 
         {menuOpen && !isCanvas && (

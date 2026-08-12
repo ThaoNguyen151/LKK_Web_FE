@@ -1,6 +1,57 @@
 import { useMemo } from 'react'
-import { NavChevronButton } from '@components/icon'
 import { cn } from '@utils'
+
+const ITEM_GLOW =
+  'shadow-[0_0_10px_4px_rgba(90,59,196,0.12),0_8px_28px_rgba(90,59,196,0.28)]'
+
+/** Style chung cho số trang + mũi tên */
+const PAGE_ITEM_CLASS = cn(
+  'flex h-9 w-9 shrink-0 items-center justify-center rounded-full font-body text-sm transition-all duration-200',
+  'text-[#5c5c66] hover:bg-white hover:text-brand-home1',
+  'hover:shadow-[0_0_10px_4px_rgba(90,59,196,0.12),0_8px_28px_rgba(90,59,196,0.28)]'
+)
+
+const PAGE_ITEM_ACTIVE_CLASS = cn(
+  'bg-transparent border border-white font-semibold text-brand-home1',
+  ITEM_GLOW
+)
+
+/**
+ * Mũi tên phân trang (riêng cho Pagination, không dùng NavChevronButton).
+ * @param {object} props
+ * @param {'prev' | 'next'} props.direction
+ * @param {boolean} props.disabled
+ * @param {() => void} props.onClick
+ * @param {string} props.label
+ */
+function PaginationArrow({ direction, disabled, onClick, label }) {
+  const isPrev = direction === 'prev'
+
+  return (
+    <button
+      type="button"
+      aria-label={label}
+      disabled={disabled}
+      onClick={onClick}
+      className={cn(
+        PAGE_ITEM_CLASS,
+        disabled
+          ? 'cursor-default text-[#c5c5ce] hover:bg-transparent hover:text-[#c5c5ce] hover:shadow-none'
+          : 'text-brand-home1'
+      )}
+    >
+      <svg viewBox="0 0 16 16" fill="none" aria-hidden className="h-3.5 w-3.5">
+        <path
+          d={isPrev ? 'M10 3L5 8l5 5' : 'M6 3l5 5-5 5'}
+          stroke="currentColor"
+          strokeWidth="1.75"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+    </button>
+  )
+}
 
 /**
  * Thanh chuyển trang dùng chung.
@@ -30,33 +81,34 @@ export function Pagination({
     <nav
       aria-label={label}
       className={cn(
-        'mt-10 flex items-center justify-center gap-1 sm:gap-2',
+        'mt-10 flex items-center justify-center gap-1 rounded-full bg-transparent px-2 py-1.5 sm:gap-1.5',
         className
       )}
     >
-      <NavChevronButton
+      <PaginationArrow
         direction="prev"
         label="Trang trước"
         disabled={page <= 1}
         onClick={() => onChange(page - 1)}
       />
+
       {pages.map((n, index) => {
         const prev = pages[index - 1]
         const showEllipsis = prev != null && n - prev > 1
+        const isActive = n === page
+
         return (
           <span key={n} className="contents">
             {showEllipsis ? (
-              <span className="px-1 font-body text-sm text-gray-400">…</span>
+              <span className="px-1.5 font-body text-sm text-[#5c5c66]">…</span>
             ) : null}
             <button
               type="button"
-              aria-current={n === page ? 'page' : undefined}
+              aria-current={isActive ? 'page' : undefined}
               onClick={() => onChange(n)}
               className={cn(
-                'flex h-9 min-w-9 items-center justify-center rounded-full px-2 font-body text-sm transition-colors',
-                n === page
-                  ? 'border-2 border-white bg-white/10 font-semibold backdrop-blur-sm shadow-[0_0_10px_5px_rgba(90,59,196,0.1),0_12px_48px_rgba(90,59,196,0.45)] transition-all duration-200 hover:border hover:border-brand-home1'
-                  : 'text-gray-500 hover:bg-white/70 hover:text-brand-home1'
+                PAGE_ITEM_CLASS,
+                isActive && PAGE_ITEM_ACTIVE_CLASS
               )}
             >
               {n}
@@ -64,7 +116,8 @@ export function Pagination({
           </span>
         )
       })}
-      <NavChevronButton
+
+      <PaginationArrow
         direction="next"
         label="Trang sau"
         disabled={page >= totalPages}
