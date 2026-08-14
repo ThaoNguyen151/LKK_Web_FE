@@ -132,7 +132,7 @@ export function SortButton({
       <div
         id={panelId}
         className={cn(
-          'absolute right-0 top-full z-30 mt-2 min-w-[7.5rem] transition-all duration-200',
+          'absolute right-0 top-full z-30 min-w-[7.5rem] pt-2 transition-all duration-200',
           open
             ? 'visible translate-y-0 opacity-100'
             : 'invisible pointer-events-none translate-y-1 opacity-0'

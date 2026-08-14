@@ -59,7 +59,7 @@ function NewsCard({ item }) {
         ) : null}
       </div>
       <div className="flex flex-1 flex-col gap-2 p-3 sm:p-4">
-        <span className="inline-flex w-fit rounded-full bg-brand-orange px-2 py-0.5 font-body font-semibold uppercase tracking-wide text-white sm:text-[9.5px]">
+        <span className="inline-flex w-fit rounded-full bg-brand-orange px-2.5 py-0.5 pt-1 font-body font-semibold uppercase tracking-wide text-white sm:text-[9.5px]">
           {item.source}
         </span>
         <h2 className="line-clamp-3 pt-1 font-body text-sm font-bold leading-snug text-brand-home1 sm:text-sm">

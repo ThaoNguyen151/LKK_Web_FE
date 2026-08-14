@@ -57,7 +57,7 @@ export const ICON_GHOST_BUTTON_CLASS =
 
 /** Nền / bóng chung cho panel Search & Sort */
 export const ICON_PANEL_CLASS =
-  'rounded-2xl bg-white shadow-[0_12px_35px_rgba(90,59,196,0.16)]'
+  'rounded-2xl bg-white shadow-[0_0_10px_5px_rgba(90,59,196,0.1),0_12px_48px_rgba(90,59,196,0.45)]'
 
 /**
  * Nút Search / Sort — 2 kiểu:
@@ -66,11 +66,12 @@ export const ICON_PANEL_CLASS =
  */
 export const ICON_TOOL_BUTTON_VARIANTS = {
   activities:
-    'group/icon flex h-8 w-8 items-center justify-center rounded-full bg-transparent transition-colors duration-300 hover:bg-brand-home1 aria-expanded:bg-brand-home1',
-  news: 'group/icon flex h-9 w-9 items-center justify-center rounded-full bg-transparent transition-colors duration-300 hover:bg-white aria-expanded:bg-white',
+    'group/icon flex h-8 w-8 items-center justify-center rounded-full bg-transparent transition-all duration-300 hover:bg-brand-home1 hover:shadow-[0_0_10px_5px_rgba(90,59,196,0.1),0_12px_48px_rgba(90,59,196,0.45)] aria-expanded:bg-brand-home1 aria-expanded:shadow-[0_0_10px_5px_rgba(90,59,196,0.1),0_12px_48px_rgba(90,59,196,0.45)]',
+  news: 'group/icon flex h-9 w-9 items-center justify-center rounded-full bg-transparent transition-all duration-300 hover:bg-white hover:shadow-[0_0_10px_5px_rgba(90,59,196,0.1),0_12px_48px_rgba(90,59,196,0.45)] aria-expanded:bg-white aria-expanded:shadow-[0_0_10px_5px_rgba(90,59,196,0.1),0_12px_48px_rgba(90,59,196,0.45)]',
 }
 
 export const ICON_TOOL_BUTTON_ACTIVE = {
-  activities: '!bg-brand-home1',
-  news: '!bg-white',
+  activities:
+    '!bg-brand-home1 !shadow-[0_0_10px_5px_rgba(90,59,196,0.1),0_12px_48px_rgba(90,59,196,0.45)]',
+  news: '!bg-white !shadow-[0_0_10px_5px_rgba(90,59,196,0.1),0_12px_48px_rgba(90,59,196,0.45)]',
 }

@@ -127,7 +127,7 @@ export function SearchButton({
       <div
         id={panelId}
         className={cn(
-          'absolute right-0 top-full z-30 mt-2 min-w-[14rem] transition-all duration-200 group-hover/search:visible group-hover/search:translate-y-0 group-hover/search:opacity-100 group-focus-within/search:visible group-focus-within/search:translate-y-0 group-focus-within/search:opacity-100 sm:min-w-[16rem]',
+          'absolute right-0 top-full z-30 min-w-[14rem] pt-2 transition-all duration-200 sm:min-w-[16rem]',
           showPanel
             ? 'visible translate-y-0 opacity-100'
             : 'invisible pointer-events-none translate-y-1 opacity-0'

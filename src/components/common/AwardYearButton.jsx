@@ -6,7 +6,7 @@ import { cn } from '@utils'
  * @property {string} [href]
  */
 
-/** Shadow giống hover card trang Tin tức */
+/** Shadow giống glow card trang Tin tức */
 export const AWARD_YEAR_CLICK_SHADOW =
   'shadow-[0_0_10px_5px_rgba(90,59,196,0.1),0_12px_48px_rgba(90,59,196,0.45)]'
 

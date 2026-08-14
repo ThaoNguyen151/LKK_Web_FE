@@ -1,4 +1,4 @@
-﻿import { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import rectLeft from '@assets/Rectangle-2.png'
 import rectRight from '@assets/Rectangle-1.png'
 import rectBottom from '@assets/Rectangle.png'
@@ -459,7 +459,7 @@ function ActivitiesList({ route, categoryId }) {
                       Chưa có nội dung trong mục này.
                     </p>
                   ) : (
-                    <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-5 xl:gap-6">
+                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-4 lg:grid-cols-2 lg:gap-5">
                       {listItems.map(item => (
                         <ActivityCard key={item.id} item={item} />
                       ))}
