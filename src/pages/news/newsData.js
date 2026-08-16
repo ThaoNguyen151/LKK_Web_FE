@@ -8,8 +8,8 @@
  * @property {string} [href] Link bài gốc
  */
 
-/** Số tin mỗi trang trên grid */
-export const NEWS_PAGE_SIZE = 30
+/** Số tin mỗi trang trên grid (tạm giảm để test phân trang) */
+export const NEWS_PAGE_SIZE = 5
 
 /** @type {NewsItem[]} */
 export const NEWS_ITEMS = [

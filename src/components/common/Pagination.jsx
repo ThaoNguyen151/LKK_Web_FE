@@ -70,10 +70,30 @@ export function Pagination({
   label = 'Phân trang',
 }) {
   const pages = useMemo(() => {
-    if (totalPages <= 7) {
+    if (totalPages <= 5) {
       return Array.from({ length: totalPages }, (_, i) => i + 1)
     }
-    const set = new Set([1, 2, 3, 4, 5, totalPages, page - 1, page, page + 1])
+
+    /** @type {Set<number>} */
+    const set = new Set()
+
+    if (page <= 3) {
+      // 1 2 3 4 5 … last
+      for (let i = 1; i <= 5; i++) set.add(i)
+      set.add(totalPages)
+    } else if (page >= totalPages - 2) {
+      // 1 … last-4 … last
+      set.add(1)
+      for (let i = totalPages - 4; i <= totalPages; i++) set.add(i)
+    } else {
+      // 1 … page-1 page page+1 … last
+      set.add(1)
+      set.add(page - 1)
+      set.add(page)
+      set.add(page + 1)
+      set.add(totalPages)
+    }
+
     return [...set].filter(n => n >= 1 && n <= totalPages).sort((a, b) => a - b)
   }, [page, totalPages])
 
@@ -98,9 +118,11 @@ export function Pagination({
         const isActive = n === page
 
         return (
-          <span key={n} className="contents">
+          <span key={n} className="relative contents">
             {showEllipsis ? (
-              <span className="px-1.5 font-body text-sm text-[#5c5c66]">…</span>
+              <span className="px-1.5 pb-2 items-center justify-center font-body text-sm text-[#5c5c66]">
+                ...
+              </span>
             ) : null}
             <button
               type="button"

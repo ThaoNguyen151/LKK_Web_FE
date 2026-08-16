@@ -52,7 +52,7 @@ function LibraryCard({ item, onOpen }) {
     <button
       type="button"
       onClick={onOpen}
-      className="mb-4 block w-full break-inside-avoid overflow-hidden rounded-2xl bg-[#d4c8e8]/60 text-left transition-opacity hover:opacity-95 sm:mb-5"
+      className="mb-4 block w-full break-inside-avoid overflow-hidden rounded-2xl bg-[#d4c8e8]/60 text-left transition-shadow duration-300 hover:border-2 hover:border-white hover:shadow-[0_0_10px_5px_rgba(90,59,196,0.1),0_12px_48px_rgba(90,59,196,0.45)] sm:mb-5"
     >
       <img
         src={item.src}
