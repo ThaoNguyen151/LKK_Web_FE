@@ -22,6 +22,7 @@ import iconHDK from '@assets/images/activity/iconHDK.png'
  * @typedef {object} ActivityInfoField
  * @property {string} key
  * @property {string} label
+ * @property {boolean} [primary] Ô lớn phía trên (vai diễn / tựa vở…)
  */
 
 /**
@@ -59,29 +60,37 @@ import iconHDK from '@assets/images/activity/iconHDK.png'
  * @property {ActivityVideo[]} [videos]
  */
 
-/** @type {Record<string, ActivityInfoField[]>} */
+/**
+ * Sân khấu có 2 kiểu layout:
+ * - Có `info.playTitle` → hiện TỰA VỞ DIỄN + VAI DIỄN
+ * - Không có `info.playTitle` → chỉ hiện VAI DIỄN
+ * @type {Record<string, ActivityInfoField[]>}
+ */
 export const ACTIVITY_INFO_FIELDS = {
   'san-khau': [
-    { key: 'role', label: 'VAI DIỄN' },
+    { key: 'playTitle', label: 'TỰA VỞ DIỄN', primary: true },
+    { key: 'role', label: 'VAI DIỄN', primary: true },
     { key: 'unit', label: 'ĐƠN VỊ' },
     { key: 'author', label: 'TÁC GIẢ' },
     { key: 'year', label: 'NĂM PHÁT HÀNH' },
     { key: 'director', label: 'ĐẠO DIỄN' },
   ],
   'phim-anh': [
-    { key: 'role', label: 'VAI DIỄN' },
+    { key: 'role', label: 'VAI DIỄN', primary: true },
     { key: 'director', label: 'ĐẠO DIỄN' },
+    { key: 'channel', label: 'KÊNH PHÁT SÓNG' },
     { key: 'duration', label: 'THỜI LƯỢNG' },
     { key: 'year', label: 'NĂM PHÁT HÀNH' },
     { key: 'revenue', label: 'DOANH THU' },
+    { key: 'episodes', label: 'SỐ TẬP' },
   ],
   gameshow: [
-    { key: 'role', label: 'VAI TRÒ' },
+    { key: 'role', label: 'VAI TRÒ', primary: true },
     { key: 'channel', label: 'KÊNH PHÁT SÓNG' },
     { key: 'year', label: 'NĂM' },
   ],
   khac: [
-    { key: 'role', label: 'VAI TRÒ' },
+    { key: 'role', label: 'VAI TRÒ', primary: true },
     { key: 'channel', label: 'KÊNH / NỀN TẢNG' },
     { key: 'year', label: 'NĂM' },
   ],
@@ -89,10 +98,11 @@ export const ACTIVITY_INFO_FIELDS = {
 
 /** @type {Record<string, Partial<ActivityItem>>} */
 const ACTIVITY_DETAIL_BY_ID = {
+  // Kiểu không có tựa vở diễn — chỉ VAI DIỄN
   'sk-td-1': {
     detailTabs: ['info', 'images', 'video'],
     info: {
-      role: 'BÀ HUYỆN THANH',
+      role: 'Giáng Hương',
       unit: 'Sân khấu Thiên Đăng',
       author: 'Nguyễn Văn A',
       year: '2025',
@@ -129,6 +139,79 @@ const ACTIVITY_DETAIL_BY_ID = {
       },
     ],
   },
+  // Kiểu không có tựa vở diễn
+  'sk-td-2': {
+    detailTabs: ['info', 'images', 'video'],
+    info: {
+      role: 'Giáng Hương',
+      unit: 'Sân khấu Thiên Đăng',
+      author: 'Nguyễn Văn A',
+      year: '2025',
+      director: 'NSND Minh Hoàng',
+    },
+    description:
+      'Vở diễn kể về hành trình của bà huyện Thanh giữa những biến cố của thời cuộc, với nhiều lớp cảm xúc và những tình huống kịch tính trên sân khấu.',
+    images: ['', '', '', '', '', ''],
+    videoParts: [
+      { id: 'p1', label: 'Phần 1' },
+      { id: 'p2', label: 'Phần 2' },
+    ],
+    videos: [
+      {
+        id: 'v1',
+        title: 'Giáng Hương (Trailer)',
+        url: 'https://www.youtube.com/',
+        partId: 'p1',
+        episode: 1,
+      },
+      {
+        id: 'v2',
+        title: 'Hậu trường tập 1',
+        url: 'https://www.youtube.com/',
+        partId: 'p1',
+        episode: 2,
+      },
+      {
+        id: 'v3',
+        title: 'Giáng Hương – Phần 2',
+        url: 'https://www.youtube.com/',
+        partId: 'p2',
+        episode: 1,
+      },
+    ],
+  },
+  // Kiểu có tựa vở diễn
+  'sk-id-1': {
+    badge: 'NGÀY XỬA NGÀY XƯA',
+    title: 'Ngày Xửa Ngày Xưa 33',
+    detailTabs: ['info', 'images'],
+    info: {
+      playTitle:
+        'NXNX 33: Cuộc phiêu lưu của thuyền trưởng Sinbad – Đại chiến Nàng Tiên Cá',
+      role: 'HẢI CẨU',
+      unit: 'Sân khấu IDECAF',
+      author: 'Quang Thảo',
+      year: '2022',
+      director: 'Đình Toàn',
+    },
+    description:
+      'Ngày Xửa Ngày Xưa 33 tiếp nối hành trình phiêu lưu đầy màu sắc của sân khấu IDECAF, với những tình huống hài hước, âm nhạc và kỹ xảo sân khấu đặc trưng của thương hiệu.',
+    images: ['', '', '', ''],
+  },
+  // Kiểu không có tựa vở diễn
+  'sk-id-2': {
+    detailTabs: ['info', 'images'],
+    info: {
+      role: 'BÀ HUYỆN THANH',
+      unit: 'Sân khấu IDECAF',
+      author: 'Nguyễn Văn A',
+      year: '2023',
+      director: 'NSND Minh Hoàng',
+    },
+    description:
+      'Vở diễn kể về hành trình của bà huyện Thanh giữa những biến cố của thời cuộc, với nhiều lớp cảm xúc và những tình huống kịch tính trên sân khấu.',
+    images: ['', '', '', ''],
+  },
   'pa-da-1': {
     title: 'Chị Dậu',
     badge: 'ĐIỆN ẢNH',
@@ -157,6 +240,31 @@ const ACTIVITY_DETAIL_BY_ID = {
         title: 'Lê Khánh chửi chồng lofi cực chill trong Chị Dậu',
         url: 'https://www.youtube.com/',
         episode: 2,
+      },
+    ],
+  },
+  'pa-th-1': {
+    title: 'Mùi Ngò Gai',
+    badge: 'TRUYỀN HÌNH',
+    year: '2006',
+    subtitle: 'vai diễn: SANALY',
+    detailTabs: ['info', 'images', 'video'],
+    info: {
+      role: 'SANALY',
+      channel: 'HTV9',
+      duration: 'Khoảng 45 phút/tập',
+      year: '2006, 2007, 2008',
+      episodes: 'Phần 1–3',
+    },
+    description:
+      'Mùi Ngò Gai là bộ phim truyền hình gắn với nhiều thế hệ khán giả, kể về những biến cố và tình cảm trong hành trình trưởng thành của nhân vật. Vai diễn của Lê Khánh để lại dấu ấn sâu đậm trên màn ảnh nhỏ.',
+    images: ['', '', '', '', ''],
+    videos: [
+      {
+        id: 'v1',
+        title: 'Mùi Ngò Gai – Trailer',
+        url: 'https://www.youtube.com/',
+        episode: 1,
       },
     ],
   },
@@ -246,6 +354,7 @@ export function normalizeActivityDetail(item) {
   if (!info.channel && fields.some(f => f.key === 'channel')) {
     info.channel = subtitleValue
   }
+  // playTitle chỉ hiện khi khai báo rõ trong detail (kiểu có tựa vở)
 
   /** @type {('info'|'images'|'video')[]} */
   let detailTabs = merged.detailTabs ?? ['info', 'images']
@@ -318,6 +427,7 @@ export function parseActivityRoute(route) {
 
 /**
  * @param {string} categoryId
+ * @returns {ActivityInfoField[]}
  */
 export function getInfoFieldsForCategory(categoryId) {
   return ACTIVITY_INFO_FIELDS[categoryId] ?? ACTIVITY_INFO_FIELDS.khac
@@ -390,8 +500,8 @@ export const ACTIVITY_ITEMS = [
     tabId: 'thien-dang',
     badge: 'THIÊN ĐĂNG',
     year: '2025',
-    title: '13 Đức Thầy – Đức Thầy 13',
-    subtitle: 'vai diễn: BÀ HUYỆN THANH',
+    title: 'Giáng Hương - sân khấu về khuya',
+    subtitle: 'vai diễn: Giáng hương',
   },
   {
     id: 'sk-td-3',
@@ -488,10 +598,10 @@ export const ACTIVITY_ITEMS = [
     id: 'sk-id-1',
     categoryId: 'san-khau',
     tabId: 'idecaf',
-    badge: 'IDECAF',
-    year: '2024',
-    title: '13 Đức Thầy – Đức Thầy 13',
-    subtitle: 'vai diễn: BÀ HUYỆN THANH',
+    badge: 'NGÀY XỬA NGÀY XƯA',
+    year: '2022',
+    title: 'Ngày Xửa Ngày Xưa 33',
+    subtitle: 'vai diễn: HẢI CẨU',
   },
   {
     id: 'sk-id-2',
@@ -544,9 +654,9 @@ export const ACTIVITY_ITEMS = [
     categoryId: 'phim-anh',
     tabId: 'truyen-hinh',
     badge: 'TRUYỀN HÌNH',
-    year: '2022',
-    title: 'Gia Đình Vui Vẻ',
-    subtitle: 'vai diễn: MẸ',
+    year: '2006',
+    title: 'Mùi Ngò Gai',
+    subtitle: 'vai diễn: SANALY',
   },
   {
     id: 'pa-cm-1',
