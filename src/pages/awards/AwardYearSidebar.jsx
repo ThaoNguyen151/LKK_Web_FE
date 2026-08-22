@@ -1,5 +1,8 @@
 import { cn } from '@utils'
-import { AWARD_YEAR_CLICK_SHADOW } from '@components/common'
+import {
+  AWARD_YEAR_CLICK_SHADOW,
+  AWARD_YEAR_TEXT_CLASS,
+} from '@components/common'
 import { YEARS, awardYearPath } from './awardsData'
 
 /**
@@ -34,13 +37,14 @@ export function AwardYearSidebar({
             href={`#${awardYearPath(year)}`}
             aria-current={isActive ? 'page' : undefined}
             className={cn(
-              'shrink-0 rounded-full px-0 py-1.5 text-center font-body text-sm font-semibold tracking-wide transition-all duration-200',
+              'shrink-0 rounded-full border-2 px-4 py-1.5 text-center transition-all duration-200',
+              AWARD_YEAR_TEXT_CLASS,
               isActive
                 ? cn(
-                    'border-2 border-white bg-white/45 text-brand-home1 backdrop-blur-md',
+                    'border-white bg-white/45 text-brand-home1 backdrop-blur-md',
                     AWARD_YEAR_CLICK_SHADOW
                   )
-                : 'border-2 border-transparent text-gray-500 hover:bg-white/50 hover:text-brand-home1 active:border-white active:bg-white/45 active:text-brand-home1 active:shadow-[0_0_10px_5px_rgba(90,59,196,0.1),0_12px_48px_rgba(90,59,196,0.45)] active:backdrop-blur-md'
+                : 'border-transparent shadow-none hover:bg-white/50 hover:text-brand-home1'
             )}
           >
             {year}

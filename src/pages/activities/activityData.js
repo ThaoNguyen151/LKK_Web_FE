@@ -109,33 +109,19 @@ const ACTIVITY_DETAIL_BY_ID = {
       director: 'NSND Minh Hoàng',
     },
     description:
-      'Vở diễn kể về hành trình của bà huyện Thanh giữa những biến cố của thời cuộc, với nhiều lớp cảm xúc và những tình huống kịch tính trên sân khấu.',
+      'Vở diễn kể về hành trình của bà huyện Thanh giữa những biến cố của thời cuộc, với nhiều lớp cảm xúc và những tình huống kịch tính trên sân khấu.Vở diễn kể về hành trình của bà huyện Thanh giữa những biến cố của thời cuộc, với nhiều lớp cảm xúc và những tình huống kịch tính trên sân khấu.Vở diễn kể về hành trình của bà huyện Thanh giữa những biến cố của thời cuộc, với nhiều lớp cảm xúc và những tình huống kịch tính trên sân khấu.Vở diễn kể về hành trình của bà huyện Thanh giữa những biến cố của thời cuộc, với nhiều lớp cảm xúc và những tình huống kịch tính trên sân khấu.Vở diễn kể về hành trình của bà huyện Thanh giữa những biến cố của thời cuộc, với nhiều lớp cảm xúc và những tình huống kịch tính trên sân khấu.Vở diễn kể về hành trình của bà huyện Thanh giữa những biến cố của thời cuộc, với nhiều lớp cảm xúc và những tình huống kịch tính trên sân khấu.Vở diễn kể về hành trình của bà huyện Thanh giữa những biến cố của thời cuộc, với nhiều lớp cảm xúc và những tình huống kịch tính trên sân khấu.Vở diễn kể về hành trình của bà huyện Thanh giữa những biến cố của thời cuộc, với nhiều lớp cảm xúc và những tình huống kịch tính trên sân khấu.Vở diễn kể về hành trình của bà huyện Thanh giữa những biến cố của thời cuộc, với nhiều lớp cảm xúc và những tình huống kịch tính trên sân khấu.Vở diễn kể về hành trình của bà huyện Thanh giữa những biến cố của thời cuộc, với nhiều lớp cảm xúc và những tình huống kịch tính trên sân khấu.Vở diễn kể về hành trình của bà huyện Thanh giữa những biến cố của thời cuộc, với nhiều lớp cảm xúc và những tình huống kịch tính trên sân khấu.Vở diễn kể về hành trình của bà huyện Thanh giữa những biến cố của thời cuộc, với nhiều lớp cảm xúc và những tình huống kịch tính trên sân khấu.Vở diễn kể về hành trình của bà huyện Thanh giữa những biến cố của thời cuộc, với nhiều lớp cảm xúc và những tình huống kịch tính trên sân khấu.',
     images: ['', '', '', '', '', ''],
-    videoParts: [
-      { id: 'p1', label: 'Phần 1' },
-      { id: 'p2', label: 'Phần 2' },
-    ],
+    // Sân khấu — không có phần (dropdown ẩn)
     videos: [
       {
         id: 'v1',
         title: '13 Đức Thầy – Đức Thầy 13 (Trailer)',
-        url: 'https://www.youtube.com/',
-        partId: 'p1',
-        episode: 1,
+        url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
       },
       {
         id: 'v2',
-        title: 'Hậu trường tập 1',
-        url: 'https://www.youtube.com/',
-        partId: 'p1',
-        episode: 2,
-      },
-      {
-        id: 'v3',
-        title: '13 Đức Thầy – Phần 2',
-        url: 'https://www.youtube.com/',
-        partId: 'p2',
-        episode: 1,
+        title: '13 Đức Thầy – Hậu trường',
+        url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
       },
     ],
   },
@@ -152,39 +138,19 @@ const ACTIVITY_DETAIL_BY_ID = {
     description:
       'Vở diễn kể về hành trình của bà huyện Thanh giữa những biến cố của thời cuộc, với nhiều lớp cảm xúc và những tình huống kịch tính trên sân khấu.',
     images: ['', '', '', '', '', ''],
-    videoParts: [
-      { id: 'p1', label: 'Phần 1' },
-      { id: 'p2', label: 'Phần 2' },
-    ],
     videos: [
       {
         id: 'v1',
         title: 'Giáng Hương (Trailer)',
-        url: 'https://www.youtube.com/',
-        partId: 'p1',
-        episode: 1,
-      },
-      {
-        id: 'v2',
-        title: 'Hậu trường tập 1',
-        url: 'https://www.youtube.com/',
-        partId: 'p1',
-        episode: 2,
-      },
-      {
-        id: 'v3',
-        title: 'Giáng Hương – Phần 2',
-        url: 'https://www.youtube.com/',
-        partId: 'p2',
-        episode: 1,
+        url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
       },
     ],
   },
-  // Kiểu có tựa vở diễn
+  // Kiểu có tựa vở diễn — có tab video, không có phần
   'sk-id-1': {
     badge: 'NGÀY XỬA NGÀY XƯA',
     title: 'Ngày Xửa Ngày Xưa 33',
-    detailTabs: ['info', 'images'],
+    detailTabs: ['info', 'images', 'video'],
     info: {
       playTitle:
         'NXNX 33: Cuộc phiêu lưu của thuyền trưởng Sinbad – Đại chiến Nàng Tiên Cá',
@@ -197,6 +163,14 @@ const ACTIVITY_DETAIL_BY_ID = {
     description:
       'Ngày Xửa Ngày Xưa 33 tiếp nối hành trình phiêu lưu đầy màu sắc của sân khấu IDECAF, với những tình huống hài hước, âm nhạc và kỹ xảo sân khấu đặc trưng của thương hiệu.',
     images: ['', '', '', ''],
+    videos: [
+      {
+        id: 'v1',
+        title:
+          'NXNX 33: Cuộc phiêu lưu của thuyền trưởng Sinbad – Đại chiến Nàng Tiên Cá',
+        url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+      },
+    ],
   },
   // Kiểu không có tựa vở diễn
   'sk-id-2': {
@@ -232,13 +206,13 @@ const ACTIVITY_DETAIL_BY_ID = {
       {
         id: 'v1',
         title: 'Chị Dậu (2024)',
-        url: 'https://www.youtube.com/',
+        url: 'https://www.youtube.com/watch?v=X5Ra4S4B96U&list=RDX5Ra4S4B96U&start_radio=1',
         episode: 1,
       },
       {
         id: 'v2',
         title: 'Lê Khánh chửi chồng lofi cực chill trong Chị Dậu',
-        url: 'https://www.youtube.com/',
+        url: 'https://www.youtube.com/watch?v=X5Ra4S4B96U&list=RDX5Ra4S4B96U&start_radio=1',
         episode: 2,
       },
     ],
@@ -259,11 +233,42 @@ const ACTIVITY_DETAIL_BY_ID = {
     description:
       'Mùi Ngò Gai là bộ phim truyền hình gắn với nhiều thế hệ khán giả, kể về những biến cố và tình cảm trong hành trình trưởng thành của nhân vật. Vai diễn của Lê Khánh để lại dấu ấn sâu đậm trên màn ảnh nhỏ.',
     images: ['', '', '', '', ''],
+    // Phim — có dropdown phần + số tập
+    videoParts: [
+      { id: 'p1', label: 'Phần 1' },
+      { id: 'p2', label: 'Phần 2' },
+      { id: 'p3', label: 'Phần 3' },
+    ],
     videos: [
+      ...Array.from({ length: 8 }, (_, i) => {
+        const episode = 53 - i
+        return {
+          id: `p1-ep-${episode}`,
+          title: `Mùi Ngò Gai - Phần 1 - Tập ${episode}`,
+          url: 'https://www.youtube.com/watch?v=X5Ra4S4B96U&list=RDX5Ra4S4B96U&start_radio=1',
+          partId: 'p1',
+          episode,
+        }
+      }),
       {
-        id: 'v1',
-        title: 'Mùi Ngò Gai – Trailer',
-        url: 'https://www.youtube.com/',
+        id: 'p2-ep-1',
+        title: 'Mùi Ngò Gai - Phần 2 - Tập 1',
+        url: 'https://www.youtube.com/watch?v=X5Ra4S4B96U&list=RDX5Ra4S4B96U&start_radio=1',
+        partId: 'p2',
+        episode: 1,
+      },
+      {
+        id: 'p2-ep-2',
+        title: 'Mùi Ngò Gai - Phần 2 - Tập 2',
+        url: 'https://www.youtube.com/watch?v=X5Ra4S4B96U&list=RDX5Ra4S4B96U&start_radio=1',
+        partId: 'p2',
+        episode: 2,
+      },
+      {
+        id: 'p3-ep-1',
+        title: 'Mùi Ngò Gai - Phần 3 - Tập 1',
+        url: 'https://www.youtube.com/watch?v=X5Ra4S4B96U&list=RDX5Ra4S4B96U&start_radio=1',
+        partId: 'p3',
         episode: 1,
       },
     ],
@@ -405,24 +410,77 @@ export function activityDetailPath(categoryId, itemId) {
 }
 
 /**
+ * @param {string} categoryId
+ * @param {string} [tabId]
+ */
+export function activityCategoryPath(categoryId, tabId) {
+  if (tabId) return `/activities/${categoryId}/${tabId}`
+  return `/activities/${categoryId}`
+}
+
+/**
+ * Đường dẫn tab trong category (vd. /activities/phim-anh/truyen-hinh).
+ * @param {string} categoryId
+ * @param {string} tabId
+ */
+export function activityTabPath(categoryId, tabId) {
+  return `/activities/${categoryId}/${tabId}`
+}
+
+/**
+ * Parse category id from hash path like `/activities/san-khau` or `/activities`.
  * @param {string} route
- * @returns {{ categoryId: string, itemId: string | null }}
+ */
+export function parseActivityCategory(route) {
+  if (!route.startsWith('/activities')) return DEFAULT_CATEGORY_ID
+  const rest = route.slice('/activities'.length).replace(/^\//, '')
+  const id = rest.split('/')[0]
+  if (ACTIVITY_CATEGORIES.some(c => c.id === id)) return id
+  return DEFAULT_CATEGORY_ID
+}
+
+/**
+ * @param {string} route
+ * @returns {{ categoryId: string, tabId: string, itemId: string | null }}
  */
 export function parseActivityRoute(route) {
   const categoryId = parseActivityCategory(route)
+  const category = getCategoryById(categoryId)
+  const defaultTabId = category.tabs[0]?.id ?? ''
+
   if (!route.startsWith('/activities')) {
-    return { categoryId, itemId: null }
+    return { categoryId, tabId: defaultTabId, itemId: null }
   }
+
   const parts = route
     .slice('/activities'.length)
     .replace(/^\//, '')
     .split('/')
     .filter(Boolean)
-  const itemId = parts[1] ?? null
-  if (itemId && ACTIVITY_ITEMS.some(item => item.id === itemId)) {
-    return { categoryId, itemId }
+
+  // /activities hoặc /activities/:category
+  if (parts.length < 2) {
+    return { categoryId, tabId: defaultTabId, itemId: null }
   }
-  return { categoryId, itemId: null }
+
+  const segment = parts[1]
+
+  // Ưu tiên tab id (phim-truyen-hinh, dien-anh, …)
+  if (category.tabs.some(tab => tab.id === segment)) {
+    return { categoryId, tabId: segment, itemId: null }
+  }
+
+  // Detail item
+  if (ACTIVITY_ITEMS.some(item => item.id === segment)) {
+    const item = ACTIVITY_ITEMS.find(entry => entry.id === segment)
+    return {
+      categoryId,
+      tabId: item?.tabId ?? defaultTabId,
+      itemId: segment,
+    }
+  }
+
+  return { categoryId, tabId: defaultTabId, itemId: null }
 }
 
 /**
@@ -770,25 +828,6 @@ export function getCategoryById(categoryId) {
   return (
     ACTIVITY_CATEGORIES.find(c => c.id === categoryId) ?? ACTIVITY_CATEGORIES[0]
   )
-}
-
-/**
- * @param {string} categoryId
- */
-export function activityCategoryPath(categoryId) {
-  return `/activities/${categoryId}`
-}
-
-/**
- * Parse category id from hash path like `/activities/san-khau` or `/activities`.
- * @param {string} route
- */
-export function parseActivityCategory(route) {
-  if (!route.startsWith('/activities')) return DEFAULT_CATEGORY_ID
-  const rest = route.slice('/activities'.length).replace(/^\//, '')
-  const id = rest.split('/')[0]
-  if (ACTIVITY_CATEGORIES.some(c => c.id === id)) return id
-  return DEFAULT_CATEGORY_ID
 }
 
 /**

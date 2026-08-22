@@ -3,13 +3,19 @@ import { cn } from '@utils'
 /**
  * Reusable section with shared responsive spacing.
  * Override per page via className when needed.
+ * @param {{
+ *   children: import('react').ReactNode,
+ *   className?: string,
+ *   as?: import('react').ElementType,
+ *   fullHeight?: boolean,
+ * }} props
  */
 export function PageSection({
   children,
   className,
   as: Component = 'section',
   fullHeight = false,
-  ...props
+  ...rest
 }) {
   return (
     <Component
@@ -18,7 +24,7 @@ export function PageSection({
         fullHeight && 'min-h-dvh snap-start',
         className
       )}
-      {...props}
+      {...rest}
     >
       {children}
     </Component>

@@ -12,6 +12,7 @@ import { HomeResponsive } from './HomeResponsive'
 import { HomeSectionDots } from './HomeSectionDots'
 import { MaiVangAward, HtvAward } from './awards'
 import { awardYearPath } from '../awards/awardsData'
+import { activityCategoryPath } from '../activities/activityData'
 import imageTextHome1 from '@assets/images/le-khanh.png'
 import rectLeft from '@assets/Rectangle-2.png'
 import rectRight from '@assets/Rectangle-1.png'
@@ -368,7 +369,10 @@ function HomeDesktop() {
                   </p>
 
                   <div className="grid grid-cols-3 gap-10">
-                    <div className="rounded-2xl border-2 border-white bg-white/20 p-6 backdrop-blur-sm">
+                    <a
+                      href={`#${activityCategoryPath('san-khau')}`}
+                      className="rounded-2xl border-2 border-white bg-white/20 p-6 backdrop-blur-sm transition-colors hover:border-brand-home1 hover:border-1 hover:shadow-[0_0_10px_5px_rgba(90,59,196,0.1),0_12px_48px_rgba(90,59,196,0.45)]"
+                    >
                       <div className="mb-2 text-center font-body text-5xl">
                         <span className="text-black">100</span>
                         <span className="text-brand-home1">+</span>
@@ -376,8 +380,11 @@ function HomeDesktop() {
                       <div className="text-center font-body text-sm uppercase tracking-wide text-gray-600">
                         VỞ DIỄN
                       </div>
-                    </div>
-                    <div className="rounded-2xl border-2 border-white bg-white/20 p-6 backdrop-blur-sm">
+                    </a>
+                    <a
+                      href={`#${activityCategoryPath('phim-anh', 'truyen-hinh')}`}
+                      className="rounded-2xl border-2 border-white bg-white/20 p-6 backdrop-blur-sm transition-colors hover:border-1 hover:border-brand-home1 hover:shadow-[0_0_10px_5px_rgba(90,59,196,0.1),0_12px_48px_rgba(90,59,196,0.45)]"
+                    >
                       <div className="mb-2 text-center font-body text-5xl">
                         <span className="text-black">35</span>
                         <span className="text-brand-home1">+</span>
@@ -385,8 +392,11 @@ function HomeDesktop() {
                       <div className="text-center font-body text-sm uppercase tracking-wide text-gray-600">
                         PHIM TRUYỀN HÌNH
                       </div>
-                    </div>
-                    <div className="rounded-2xl border-2 border-white bg-white/20 p-6 backdrop-blur-sm">
+                    </a>
+                    <a
+                      href={`#${activityCategoryPath('phim-anh', 'dien-anh')}`}
+                      className="rounded-2xl border-2 border-white bg-white/20 p-6 backdrop-blur-sm transition-colors hover:border-1 hover:border-brand-home1 hover:shadow-[0_0_10px_5px_rgba(90,59,196,0.1),0_12px_48px_rgba(90,59,196,0.45)]"
+                    >
                       <div className="mb-2 text-center font-body text-5xl">
                         <span className="text-black">15</span>
                         <span className="text-brand-home1">+</span>
@@ -394,7 +404,7 @@ function HomeDesktop() {
                       <div className="text-center font-body text-sm uppercase tracking-wide text-gray-600">
                         PHIM ĐIỆN ẢNH
                       </div>
-                    </div>
+                    </a>
                   </div>
                 </div>
 

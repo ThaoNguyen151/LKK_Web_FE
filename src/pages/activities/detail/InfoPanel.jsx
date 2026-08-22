@@ -1,12 +1,49 @@
 import { getInfoFieldsForCategory } from '../activityData'
+import { getActivityPosterSrc } from '../posterData'
+import { ScrollFadeContainer } from './ScrollFadeContainer'
+
+/**
+ * Tách tựa vở: "NXNX 33: Tên dài…" → tên ngắn bold + phần dài thường.
+ * @param {string} value
+ * @returns {import('react').ReactNode}
+ */
+function formatPlayTitleValue(value) {
+  const text = value?.trim() ?? ''
+  if (!text) return '—'
+
+  const sep = text.search(/[:：]/)
+  if (sep < 0) return text
+
+  const head = text.slice(0, sep).trim()
+  const tail = text.slice(sep + 1).trim()
+  if (!head) return text
+
+  return (
+    <>
+      <span className="font-bold">{head}</span>
+      {tail ? (
+        <span className="font-normal">
+          {text[sep]} {tail}
+        </span>
+      ) : (
+        <span className="font-normal">{text[sep]}</span>
+      )}
+    </>
+  )
+}
 
 /**
  * @param {object} props
  * @param {string} props.label
  * @param {string} props.value
  * @param {boolean} [props.large]
+ * @param {boolean} [props.splitPlayTitle] Tựa vở: vế đầu bold, phần dài không bold
  */
-function InfoField({ label, value, large = false }) {
+function InfoField({ label, value, large = false, splitPlayTitle = false }) {
+  const content = splitPlayTitle
+    ? formatPlayTitleValue(value)
+    : value?.trim() || '—'
+
   return (
     <div className="min-w-0">
       <p className="font-body text-[10px] font-semibold uppercase tracking-[1px] text-brand-home1/40 sm:text-[10px]">
@@ -15,11 +52,11 @@ function InfoField({ label, value, large = false }) {
       <p
         className={
           large
-            ? 'mt-0.5 font-body text-xl font-bold uppercase leading-snug text-brand-textheader sm:mb-[-6px] sm:text-lg'
-            : 'mt-0.5 font-body text-sm leading-snug text-brand-textheader sm:text-[15px]'
+            ? 'mt-0.5 font-body text-xl font-bold leading-snug text-brand-textheader sm:mb-[-6px] sm:text-[16px]'
+            : 'mt-0.5 font-body text-sm leading-snug text-brand-textheader sm:text-[14px]'
         }
       >
-        {value || '—'}
+        {content}
       </p>
     </div>
   )
@@ -29,10 +66,14 @@ function InfoField({ label, value, large = false }) {
  * Panel Thông tin — ảnh 2:3 cố định giữa khung; chỉ nội dung cuộn.
  * @param {object} props
  * @param {import('../activityData').ActivityItem} props.item
+ * @param {import('react').Ref<{ scrollToTop: () => void }>} [props.scrollRef]
+ * @param {(state: { scrolled: boolean, showHint: boolean }) => void} [props.onScrollState]
+ * @param {import('react').RefObject<HTMLElement | null>} [props.sidebarRef]
  */
-export function InfoPanel({ item }) {
+export function InfoPanel({ item, scrollRef, onScrollState, sidebarRef }) {
   const fields = getInfoFieldsForCategory(item.categoryId)
   const info = item.info ?? {}
+  const posterSrc = getActivityPosterSrc(item)
   const primaryFields = fields.filter(
     field => field.primary && Boolean(info[field.key]?.trim())
   )
@@ -41,13 +82,13 @@ export function InfoPanel({ item }) {
   )
 
   return (
-    <div className="flex h-full min-h-0 flex-col gap-6 lg:flex-row lg:gap-10">
-      {/* Ảnh 2:3, cao hơn, canh giữa khung — không cuộn theo nội dung */}
+    <div className="flex h-full min-h-0 flex-col gap-6 lg:flex-row lg:gap-12">
+      {/* Ảnh 2:3 — không cuộn; mờ trên (containTopFade) không đè lên đây */}
       <div className="flex w-full shrink-0 justify-start lg:h-full lg:w-auto lg:items-start lg:justify-start">
-        <div className="aspect-[2/3] h-[min(70vh,28rem)] overflow-hidden rounded-xl bg-[#cbb8e8] sm:h-[min(72vh,32rem)] lg:h-[min(60vh,23rem)] lg:max-h-full">
-          {item.image ? (
+        <div className="aspect-[2/3] h-[min(70vh,28rem)] overflow-hidden rounded-xl bg-[#cbb8e8] sm:h-[min(72vh,32rem)] lg:h-[min(70vh,25rem)] lg:max-h-full">
+          {posterSrc ? (
             <img
-              src={item.image}
+              src={posterSrc}
               alt={item.title}
               className="h-full w-full object-cover"
               loading="lazy"
@@ -56,9 +97,18 @@ export function InfoPanel({ item }) {
         </div>
       </div>
 
-      {/* Chỉ cột nội dung cuộn */}
-      <div className="min-h-0 min-w-0 flex-1 overflow-y-auto hide-scrollbar pr-1">
-        <div className="flex flex-col pb-4 pt-3">
+      {/* Cột nội dung: mờ trên local; mờ dưới bleed giống Hình ảnh */}
+      <ScrollFadeContainer
+        ref={scrollRef}
+        className="h-full min-h-0 min-w-0 flex-1"
+        innerClassName="pr-1 pb-10 pt-3"
+        scrollKey={item.id}
+        extendBleed
+        containTopFade
+        sidebarRef={sidebarRef}
+        onScrollState={onScrollState}
+      >
+        <div className="flex flex-col pb-4">
           <span className="mb-6 inline-flex w-fit rounded-full bg-brand-orange px-3 py-0.5 pt-1 font-body text-[10px] font-bold uppercase tracking-wide text-white sm:mb-7 sm:text-[10px]">
             {item.badge}
           </span>
@@ -71,6 +121,7 @@ export function InfoPanel({ item }) {
                   label={field.label}
                   value={info[field.key] ?? ''}
                   large
+                  splitPlayTitle={field.key === 'playTitle'}
                 />
               ))}
             </div>
@@ -93,13 +144,13 @@ export function InfoPanel({ item }) {
               <p className="mb-0.5 font-body text-[10px] font-semibold uppercase tracking-[2px] text-brand-home1/40 sm:text-[10px]">
                 Mô tả
               </p>
-              <p className="font-body text-sm leading-relaxed text-brand-textheader sm:text-[15px] sm:leading-6">
+              <p className="mr-22 font-body text-sm text-justify leading-relaxed text-brand-textheader sm:text-[14px] sm:leading-6">
                 {item.description}
               </p>
             </div>
           ) : null}
         </div>
-      </div>
+      </ScrollFadeContainer>
     </div>
   )
 }

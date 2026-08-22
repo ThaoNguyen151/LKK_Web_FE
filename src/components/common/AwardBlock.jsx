@@ -16,17 +16,19 @@ const VARIANTS = {
     block: 'flex flex-col',
     title: 'shrink-0 text-[70px] pb-10',
     titleLines: 'flex flex-col gap-2',
-    years: 'relative z-10 shrink-0 text-lg',
+    years: 'relative z-10 shrink-0',
     yearsGrid: 'grid grid-cols-2 gap-x-5 gap-y-3 pb-10',
     yearsStack: 'flex flex-col gap-y-3',
+    stage: '',
     cup: 'relative z-0 shrink-0 self-end pb-6',
   },
   compact: {
     block: '',
     title: 'w-full text-[42px] leading-none',
     titleLines: 'flex flex-col gap-2',
-    years: 'text-base',
+    years: '',
     yearsGrid: '',
+    yearsStack: '',
     stage: 'relative min-h-0 flex-1 w-full',
     cup: 'absolute bottom-0 right-0 z-0 max-h-[80%] max-w-[50%]',
   },
@@ -104,7 +106,7 @@ export function AwardBlock({
         <div className={cn(styles.stage, contentClassName)}>
           <div
             className={cn(
-              'absolute bottom-0 left-0 z-10 w-fit font-body text-black pb-15 px-0',
+              'absolute bottom-0 left-0 z-10 w-fit pb-15 px-0',
               styles.years,
               yearsClassName
             )}
@@ -147,7 +149,7 @@ export function AwardBlock({
 
       <div
         className={cn(
-          'w-fit font-body text-black',
+          'w-fit',
           yearColumns === 2 ? styles.yearsGrid : styles.yearsStack,
           styles.years,
           yearsClassName

@@ -1,7 +1,4 @@
-import { useEffect, useState } from 'react'
-import rectLeft from '@assets/Rectangle-2.png'
-import rectRight from '@assets/Rectangle-1.png'
-import rectBottom from '@assets/Rectangle.png'
+import { useEffect, useRef, useState } from 'react'
 import { Header } from '@components/common'
 import { PageShell } from '@layouts'
 import { ROUTES, cn } from '@utils'
@@ -10,7 +7,14 @@ import {
   getActivityById,
   getCategoryById,
 } from './activityData'
-import { InfoPanel, ImagesPanel, VideoPanel } from './detail'
+import { ActivitiesBackdrop } from './ActivitiesBackdrop'
+import { ActivityScrollAside } from './ActivityScrollAside'
+import {
+  InfoPanel,
+  ImagesPanel,
+  VideoPanel,
+  ScrollFadeContainer,
+} from './detail'
 
 const DETAIL_TAB_LABELS = {
   info: 'Thông tin',
@@ -29,7 +33,12 @@ function DetailHeader({ item, category, activeTab, onTabChange }) {
   const tabs = item.detailTabs ?? ['info', 'images']
 
   return (
-    <div className="mb-6 shrink-0">
+    <div
+      className={cn(
+        'relative z-20 shrink-0',
+        activeTab === 'images' ? 'mb-[-12px]' : 'mb-1'
+      )}
+    >
       <p className="mb-3 mt-5 font-body text-[10px] leading-tight text-brand-home1/70 sm:text-[11px]">
         <a
           href={`#${ROUTES.HOME}`}
@@ -39,8 +48,8 @@ function DetailHeader({ item, category, activeTab, onTabChange }) {
         </a>
         <span className="mx-1.5 text-brand-textheader/50">/</span>
         <a
-          href={`#${activityCategoryPath(category.id)}`}
-          className="text-brand-textheader/50 hover:text-brand-home1 hover:underline"
+          href={`#${activityCategoryPath(category.id, item.tabId)}`}
+          className="font-semibold text-brand-home1 hover:underline"
         >
           {category.breadcrumb}
         </a>
@@ -48,7 +57,7 @@ function DetailHeader({ item, category, activeTab, onTabChange }) {
         <span className="text-brand-textheader/50">{item.title}</span>
       </p>
 
-      <div className="flex min-w-0 flex-col gap-4 sm:flex-row sm:items-center sm:gap-6">
+      <div className="mb-0 flex min-w-0 flex-col gap-4 sm:flex-row sm:items-center sm:gap-6">
         <h1
           className="min-w-0 shrink font-display text-3xl italic tracking-wide text-brand-home1 sm:max-w-[63%] sm:text-4xl lg:text-5xl lg:leading-[52px]"
           style={{ WebkitTextStroke: '0.2px #5a3bc4' }}
@@ -64,7 +73,7 @@ function DetailHeader({ item, category, activeTab, onTabChange }) {
           }}
         />
 
-        <div className="min-w-0 overflow-x-auto overflow-y-hidden hide-scrollbar pb-3 sm:flex-1">
+        <div className="mt-3 min-w-0 overflow-x-auto overflow-y-hidden hide-scrollbar pb-3 sm:flex-1">
           <div className="flex w-max flex-nowrap items-center gap-x-8 sm:gap-x-10">
             {tabs.map(tab => {
               const active = tab === activeTab
@@ -100,9 +109,17 @@ function DetailHeader({ item, category, activeTab, onTabChange }) {
 export function ActivityDetail({ itemId, categoryId, sidebar }) {
   const item = getActivityById(itemId)
   const category = getCategoryById(categoryId)
+  const sidebarWrapRef = useRef(/** @type {HTMLDivElement | null} */ (null))
+  const panelScrollRef = useRef(
+    /** @type {{ scrollToTop: () => void } | null} */ (null)
+  )
   const [tabByItem, setTabByItem] = useState(
     /** @type {Record<string, 'info'|'images'|'video'>} */ ({})
   )
+  const [scrollUi, setScrollUi] = useState({
+    scrolled: false,
+    showHint: false,
+  })
 
   useEffect(() => {
     const root = document.documentElement
@@ -123,6 +140,7 @@ export function ActivityDetail({ itemId, categoryId, sidebar }) {
 
   const onTabChange = /** @param {'info'|'images'|'video'} tab */ tab => {
     setTabByItem(prev => ({ ...prev, [itemId]: tab }))
+    setScrollUi({ scrolled: false, showHint: false })
   }
 
   if (!item) {
@@ -148,36 +166,29 @@ export function ActivityDetail({ itemId, categoryId, sidebar }) {
     <PageShell className="relative flex h-dvh flex-col overflow-hidden">
       <Header variant="fixed" />
 
-      <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
-        <img
-          src={rectLeft}
-          alt=""
-          className="absolute left-0 top-[20%] h-full w-[min(40vw,420px)] opacity-70"
-          aria-hidden
+      <ActivitiesBackdrop className="pointer-events-none fixed inset-0 z-0" />
+
+      {activeTab === 'info' || activeTab === 'images' ? (
+        <ActivityScrollAside
+          showHint={scrollUi.showHint}
+          showBackTop={scrollUi.scrolled}
+          onBackTop={() => panelScrollRef.current?.scrollToTop()}
+          backTopLabel="Về đầu trang"
         />
-        <img
-          src={rectRight}
-          alt=""
-          className="absolute bottom-[10%] right-0 w-[min(35vw,380px)] opacity-70"
-          aria-hidden
-        />
-        <img
-          src={rectBottom}
-          alt=""
-          className="absolute bottom-0 left-1/2 w-[600px] -translate-x-[70%]"
-          aria-hidden
-        />
-      </div>
+      ) : null}
 
       <main className="relative z-10 flex min-h-0 flex-1 flex-col pt-16 lg:pt-20">
         <div className="mx-auto flex min-h-0 w-full max-w-[1440px] flex-1 items-stretch px-4 py-6 sm:px-6 lg:px-10">
           {sidebar ? (
-            <div className="hidden min-h-0 shrink-0 self-stretch md:block">
+            <div
+              ref={sidebarWrapRef}
+              className="hidden min-h-0 shrink-0 self-stretch md:block"
+            >
               {sidebar}
             </div>
           ) : null}
 
-          <div className="flex min-h-0 min-w-0 flex-1 flex-col pl-4 sm:pl-6 lg:pl-8">
+          <div className="flex min-h-0 min-w-0 flex-1 flex-col pl-4 sm:pl-6 lg:pl-12">
             <DetailHeader
               item={item}
               category={category}
@@ -185,17 +196,36 @@ export function ActivityDetail({ itemId, categoryId, sidebar }) {
               onTabChange={onTabChange}
             />
 
-            <div className="min-h-0 flex-1 overflow-hidden">
-              {activeTab === 'info' ? <InfoPanel item={item} /> : null}
+            <div
+              className={cn(
+                'relative min-h-0 flex-1',
+                activeTab === 'video' ? 'mt-1' : 'mt-6'
+              )}
+            >
+              {activeTab === 'info' ? (
+                <InfoPanel
+                  item={item}
+                  scrollRef={panelScrollRef}
+                  onScrollState={setScrollUi}
+                  sidebarRef={sidebarWrapRef}
+                />
+              ) : null}
               {activeTab === 'images' ? (
-                <div className="h-full overflow-y-auto hide-scrollbar pb-6">
+                <ScrollFadeContainer
+                  ref={panelScrollRef}
+                  className="h-full"
+                  scrollKey={item.id}
+                  extendBleed
+                  shadowGutter={28}
+                  sidebarRef={sidebarWrapRef}
+                  onScrollState={setScrollUi}
+                  innerClassName="pt-5 pb-10"
+                >
                   <ImagesPanel item={item} />
-                </div>
+                </ScrollFadeContainer>
               ) : null}
               {activeTab === 'video' ? (
-                <div className="h-full overflow-y-auto hide-scrollbar pb-6">
-                  <VideoPanel key={item.id} item={item} />
-                </div>
+                <VideoPanel key={item.id} item={item} />
               ) : null}
             </div>
           </div>

@@ -288,6 +288,11 @@
     will-change: transform, opacity;
   }
 
+  /* Sau khi vào view: bỏ will-change để chữ không bị “béo”/bóng do layer GPU */
+  .home-section-content.is-inview {
+    will-change: auto;
+  }
+
   .home-section-content.anim-enter-up {
     animation: home-enter-from-below 1400ms cubic-bezier(0.22, 1, 0.36, 1)
       forwards;
