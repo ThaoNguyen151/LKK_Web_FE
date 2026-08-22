@@ -18,7 +18,7 @@ export function HtvAward() {
       cupSrc={imageCupHTV}
       cupAlt="Cup HTV"
       className="h-full pt-12"
-      titleClassName="px-5 pb-10"
+      titleClassName="px-0 pb-10"
       yearsClassName="px-0 py-4"
       cupClusterClassName="-mt-15 mr-20"
       cupClassName="scale-120"

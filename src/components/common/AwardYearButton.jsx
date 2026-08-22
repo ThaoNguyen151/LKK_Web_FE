@@ -10,8 +10,17 @@ import { cn } from '@utils'
 export const AWARD_YEAR_CLICK_SHADOW =
   'shadow-[0_0_10px_5px_rgba(90,59,196,0.1),0_12px_48px_rgba(90,59,196,0.45)]'
 
-const YEAR_BUTTON_CLASS =
-  'shrink-0 cursor-pointer rounded-full border-2 border-transparent bg-transparent px-4 py-1.5 text-center font-body text-sm font-semibold tracking-wide text-inherit transition-all duration-200 hover:bg-white/50 hover:text-brand-home1 active:border-white active:bg-white/45 active:text-brand-home1 active:shadow-[0_0_10px_5px_rgba(90,59,196,0.1),0_12px_48px_rgba(90,59,196,0.45)] active:backdrop-blur-md focus-visible:border-white focus-visible:bg-white/45 focus-visible:text-brand-home1 focus-visible:shadow-[0_0_10px_5px_rgba(90,59,196,0.1),0_12px_48px_rgba(90,59,196,0.45)] focus-visible:backdrop-blur-md focus-visible:outline-none'
+/** Typography chữ năm — Light 300, không stroke/text-shadow (Home) */
+export const AWARD_YEAR_TEXT_CLASS =
+  'font-body text-sm font-light tracking-wide text-brand-textheader [font-synthesis:none] text-shadow-none [-webkit-text-stroke-width:0px]'
+
+const YEAR_BUTTON_CLASS = cn(
+  'shrink-0 cursor-pointer rounded-full border-2 border-transparent bg-transparent px-4 py-1.5 text-center transition-all duration-200',
+  AWARD_YEAR_TEXT_CLASS,
+  'shadow-none hover:bg-white/50 hover:text-brand-home1',
+  'active:border-white active:bg-white/45 active:text-brand-home1 active:shadow-[0_0_10px_5px_rgba(90,59,196,0.1),0_12px_48px_rgba(90,59,196,0.45)] active:backdrop-blur-md',
+  'focus-visible:border-white focus-visible:bg-white/45 focus-visible:text-brand-home1 focus-visible:shadow-[0_0_10px_5px_rgba(90,59,196,0.1),0_12px_48px_rgba(90,59,196,0.45)] focus-visible:backdrop-blur-md focus-visible:outline-none'
+)
 
 /**
  * Nút năm giải thưởng — gắn href sau khi có trang chi tiết.

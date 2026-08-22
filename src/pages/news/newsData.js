@@ -9,7 +9,7 @@
  */
 
 /** Số tin mỗi trang trên grid (tạm giảm để test phân trang) */
-export const NEWS_PAGE_SIZE = 5
+export const NEWS_PAGE_SIZE = 20
 
 /** @type {NewsItem[]} */
 export const NEWS_ITEMS = [

@@ -88,6 +88,11 @@ const AWARDS = [
   },
 ]
 
+/**
+ * @param {object} props
+ * @param {import('react').ReactNode} props.children
+ * @param {'orange' | 'white' | 'light'} [props.variant]
+ */
 function Tag({ children, variant = 'orange' }) {
   const styles =
     variant === 'orange'

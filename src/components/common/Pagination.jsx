@@ -7,8 +7,7 @@ const ITEM_GLOW =
 /** Style chung cho số trang + mũi tên */
 const PAGE_ITEM_CLASS = cn(
   'flex h-9 w-9 shrink-0 items-center justify-center rounded-full font-body text-sm transition-all duration-200',
-  'text-[#5c5c66] hover:bg-white hover:text-brand-home1',
-  'hover:shadow-[0_0_10px_4px_rgba(90,59,196,0.12),0_8px_28px_rgba(90,59,196,0.28)]'
+  'text-[#5c5c66] hover:bg-white/50 hover:text-brand-home1'
 )
 
 const PAGE_ITEM_ACTIVE_CLASS = cn(

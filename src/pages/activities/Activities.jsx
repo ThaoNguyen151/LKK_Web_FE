@@ -1,146 +1,23 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
-import rectLeft from '@assets/Rectangle-2.png'
-import rectRight from '@assets/Rectangle-1.png'
-import rectBottom from '@assets/Rectangle.png'
 import { Header } from '@components/common'
-import { BackToTopButton, SearchButton, SortButton } from '@components/icon'
+import { SearchButton, SortButton } from '@components/icon'
 import { PageShell } from '@layouts'
 import { ROUTES, cn } from '@utils'
 import {
   ACTIVITY_CATEGORIES,
   activityCategoryPath,
+  activityTabPath,
   getActivityItems,
   getCategoryById,
   parseActivityRoute,
 } from './activityData'
 import { ActivityCard } from './ActivityCard'
 import { ActivityDetail } from './ActivityDetail'
+import { ActivitiesBackdrop, GridEdgeBlur } from './ActivitiesBackdrop'
+import { ActivityScrollAside } from './ActivityScrollAside'
 
 const SCROLL_TOP_THRESHOLD = 120
 const SCROLL_BOTTOM_OFFSET = 48
-const GRID_EDGE_BLUR_TOP = 'h-8'
-const GRID_EDGE_BLUR_BOTTOM = 'h-13'
-
-/**
- * Nền trang + chấm trang trí (left / right / bottom).
- * @param {object} props
- * @param {string} [props.className]
- * @param {import('react').CSSProperties} [props.style]
- */
-function ActivitiesBackdrop({ className, style }) {
-  return (
-    <div
-      className={cn('overflow-hidden bg-brand-soft', className)}
-      style={style}
-    >
-      <img
-        src={rectLeft}
-        alt=""
-        className="absolute left-0 top-[20%] h-full w-[min(40vw,420px)] opacity-70"
-        aria-hidden
-      />
-      <img
-        src={rectRight}
-        alt=""
-        className="absolute bottom-[10%] right-0 w-[min(35vw,380px)] opacity-70"
-        aria-hidden
-      />
-      <img
-        src={rectBottom}
-        alt=""
-        className="absolute bottom-0 left-1/2 w-[600px] -translate-x-[70%]"
-        aria-hidden
-      />
-    </div>
-  )
-}
-
-/**
- * Blur mép lưới: clone nền (có chấm) khớp viewport rồi blur + mask.
- * @param {object} props
- * @param {'top' | 'bottom'} props.edge
- * @param {boolean} props.show
- */
-function GridEdgeBlur({ edge, show }) {
-  const stripRef = useRef(/** @type {HTMLDivElement | null} */ (null))
-  const [origin, setOrigin] = useState({ top: 0, left: 0 })
-
-  useLayoutEffect(() => {
-    const update = () => {
-      const rect = stripRef.current?.getBoundingClientRect()
-      if (!rect) return
-      setOrigin({ top: rect.top, left: rect.left })
-    }
-
-    update()
-    window.addEventListener('resize', update)
-    return () => window.removeEventListener('resize', update)
-  }, [show, edge])
-
-  const isTop = edge === 'top'
-  const mask = isTop
-    ? 'linear-gradient(to bottom, #000 0%, #000 50%, transparent 100%)'
-    : 'linear-gradient(to top, #000 0%, #000 50%, transparent 100%)'
-
-  return (
-    <div
-      ref={stripRef}
-      className={cn(
-        'pointer-events-none absolute inset-x-0 z-10 overflow-hidden transition-opacity duration-0',
-        isTop ? GRID_EDGE_BLUR_TOP : GRID_EDGE_BLUR_BOTTOM,
-        isTop ? 'top-0' : '-bottom-6',
-        show ? 'opacity-100' : 'opacity-0'
-      )}
-      style={{
-        WebkitMaskImage: mask,
-        maskImage: mask,
-      }}
-      aria-hidden
-    >
-      <ActivitiesBackdrop
-        className={cn('absolute', isTop ? 'blur-[12px]' : 'blur-[9px]')}
-        style={{
-          top: -origin.top,
-          left: -origin.left,
-          width: '100vw',
-          height: '100dvh',
-        }}
-      />
-    </div>
-  )
-}
-
-/**
- * @param {object} props
- * @param {boolean} props.showHint
- * @param {boolean} props.showBackTop
- * @param {() => void} props.onBackTop
- */
-function ActivityScrollAside({ showHint, showBackTop, onBackTop }) {
-  return (
-    <>
-      <div
-        className={cn(
-          'pointer-events-none fixed right-2 top-1/2 z-30 hidden -translate-y-1/2 flex-col items-center transition-opacity duration-300 sm:right-4 sm:flex lg:right-[20px]',
-          showHint ? 'opacity-100' : 'opacity-0'
-        )}
-        aria-hidden={!showHint}
-      >
-        <p className="mt-15 -mr-5 rotate-90 whitespace-nowrap font-body text-[11px] tracking-wide text-brand-home1/50 lg:text-xs">
-          Cuộn để xem
-        </p>
-        <span className="mt-12 -mr-5 h-20 w-px bg-brand-home1/35 lg:mt-14 lg:h-24" />
-      </div>
-
-      <BackToTopButton
-        show={showBackTop}
-        onClick={onBackTop}
-        label="Lên đầu danh sách"
-        className="lg:right-[20px]"
-      />
-    </>
-  )
-}
 
 /**
  * @param {object} props
@@ -247,13 +124,14 @@ function ActivitySidebar({ activeId, orientation = 'vertical' }) {
  * @param {object} props
  * @param {string} props.route Current hash path without `#`
  * @param {string} props.categoryId
+ * @param {string} props.tabId
  */
-function ActivitiesList({ route, categoryId }) {
+function ActivitiesList({ route, categoryId, tabId }) {
   const category = getCategoryById(categoryId)
+  const activeTabId = category.tabs.some(tab => tab.id === tabId)
+    ? tabId
+    : (category.tabs[0]?.id ?? '')
 
-  const [tabByCategory, setTabByCategory] = useState(
-    /** @type {Record<string, string>} */ ({})
-  )
   const [query, setQuery] = useState('')
   const [sort, setSort] = useState(
     /** @type {'desc' | 'asc' | 'az' | 'za'} */ ('desc')
@@ -266,17 +144,24 @@ function ActivitiesList({ route, categoryId }) {
   const gridAreaRef = useRef(/** @type {HTMLDivElement | null} */ (null))
   const sidebarWrapRef = useRef(/** @type {HTMLDivElement | null} */ (null))
 
-  const tabId = tabByCategory[categoryId] ?? category.tabs[0]?.id ?? ''
-
+  // /activities hoặc /activities/:category → URL có tab mặc định
   useEffect(() => {
-    const expected = activityCategoryPath(categoryId)
-    if (route === '/activities' || route === '/activities/') {
-      const nextHash = `#${expected}`
+    const defaultTab = category.tabs[0]?.id
+    if (!defaultTab) return
+
+    const withTab = activityTabPath(categoryId, defaultTab)
+    if (
+      route === '/activities' ||
+      route === '/activities/' ||
+      route === activityCategoryPath(categoryId) ||
+      route === `${activityCategoryPath(categoryId)}/`
+    ) {
+      const nextHash = `#${withTab}`
       if (window.location.hash !== nextHash) {
         window.location.replace(nextHash)
       }
     }
-  }, [route, categoryId])
+  }, [route, categoryId, category.tabs])
 
   useLayoutEffect(() => {
     const updateBleed = () => {
@@ -328,21 +213,22 @@ function ActivitiesList({ route, categoryId }) {
       el.removeEventListener('scroll', updateScrollState)
       window.removeEventListener('resize', updateScrollState)
     }
-  }, [categoryId, tabId, query, sort])
+  }, [categoryId, activeTabId, query, sort])
 
   useEffect(() => {
     const el = gridScrollRef.current
     if (el) el.scrollTop = 0
-  }, [categoryId, tabId, query, sort])
+  }, [categoryId, activeTabId, query, sort])
 
-  const listItems = getActivityItems({ categoryId, tabId, query, sort })
+  const listItems = getActivityItems({
+    categoryId,
+    tabId: activeTabId,
+    query,
+    sort,
+  })
 
   const scrollToTop = () => {
     gridScrollRef.current?.scrollTo({ top: 0, behavior: 'smooth' })
-  }
-
-  const selectTab = /** @param {string} id */ id => {
-    setTabByCategory(prev => ({ ...prev, [categoryId]: id }))
   }
 
   return (
@@ -366,7 +252,7 @@ function ActivitiesList({ route, categoryId }) {
             <ActivitySidebar activeId={categoryId} />
           </div>
 
-          <div className="flex min-h-0 min-w-0 flex-1 flex-col pl-4 sm:pl-6 lg:pl-8">
+          <div className="flex min-h-0 min-w-0 flex-1 flex-col pl-4 sm:pl-6 lg:pl-12">
             <div className="mb-4 shrink-0 md:hidden">
               <ActivitySidebar activeId={categoryId} orientation="horizontal" />
             </div>
@@ -403,12 +289,11 @@ function ActivitiesList({ route, categoryId }) {
 
                 <div className="flex min-w-0 flex-wrap items-center gap-x-4 gap-y-2 sm:gap-x-10">
                   {category.tabs.map(tab => {
-                    const active = tab.id === tabId
+                    const active = tab.id === activeTabId
                     return (
-                      <button
+                      <a
                         key={tab.id}
-                        type="button"
-                        onClick={() => selectTab(tab.id)}
+                        href={`#${activityTabPath(categoryId, tab.id)}`}
                         className={cn(
                           'relative inline-flex items-center justify-center font-body text-xs font-semibold tracking-wide transition-colors sm:text-xs',
                           active
@@ -417,7 +302,7 @@ function ActivitiesList({ route, categoryId }) {
                         )}
                       >
                         {tab.label}
-                      </button>
+                      </a>
                     )
                   })}
                 </div>
@@ -448,7 +333,7 @@ function ActivitiesList({ route, categoryId }) {
               >
                 <div
                   ref={gridScrollRef}
-                  className="h-full overflow-y-auto overscroll-contain pb-3 pt-6 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+                  className="h-full overflow-y-auto overscroll-contain pb-8 pt-6 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
                   style={{
                     paddingLeft: scrollBleed.left || undefined,
                     paddingRight: scrollBleed.right || undefined,
@@ -483,7 +368,7 @@ function ActivitiesList({ route, categoryId }) {
  * @param {string} props.route Current hash path without `#`
  */
 export function Activities({ route }) {
-  const { categoryId, itemId } = parseActivityRoute(route)
+  const { categoryId, tabId, itemId } = parseActivityRoute(route)
 
   if (itemId) {
     return (
@@ -495,5 +380,5 @@ export function Activities({ route }) {
     )
   }
 
-  return <ActivitiesList route={route} categoryId={categoryId} />
+  return <ActivitiesList route={route} categoryId={categoryId} tabId={tabId} />
 }
