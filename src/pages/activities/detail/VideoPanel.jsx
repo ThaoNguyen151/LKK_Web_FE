@@ -330,7 +330,7 @@ export function VideoPanel({ item }) {
                           href={video.url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="group mb-5 flex items-stretch overflow-hidden rounded-2xl border-2 border-white bg-white/10 transition-all hover:border-brand-home1 hover:shadow-[0_0_10px_5px_rgba(90,59,196,0.1),0_12px_48px_rgba(90,59,196,0.45)]"
+                          className="group mb-5 flex items-stretch overflow-hidden rounded-2xl border-2 border-white bg-white/10 transition-all hover:border-1 hover:border-brand-home1 hover:shadow-[0_0_10px_5px_rgba(90,59,196,0.1),0_12px_48px_rgba(90,59,196,0.45)]"
                         >
                           {/* Thumbnail 16:9 tràn mép trái / trên / dưới */}
                           <span

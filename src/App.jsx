@@ -22,8 +22,8 @@ function useHashRoute() {
 function App() {
   const route = useHashRoute()
 
-  if (route === ROUTES.NEWS) {
-    return <News />
+  if (route === ROUTES.NEWS || route.startsWith(`${ROUTES.NEWS}/`)) {
+    return <News route={route} />
   }
 
   if (route === ROUTES.LIBRARY) {
