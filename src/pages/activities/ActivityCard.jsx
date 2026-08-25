@@ -49,14 +49,14 @@ export function ActivityCard({ item, className }) {
   return (
     <div
       className={cn(
-        'group rounded-2xl transition-shadow duration-300',
-        'hover:shadow-[0_12px_40px_rgba(90,59,196,0.4)]',
+        'group relative rounded-2xl transition-shadow duration-300',
+        'hover:shadow-[0_14px_36px_-6px_rgba(90,59,196,0.38)]',
         className
       )}
     >
       <article
         className={cn(
-          'relative flex overflow-hidden rounded-2xl border border-white bg-white/10 backdrop-blur-[3px] transition-[border-color,box-shadow] duration-300',
+          'relative isolate flex overflow-hidden rounded-2xl border border-white bg-white/10 backdrop-blur-[3px] transition-[border-color,box-shadow] duration-300',
           'group-hover:border-brand-home1'
         )}
       >
@@ -88,22 +88,36 @@ export function ActivityCard({ item, className }) {
           <ActivitySubtitle subtitle={item.subtitle} />
         </div>
 
-        <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center gap-2 bg-white/75 opacity-0 backdrop-blur-[3px] transition-opacity duration-300 group-hover:pointer-events-auto group-hover:opacity-100 sm:gap-5">
+        <div className="pointer-events-none absolute inset-px z-10 flex items-center justify-center gap-2 rounded-[15px] bg-white/20 opacity-0 backdrop-blur-[3px] transition-opacity duration-300 group-hover:pointer-events-auto group-hover:opacity-100 sm:gap-5">
           <a
             href={videoHref}
-            className="inline-flex items-center gap-1.5 rounded-full bg-brand-orange px-3 py-3 font-body text-[10px] font-bold uppercase tracking-wide text-white transition hover:brightness-105 sm:px-5 sm:text-xs"
+            className="inline-flex items-center gap-1.5 rounded-full bg-brand-orange px-3 py-3 font-body text-[10px] font-bold uppercase tracking-wide text-white transition hover:brightness-105 hover:bg-brand-home1 sm:px-5 sm:text-xs"
           >
             Xem video
             <img src={playIcon} alt="play" className="h-3.5 w-3.5" />
           </a>
           <a
             href={detailHref}
-            className="inline-flex items-center gap-2 rounded-full bg-brand-orange px-3 py-3 font-body text-[10px] font-bold uppercase tracking-wide text-white transition hover:brightness-105 sm:px-5 sm:text-xs"
+            className="inline-flex items-center gap-2 rounded-full bg-brand-orange px-3 py-3 font-body text-[10px] font-bold uppercase tracking-wide text-white transition hover:brightness-105 hover:bg-brand-home1 sm:px-5 sm:text-xs"
           >
             Thông tin
             <img src={infoIcon} alt="info" className="h-3.5 w-3.5" />
           </a>
         </div>
+
+        {/* Chỉ phủ góc trong — tránh vệt dọc sát mép phải */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-px z-20 rounded-[15px] opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+          style={{
+            background: [
+              'radial-gradient(ellipse 18px 18px at 2px 2px, rgba(255,255,255,0.92) 0%, rgba(255,255,255,0.35) 5%, transparent 40%)',
+              'radial-gradient(ellipse 18px 18px at 2px calc(100% - 2px), rgba(255,255,255,0.92) 0%, rgba(255,255,255,0.35) 5%, transparent 40%)',
+              'radial-gradient(ellipse 18px 18px at calc(100% - 2px) 2px, rgba(255,255,255,0.92) 0%, rgba(255,255,255,0.35) 35%, transparent 62%)',
+              'radial-gradient(ellipse 18px 18px at calc(100% - 2px) calc(100% - 2px), rgba(255,255,255,0.92) 0%, rgba(255,255,255,0.35) 35%, transparent 62%)',
+            ].join(', '),
+          }}
+        />
       </article>
     </div>
   )
