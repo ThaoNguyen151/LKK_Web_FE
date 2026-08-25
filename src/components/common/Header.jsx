@@ -10,7 +10,6 @@ import youtubeWhiteIcon from '@assets/images/icon/youtube_white.png'
 import socialSelfImage from '@assets/images/social/self.png'
 import socialFamilyImage from '@assets/images/social/family.png'
 import { cn, ROUTES } from '@utils'
-import { useBreakpoint } from '@hooks'
 import { useEffect, useState } from 'react'
 
 const NAV_LINKS = [
@@ -302,184 +301,186 @@ function SocialDropdowns({
 
 /**
  * @param {object} props
- * @param {'fixed' | 'static'} [props.variant]
- * @param {'responsive' | 'canvas' | 'mobile'} [props.layout]
- * @param {boolean} [props.showDatePill]
+ * @param {'fixed' | 'static'} props.variant
+ * @param {string} props.positionClass
+ * @param {string} props.spacerZ
+ * @param {boolean} props.showDatePill
+ * @param {boolean} props.menuOpen
+ * @param {() => void} props.onMenuToggle
+ * @param {() => void} props.onMenuClose
+ * @param {string} props.route
+ * @param {string} [props.rootClassName]
  */
-export function Header({
-  variant = 'fixed',
-  layout = 'responsive',
-  showDatePill = false,
+function MobileHeader({
+  variant,
+  positionClass,
+  spacerZ,
+  showDatePill,
+  menuOpen,
+  onMenuToggle,
+  onMenuClose,
+  route,
+  rootClassName,
 }) {
-  const [menuOpen, setMenuOpen] = useState(false)
-  const [route, setRoute] = useState(
-    () => window.location.hash.slice(1) || ROUTES.HOME
-  )
-  const { isCanvasLayout } = useBreakpoint()
-  const isCanvas = layout === 'canvas'
-  const isMobileBar =
-    layout === 'mobile' || (layout === 'responsive' && !isCanvasLayout)
-
-  useEffect(() => {
-    const onHashChange = () => {
-      setRoute(window.location.hash.slice(1) || ROUTES.HOME)
-    }
-    window.addEventListener('hashchange', onHashChange)
-    return () => window.removeEventListener('hashchange', onHashChange)
-  }, [])
-
-  useEffect(() => {
-    if (!isMobileBar) return undefined
-    document.body.style.overflow = menuOpen ? 'hidden' : ''
-    return () => {
-      document.body.style.overflow = ''
-    }
-  }, [isMobileBar, menuOpen])
-
-  /**
-   * Canvas Home stacking (ảnh đè navbar nhưng navbar vẫn hiện):
-   * - spacer z-30: nền thanh navbar
-   * - section/ảnh z-40: đè lên nền navbar
-   * - header z-50: social + link luôn nằm trên ảnh, vẫn bấm được
-   */
-  const spacerZ = isCanvas ? 'z-30' : 'z-30'
-  const headerZ = isCanvas ? 'z-50' : 'z-40'
-
-  const positionClass =
-    variant === 'fixed'
-      ? `fixed left-0 right-0 top-0 ${headerZ}`
-      : `relative ${headerZ}`
-
-  const leftSocials = SOCIAL_DROPDOWNS.slice(0, 2)
-  const rightSocials = SOCIAL_DROPDOWNS.slice(2)
-
   const mobileShadow =
     'shadow-[0_0_8px_2px_rgba(90,59,196,0.06)] backdrop-blur-md'
-  const desktopShadow =
-    'shadow-[0_0_10px_5px_rgba(90,59,196,0.1),0_12px_48px_rgba(90,59,196,0.2)]'
-
-  if (isMobileBar) {
-    return (
-      <>
-        <div
-          className={cn(
-            'header-mobile-spacer bg-white/95',
-            mobileShadow,
-            variant === 'fixed' && `fixed left-0 right-0 top-0 ${spacerZ}`
-          )}
-          aria-hidden
-        />
-
-        <header
-          className={cn(
-            positionClass,
-            'pointer-events-auto bg-white/95',
-            mobileShadow
-          )}
-        >
-          <div className="header-mobile-bar flex h-12 items-center justify-between gap-2">
-            <div className="flex min-w-0 items-center gap-2">
-              <a href={`#${ROUTES.HOME}`} aria-label="Về trang chủ">
-                <img src={logo} alt="LK Logo" className="h-7 w-auto" />
-              </a>
-              <button
-                type="button"
-                className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-brand-home1 transition-colors hover:bg-purple-100"
-                aria-label={menuOpen ? 'Đóng menu' : 'Mở menu'}
-                aria-expanded={menuOpen}
-                onClick={() => setMenuOpen(open => !open)}
-              >
-                <svg
-                  className="h-4 w-4"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  {menuOpen ? (
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M6 18L18 6M6 6l12 12"
-                    />
-                  ) : (
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M4 6h16M4 12h16M4 18h16"
-                    />
-                  )}
-                </svg>
-              </button>
-            </div>
-
-            {showDatePill ? (
-              <span className="shrink-0 rounded-full bg-white px-2.5 py-1 font-body text-[10px] font-semibold tracking-wide text-brand-home1 ring-1 ring-brand-home1/15">
-                22/12/1981
-              </span>
-            ) : null}
-          </div>
-
-          {menuOpen && (
-            <nav className="header-mobile-bar border-t border-purple-100 bg-white pb-4 pt-2 shadow-md">
-              <SocialIcons
-                className="mb-3 justify-center"
-                iconClassName="h-6 w-6"
-              />
-              <div className="flex flex-col gap-1.5">
-                {NAV_LINKS.map(link => (
-                  <NavLink
-                    key={link.label}
-                    label={link.label}
-                    href={link.href}
-                    route={route}
-                    className="rounded-lg px-3 py-2 text-center text-sm hover:bg-purple-50"
-                    onClick={() => setMenuOpen(false)}
-                  />
-                ))}
-              </div>
-            </nav>
-          )}
-        </header>
-      </>
-    )
-  }
 
   return (
-    <>
+    <div className={cn('header-mobile-only', rootClassName)}>
       <div
         className={cn(
-          'bg-white',
-          desktopShadow,
-          isCanvas ? 'h-20' : 'h-16 lg:h-20',
+          'header-mobile-spacer bg-white/95',
+          mobileShadow,
           variant === 'fixed' && `fixed left-0 right-0 top-0 ${spacerZ}`
         )}
+        aria-hidden
       />
 
       <header
         className={cn(
           positionClass,
-          'pointer-events-auto',
+          'pointer-events-auto w-full max-w-[100vw] bg-white/95',
+          mobileShadow
+        )}
+      >
+        <div className="header-mobile-bar flex h-12 items-center justify-between gap-2">
+          <div className="flex min-w-0 items-center gap-2">
+            <a href={`#${ROUTES.HOME}`} aria-label="Về trang chủ">
+              <img src={logo} alt="LK Logo" className="h-7 w-auto" />
+            </a>
+            <button
+              type="button"
+              className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-brand-home1 transition-colors hover:bg-purple-100"
+              aria-label={menuOpen ? 'Đóng menu' : 'Mở menu'}
+              aria-expanded={menuOpen}
+              onClick={onMenuToggle}
+            >
+              <svg
+                className="h-4 w-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                {menuOpen ? (
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                ) : (
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M4 6h16M4 12h16M4 18h16"
+                  />
+                )}
+              </svg>
+            </button>
+          </div>
+
+          {showDatePill ? (
+            <span className="shrink-0 rounded-full bg-white px-2.5 py-1 font-body text-[10px] font-semibold tracking-wide text-brand-home1 ring-1 ring-brand-home1/15">
+              22/12/1981
+            </span>
+          ) : null}
+        </div>
+
+        {menuOpen && (
+          <nav className="header-mobile-bar border-t border-purple-100 bg-white pb-4 pt-2 shadow-md">
+            <SocialIcons
+              className="mb-3 justify-center"
+              iconClassName="h-6 w-6"
+            />
+            <div className="flex flex-col gap-1.5">
+              {NAV_LINKS.map(link => (
+                <NavLink
+                  key={link.label}
+                  label={link.label}
+                  href={link.href}
+                  route={route}
+                  className="rounded-lg px-3 py-2 text-center text-sm hover:bg-purple-50"
+                  onClick={onMenuClose}
+                />
+              ))}
+            </div>
+          </nav>
+        )}
+      </header>
+    </div>
+  )
+}
+
+/**
+ * @param {object} props
+ * @param {'fixed' | 'static'} props.variant
+ * @param {string} props.positionClass
+ * @param {string} props.spacerZ
+ * @param {boolean} props.isCanvas
+ * @param {boolean} props.menuOpen
+ * @param {() => void} props.onMenuToggle
+ * @param {() => void} props.onMenuClose
+ * @param {string} props.route
+ * @param {typeof SOCIAL_DROPDOWNS} props.leftSocials
+ * @param {typeof SOCIAL_DROPDOWNS} props.rightSocials
+ * @param {string} [props.rootClassName]
+ */
+function DesktopHeader({
+  variant,
+  positionClass,
+  spacerZ,
+  isCanvas,
+  menuOpen,
+  onMenuToggle,
+  onMenuClose,
+  route,
+  leftSocials,
+  rightSocials,
+  rootClassName,
+}) {
+  const desktopShadow =
+    'shadow-[0_0_10px_5px_rgba(90,59,196,0.1),0_12px_48px_rgba(90,59,196,0.2)]'
+
+  return (
+    <div className={cn('header-desktop-only', rootClassName)}>
+      <div
+        className={cn(
+          'bg-white',
+          desktopShadow,
+          isCanvas ? 'h-20' : 'h-16 lg:h-20',
+          variant === 'fixed' &&
+            `fixed left-0 right-0 top-0 w-full max-w-[100vw] ${spacerZ}`
+        )}
+        aria-hidden
+      />
+
+      <header
+        className={cn(
+          positionClass,
+          'pointer-events-auto w-full max-w-[100vw] overflow-x-clip',
           isCanvas ? 'h-20 bg-transparent' : 'h-16 bg-transparent lg:h-20'
         )}
       >
-        <div className="flex h-full w-full max-w-none items-center justify-between px-4 py-0 sm:px-6 lg:px-20">
+        <div className="flex h-full w-full max-w-full items-center justify-between overflow-x-clip px-4 py-0 sm:px-6 lg:px-20">
           <SocialDropdowns
             items={leftSocials}
-            className={isCanvas ? 'flex' : 'hidden lg:flex'}
+            className={cn(
+              'header-desktop-socials shrink-0',
+              isCanvas ? 'flex' : 'hidden lg:flex'
+            )}
           />
 
           <a
             href={`#${ROUTES.HOME}`}
-            className={cn(isCanvas ? 'hidden' : 'lg:hidden')}
+            className={cn('shrink-0', isCanvas ? 'hidden' : 'lg:hidden')}
             aria-label="Về trang chủ"
           >
             <img src={logo} alt="LK Logo" className="h-10 w-auto" />
           </a>
           <nav
             className={cn(
-              'items-center gap-8',
+              'header-desktop-nav shrink-0 items-center gap-8',
               isCanvas ? 'flex gap-25' : 'hidden xl:gap-25 lg:flex'
             )}
           >
@@ -497,7 +498,7 @@ export function Header({
               aria-label="Về trang chủ"
             >
               <img src={logo} alt="LK Logo" className="h-12 w-auto" />
-            </a>{' '}
+            </a>
             {NAV_LINKS.slice(2).map(link => (
               <NavLink
                 key={link.label}
@@ -511,12 +512,12 @@ export function Header({
           <button
             type="button"
             className={cn(
-              'flex h-10 w-10 items-center justify-center rounded-full text-brand-home1 transition-colors hover:bg-purple-100',
+              'flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-brand-home1 transition-colors hover:bg-purple-100',
               isCanvas ? 'hidden' : 'lg:hidden'
             )}
             aria-label={menuOpen ? 'Đóng menu' : 'Mở menu'}
             aria-expanded={menuOpen}
-            onClick={() => setMenuOpen(open => !open)}
+            onClick={onMenuToggle}
           >
             <svg
               className="h-6 w-6"
@@ -545,7 +546,10 @@ export function Header({
           <SocialDropdowns
             items={rightSocials}
             align="right"
-            className={isCanvas ? 'flex' : 'hidden lg:flex'}
+            className={cn(
+              'header-desktop-socials shrink-0',
+              isCanvas ? 'flex' : 'hidden lg:flex'
+            )}
           />
         </div>
 
@@ -563,13 +567,133 @@ export function Header({
                   href={link.href}
                   route={route}
                   className="rounded-lg px-3 py-2 text-center hover:bg-purple-50"
-                  onClick={() => setMenuOpen(false)}
+                  onClick={onMenuClose}
                 />
               ))}
             </nav>
           </div>
         )}
       </header>
-    </>
+    </div>
   )
+}
+
+/**
+ * @param {object} props
+ * @param {'fixed' | 'static'} [props.variant]
+ * @param {'responsive' | 'canvas' | 'mobile'} [props.layout]
+ * @param {boolean} [props.showDatePill]
+ */
+export function Header({
+  variant = 'fixed',
+  layout = 'responsive',
+  showDatePill = false,
+}) {
+  const [menuOpen, setMenuOpen] = useState(false)
+  const [route, setRoute] = useState(
+    () => window.location.hash.slice(1) || ROUTES.HOME
+  )
+  const isCanvas = layout === 'canvas'
+  const showMobileOnly = layout === 'mobile'
+  const showDesktopOnly = layout === 'canvas'
+  const showBothViaCss = layout === 'responsive'
+
+  useEffect(() => {
+    const onHashChange = () => {
+      setRoute(window.location.hash.slice(1) || ROUTES.HOME)
+    }
+    window.addEventListener('hashchange', onHashChange)
+    return () => window.removeEventListener('hashchange', onHashChange)
+  }, [])
+
+  useEffect(() => {
+    if (showDesktopOnly) return undefined
+    document.body.style.overflow = menuOpen ? 'hidden' : ''
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [showDesktopOnly, menuOpen])
+
+  /**
+   * Canvas Home stacking (ảnh đè navbar nhưng navbar vẫn hiện):
+   * - spacer z-30: nền thanh navbar
+   * - section/ảnh z-40: đè lên nền navbar
+   * - header z-50: social + link luôn nằm trên ảnh, vẫn bấm được
+   */
+  const spacerZ = isCanvas ? 'z-30' : 'z-30'
+  const headerZ = isCanvas ? 'z-50' : 'z-40'
+
+  const positionClass =
+    variant === 'fixed'
+      ? `fixed left-0 right-0 top-0 ${headerZ}`
+      : `relative ${headerZ}`
+
+  const leftSocials = SOCIAL_DROPDOWNS.slice(0, 2)
+  const rightSocials = SOCIAL_DROPDOWNS.slice(2)
+
+  const toggleMenu = () => setMenuOpen(open => !open)
+  const closeMenu = () => setMenuOpen(false)
+
+  if (showMobileOnly) {
+    return (
+      <MobileHeader
+        variant={variant}
+        positionClass={positionClass}
+        spacerZ={spacerZ}
+        showDatePill={showDatePill}
+        menuOpen={menuOpen}
+        onMenuToggle={toggleMenu}
+        onMenuClose={closeMenu}
+        route={route}
+      />
+    )
+  }
+
+  if (showDesktopOnly) {
+    return (
+      <DesktopHeader
+        variant={variant}
+        positionClass={positionClass}
+        spacerZ={spacerZ}
+        isCanvas={isCanvas}
+        menuOpen={menuOpen}
+        onMenuToggle={toggleMenu}
+        onMenuClose={closeMenu}
+        route={route}
+        leftSocials={leftSocials}
+        rightSocials={rightSocials}
+      />
+    )
+  }
+
+  if (showBothViaCss) {
+    return (
+      <>
+        <MobileHeader
+          variant={variant}
+          positionClass={positionClass}
+          spacerZ={spacerZ}
+          showDatePill={showDatePill}
+          menuOpen={menuOpen}
+          onMenuToggle={toggleMenu}
+          onMenuClose={closeMenu}
+          route={route}
+        />
+        <DesktopHeader
+          variant={variant}
+          positionClass={positionClass}
+          spacerZ={spacerZ}
+          isCanvas={false}
+          menuOpen={menuOpen}
+          onMenuToggle={toggleMenu}
+          onMenuClose={closeMenu}
+          route={route}
+          leftSocials={leftSocials}
+          rightSocials={rightSocials}
+        />
+      </>
+    )
+  }
+
+  return null
 }

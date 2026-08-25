@@ -71,7 +71,8 @@
     scroll-behavior: smooth;
     -ms-overflow-style: none;
     scrollbar-width: none;
-    overflow-x: hidden;
+    overflow-x: clip;
+    width: 100%;
     max-width: 100%;
   }
 
@@ -85,16 +86,23 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     background-color: var(--color-brand-soft);
-    overflow-x: hidden;
+    overflow-x: clip;
+    width: 100%;
     max-width: 100%;
-    /* Android: không auto-shrink viewport để nhét layout rộng */
     min-width: 0;
   }
 
   #root {
-    overflow-x: hidden;
+    overflow-x: clip;
+    width: 100%;
     max-width: 100%;
     min-width: 0;
+  }
+
+  img,
+  video {
+    max-width: 100%;
+    height: auto;
   }
 
   html::-webkit-scrollbar,
@@ -208,6 +216,8 @@
 
   .header-mobile-spacer {
     height: calc(3rem + env(safe-area-inset-top, 0px));
+    width: 100%;
+    max-width: 100vw;
   }
 
   .header-mobile-bar {
@@ -219,6 +229,43 @@
       clamp(0.875rem, 4vw, 1.25rem),
       env(safe-area-inset-right, 0px)
     );
+  }
+
+  /* Header: mobile mặc định; desktop chỉ khi chuột + màn lg+ */
+  .header-mobile-only {
+    display: block;
+    width: 100%;
+    max-width: 100vw;
+  }
+
+  .header-desktop-only {
+    display: none;
+    width: 100%;
+    max-width: 100vw;
+  }
+
+  @media (min-width: 64rem) and (hover: hover) and (pointer: fine) {
+    .header-mobile-only {
+      display: none;
+    }
+
+    .header-desktop-only {
+      display: block;
+    }
+  }
+
+  /* Android/iOS — luôn header gọn, kể cả "Desktop site" */
+  html.touch-primary .header-desktop-only {
+    display: none !important;
+  }
+
+  html.touch-primary .header-mobile-only {
+    display: block !important;
+  }
+
+  html.touch-primary .header-desktop-nav,
+  html.touch-primary .header-desktop-socials {
+    display: none !important;
   }
 
   .pt-header {

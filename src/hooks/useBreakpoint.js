@@ -4,6 +4,7 @@ import {
   CANVAS_LAYOUT_MEDIA_QUERY,
   DEVICE,
   FINE_POINTER_MEDIA_QUERY,
+  TOUCH_PRIMARY_MEDIA_QUERY,
   getDeviceFromWidth,
   matchesCanvasLayout,
 } from '@/constants/breakpoints'
@@ -46,12 +47,15 @@ export function useBreakpoint() {
     const update = () => setState(getSnapshot())
     const mqCanvas = window.matchMedia(CANVAS_LAYOUT_MEDIA_QUERY)
     const mqFine = window.matchMedia(FINE_POINTER_MEDIA_QUERY)
+    const mqTouch = window.matchMedia(TOUCH_PRIMARY_MEDIA_QUERY)
     mqCanvas.addEventListener('change', update)
     mqFine.addEventListener('change', update)
+    mqTouch.addEventListener('change', update)
     const unsubscribeViewport = subscribeViewport(update)
     return () => {
       mqCanvas.removeEventListener('change', update)
       mqFine.removeEventListener('change', update)
+      mqTouch.removeEventListener('change', update)
       unsubscribeViewport()
     }
   }, [])
