@@ -95,7 +95,7 @@ const FANPAGE_DATA = [
     fallbackEmoji: null,
   },
   {
-    name: '1200 Hột É của chị Lê Khánh',
+    name: '1200 Hột É của chị\nLê Khánh',
     href: 'https://www.facebook.com/profile.php?id=61555671172772',
     facebookUsername: '61555671172772', // thay bằng username thật
     avatar: avatar1200HotE,
@@ -586,7 +586,7 @@ function HomeDesktop() {
                   </div>
 
                   <div
-                    className="mb-5 mt-12 h-px w-full"
+                    className="mb-6 mt-10 h-[0.5px] w-[100%]"
                     style={{
                       background:
                         'linear-gradient(to right, transparent, #5A3BC4, transparent)',
@@ -604,18 +604,18 @@ function HomeDesktop() {
                         href={page.href}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="group relative flex min-h-24 items-center gap-4 rounded-2xl border-2 border-white bg-white/20 p-4 transition-all duration-200 hover:border-brand-home1 hover:shadow-[0_8px_30px_rgba(90,59,196,0.18)]"
+                        className="group relative flex min-h-24 items-center gap-4 rounded-2xl border-2 border-white bg-white/20 p-4 transition-all duration-200 hover:border-brand-home1 hover:border-1 hover:shadow-[0_8px_30px_rgba(90,59,196,0.18)]"
                       >
                         <div className="h-16 w-16 shrink-0 overflow-hidden rounded-full bg-purple-100 ring-2 ring-purple-200/60">
                           <img
                             src={page.avatar}
-                            alt={page.name}
+                            alt={page.name.replace('\n', ' ')}
                             className="h-full w-full object-cover"
                           />
                         </div>
 
                         <div className="min-w-0 flex-1">
-                          <h3 className="font-body text-[18px] font-semibold leading-snug text-brand-home1">
+                          <h3 className="whitespace-pre-line font-body text-[18px] font-semibold leading-snug text-brand-home1">
                             {page.name}
                           </h3>
 

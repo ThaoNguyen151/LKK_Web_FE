@@ -6,7 +6,12 @@ import { Header, Pagination } from '@components/common'
 import { BackToTopButton, SearchButton, SortButton } from '@components/icon'
 import { PageShell } from '@layouts'
 import { ROUTES, cn } from '@utils'
-import { NEWS_PAGE_SIZE, getNewsPage } from './newsData'
+import {
+  NEWS_PAGE_SIZE,
+  getNewsPage,
+  newsPagePath,
+  parseNewsPage,
+} from './newsData'
 
 const SCROLL_TOP_THRESHOLD = 120
 const SCROLL_BOTTOM_OFFSET = 48
@@ -91,15 +96,33 @@ function NewsCard({ item }) {
   return <article className={cardClass}>{body}</article>
 }
 
-export function News() {
-  const [page, setPage] = useState(1)
-  const [scrolled, setScrolled] = useState(false)
-  const [atBottom, setAtBottom] = useState(false)
+/**
+ * @param {object} props
+ * @param {string} [props.route] Hash path without `#` (vd. `/news`, `/news/2`)
+ */
+export function News({ route = ROUTES.NEWS }) {
+  const requestedPage = parseNewsPage(route)
   const {
     items,
     totalPages,
     page: safePage,
-  } = getNewsPage(page, NEWS_PAGE_SIZE)
+  } = getNewsPage(requestedPage, NEWS_PAGE_SIZE)
+
+  const [scrolled, setScrolled] = useState(false)
+  const [atBottom, setAtBottom] = useState(false)
+
+  // Chuẩn hóa URL: /news/1 → /news; trang vượt quá → trang cuối
+  useEffect(() => {
+    const expected = newsPagePath(safePage)
+    if (route !== expected && window.location.hash !== `#${expected}`) {
+      window.location.replace(`#${expected}`)
+    }
+  }, [route, safePage])
+
+  // Đổi trang → cuộn lên đầu (giống load lại trang)
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [safePage])
 
   useEffect(() => {
     const root = document.documentElement
@@ -128,10 +151,19 @@ export function News() {
       window.removeEventListener('scroll', updateScrollState)
       window.removeEventListener('resize', updateScrollState)
     }
-  }, [page, items.length])
+  }, [safePage, items.length])
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  /** @param {number} next */
+  const goToPage = next => {
+    if (next === safePage) return
+    const path = newsPagePath(next)
+    if (window.location.hash !== `#${path}`) {
+      window.location.hash = path
+    }
   }
 
   return (
@@ -196,8 +228,11 @@ export function News() {
 
             <div className="relative z-10 mx-auto -mt-20 w-[min(100%,920px)] px-3 sm:-mt-28 sm:px-4 md:w-[min(100%,1000px)] lg:-mt-35 lg:w-[min(92%,1150px)]">
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 xl:gap-5">
-                {items.map(item => (
-                  <NewsCard key={item.id} item={item} />
+                {items.map((item, index) => (
+                  <NewsCard
+                    key={`${safePage}-${item.id}-${index}`}
+                    item={item}
+                  />
                 ))}
               </div>
             </div>
@@ -206,7 +241,7 @@ export function News() {
           <Pagination
             page={safePage}
             totalPages={totalPages}
-            onChange={setPage}
+            onChange={goToPage}
             label="Phân trang tin tức"
           />
         </div>

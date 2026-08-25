@@ -3,7 +3,7 @@ import { LIBRARY_IMAGES } from '../../library/libraryData'
 import { LibraryLightbox } from '../../library/LibraryLightbox'
 
 const CARD_CLASS =
-  'mb-4 block w-full break-inside-avoid overflow-hidden rounded-2xl bg-[#d4c8e8]/60 text-left shadow-[0_8px_24px_rgba(90,59,196,0.18)] transition-shadow duration-300 hover:border-2 hover:border-white hover:shadow-[0_0_10px_5px_rgba(90,59,196,0.1),0_12px_48px_rgba(90,59,196,0.45)] sm:mb-5'
+  'mb-4 block w-full break-inside-avoid overflow-hidden rounded-2xl bg-[#d4c8e8]/60 text-left shadow-[0_8px_24px_rgba(90,59,196,0.18)] transition-shadow duration-300 hover:border-1 hover:border-brand-home1 hover:shadow-[0_0_10px_5px_rgba(90,59,196,0.1),0_12px_48px_rgba(90,59,196,0.45)] sm:mb-5'
 
 /**
  * Panel Hình ảnh — chỉ mount khi tab active; ảnh lazy-load.

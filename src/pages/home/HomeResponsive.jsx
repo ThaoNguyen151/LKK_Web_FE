@@ -49,7 +49,7 @@ const FANPAGE_DATA = [
     avatar: avatarCherishK,
   },
   {
-    name: '1200 Hột É của chị Lê Khánh',
+    name: '1200 Hột É của chị\nLê Khánh',
     href: 'https://www.facebook.com/profile.php?id=61555671172772',
     avatar: avatar1200HotE,
   },
@@ -252,14 +252,14 @@ export function HomeResponsive() {
                     <div className="flex items-center gap-3">
                       <img
                         src={page.avatar}
-                        alt={page.name}
+                        alt={page.name.replace('\n', ' ')}
                         className="h-16 w-16 rounded-full object-cover ring-2 ring-purple-200/60"
                       />
                       <div>
                         <span className="mb-1 inline-block rounded-full bg-brand-orange px-2 py-0.5 text-[10px] uppercase text-white">
                           Fanpage
                         </span>
-                        <h3 className="font-body text-sm font-semibold text-brand-home1 sm:text-base">
+                        <h3 className="whitespace-pre-line font-body text-sm font-semibold text-brand-home1 sm:text-base">
                           {page.name}
                         </h3>
                       </div>
