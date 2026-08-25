@@ -371,7 +371,7 @@ function FansiteSection() {
 /** Mobile & tablet (< lg) — fluid iPhone SE → Android lớn. */
 export function HomeResponsive() {
   return (
-    <PageShell className="home-mobile-shell relative overflow-x-hidden">
+    <PageShell className="home-mobile-shell relative overflow-x-clip">
       <PurpleBlobs />
       <Header variant="fixed" layout="mobile" showDatePill />
 

@@ -10,10 +10,10 @@ export function ScaledCanvas({ children, className = '' }) {
 
   return (
     <div
-      className={`relative h-dvh w-full max-w-full overflow-x-hidden overflow-y-hidden bg-brand-soft ${className}`}
+      className={`relative h-dvh w-full max-w-[100vw] overflow-x-clip overflow-y-hidden bg-brand-soft ${className}`}
     >
       <div
-        className="absolute top-0 left-1/2 origin-top will-change-transform"
+        className="absolute top-0 left-1/2 max-w-[100vw] origin-top will-change-transform"
         style={{
           width: CANVAS_DESIGN_WIDTH,
           height: layout.height,

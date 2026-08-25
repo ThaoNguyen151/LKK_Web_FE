@@ -33,16 +33,31 @@ export const CANVAS_LAYOUT_MEDIA_QUERY = `(min-width: ${BREAKPOINTS.lg}px)`
 /** Desktop thật (hover + chuột) — mobile/touch luôn dùng layout responsive. */
 export const FINE_POINTER_MEDIA_QUERY = '(hover: hover) and (pointer: fine)'
 
+/** Thiết bị cảm ứng — Android/iOS, kể cả bật "Desktop site" trên Chrome. */
+export const TOUCH_PRIMARY_MEDIA_QUERY =
+  '(hover: none), (pointer: coarse), (any-pointer: coarse)'
+
+/** Chỉ desktop thật (chuột + màn rộng) mới dùng header/canvas web. */
+export const DESKTOP_HEADER_MEDIA_QUERY = `(min-width: ${BREAKPOINTS.lg}px) and (hover: hover) and (pointer: fine)`
+
+/**
+ * @returns {boolean}
+ */
+export function isTouchPrimaryDevice() {
+  if (typeof window === 'undefined') return true
+  return window.matchMedia(TOUCH_PRIMARY_MEDIA_QUERY).matches
+}
+
 /**
  * @param {number} [width] Layout viewport width (px)
+ * @returns {boolean}
  */
 export function matchesCanvasLayout(width) {
   if (typeof window === 'undefined') return false
 
   // Điện thoại / tablet cảm ứng: luôn mobile, kể cả bật "Desktop site"
-  if (!window.matchMedia(FINE_POINTER_MEDIA_QUERY).matches) {
-    return false
-  }
+  if (isTouchPrimaryDevice()) return false
+  if (!window.matchMedia(FINE_POINTER_MEDIA_QUERY).matches) return false
 
   const layoutWidth =
     typeof width === 'number'

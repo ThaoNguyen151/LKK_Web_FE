@@ -5,9 +5,30 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta
       name="viewport"
-      content="width=device-width, initial-scale=1, minimum-scale=1, viewport-fit=cover"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
     />
     <title>lkk-web-fe</title>
+    <script>
+      ;(function () {
+        var touch = window.matchMedia(
+          '(hover: none), (pointer: coarse), (any-pointer: coarse)'
+        ).matches
+        if (!touch) return
+        document.documentElement.classList.add('touch-primary')
+        var meta = document.querySelector('meta[name="viewport"]')
+        if (meta) {
+          meta.setAttribute(
+            'content',
+            'width=device-width, initial-scale=1, viewport-fit=cover'
+          )
+        }
+        var style = document.createElement('style')
+        style.textContent =
+          'html.touch-primary .header-desktop-only{display:none!important}' +
+          'html.touch-primary .header-mobile-only{display:block!important}'
+        document.head.appendChild(style)
+      })()
+    </script>
   </head>
   <body>
     <div id="root"></div>
