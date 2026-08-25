@@ -243,7 +243,7 @@ function ActivitiesList({ route, categoryId, tabId }) {
         onBackTop={scrollToTop}
       />
 
-      <main className="relative z-10 flex min-h-0 flex-1 flex-col pt-16 lg:pt-20">
+      <main className="relative z-10 flex min-h-0 flex-1 flex-col pt-header">
         <div className="mx-auto flex min-h-0 w-full max-w-[1440px] flex-1 items-stretch px-4 py-6 sm:px-6 lg:px-10">
           <div
             ref={sidebarWrapRef}

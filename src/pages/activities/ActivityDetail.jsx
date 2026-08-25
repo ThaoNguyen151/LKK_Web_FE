@@ -147,7 +147,7 @@ export function ActivityDetail({ itemId, categoryId, sidebar }) {
     return (
       <PageShell className="relative flex h-dvh flex-col overflow-hidden">
         <Header variant="fixed" />
-        <main className="relative z-10 flex min-h-0 flex-1 flex-col items-center justify-center pt-16 lg:pt-20">
+        <main className="relative z-10 flex min-h-0 flex-1 flex-col items-center justify-center pt-header">
           <p className="font-body text-sm text-gray-500">
             Không tìm thấy nội dung.
           </p>
@@ -177,7 +177,7 @@ export function ActivityDetail({ itemId, categoryId, sidebar }) {
         />
       ) : null}
 
-      <main className="relative z-10 flex min-h-0 flex-1 flex-col pt-16 lg:pt-20">
+      <main className="relative z-10 flex min-h-0 flex-1 flex-col pt-header">
         <div className="mx-auto flex min-h-0 w-full max-w-[1440px] flex-1 items-stretch px-4 py-6 sm:px-6 lg:px-10">
           {sidebar ? (
             <div
