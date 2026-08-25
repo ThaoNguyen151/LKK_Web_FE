@@ -1,3 +1,3 @@
 export { Home } from './Home'
-export { HomeResponsive } from './HomeResponsive'
+export { HomeResponsive, HomeMobile } from './HomeResponsive'
 export { HomeSectionDots } from './HomeSectionDots'
