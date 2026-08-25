@@ -24,12 +24,34 @@ export const CANVAS_MAX_SCALE = 1
 /** Tránh tràn ngang do làm tròn sub-pixel khi zoom 110%–125% */
 export const CANVAS_VIEWPORT_INSET = 2
 
-/** Sync with Tailwind `lg:` — uses rem so it matches @media (min-width: 64rem) in index.css */
-export const CANVAS_LAYOUT_MEDIA_QUERY = '(min-width: 64rem)'
+/**
+ * Ngưỡng desktop canvas — dùng px (không rem) để khớp mọi trình duyệt mobile.
+ * Sync với Tailwind `lg:` (64rem ≈ 1024px @ 16px root).
+ */
+export const CANVAS_LAYOUT_MEDIA_QUERY = `(min-width: ${BREAKPOINTS.lg}px)`
 
-export function matchesCanvasLayout() {
+/** Touch-primary (điện thoại) — tránh Android bật "Desktop site" vẫn load canvas. */
+export const TOUCH_PRIMARY_MEDIA_QUERY = '(hover: none) and (pointer: coarse)'
+
+/**
+ * @param {number} [width] Layout viewport width (px)
+ */
+export function matchesCanvasLayout(width) {
   if (typeof window === 'undefined') return true
-  return window.matchMedia(CANVAS_LAYOUT_MEDIA_QUERY).matches
+
+  const layoutWidth = typeof width === 'number' ? width : window.innerWidth
+
+  if (layoutWidth < BREAKPOINTS.lg) return false
+
+  // Phone/tablet nhỏ bật "Desktop site" — vẫn ưu tiên mobile layout
+  if (
+    layoutWidth < BREAKPOINTS.xl &&
+    window.matchMedia(TOUCH_PRIMARY_MEDIA_QUERY).matches
+  ) {
+    return false
+  }
+
+  return true
 }
 
 /**

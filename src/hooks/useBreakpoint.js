@@ -5,8 +5,9 @@ import {
   DEVICE,
   getDeviceFromWidth,
   matchesCanvasLayout,
+  TOUCH_PRIMARY_MEDIA_QUERY,
 } from '@/constants/breakpoints'
-import { getViewportMetrics, subscribeViewport } from '@utils/viewport'
+import { getLayoutViewportWidth, subscribeViewport } from '@utils/viewport'
 
 function getSnapshot() {
   if (typeof window === 'undefined') {
@@ -20,16 +21,17 @@ function getSnapshot() {
     }
   }
 
-  const { width } = getViewportMetrics()
+  const width = getLayoutViewportWidth()
   const device = getDeviceFromWidth(width)
+  const isCanvas = matchesCanvasLayout(width)
 
   return {
     width,
     device,
     isMobile: device === DEVICE.MOBILE,
     isTablet: device === DEVICE.TABLET,
-    isDesktopUp: matchesCanvasLayout(),
-    isCanvasLayout: matchesCanvasLayout(),
+    isDesktopUp: isCanvas,
+    isCanvasLayout: isCanvas,
   }
 }
 
@@ -42,11 +44,14 @@ export function useBreakpoint() {
 
   useEffect(() => {
     const update = () => setState(getSnapshot())
-    const mq = window.matchMedia(CANVAS_LAYOUT_MEDIA_QUERY)
-    mq.addEventListener('change', update)
+    const mqCanvas = window.matchMedia(CANVAS_LAYOUT_MEDIA_QUERY)
+    const mqTouch = window.matchMedia(TOUCH_PRIMARY_MEDIA_QUERY)
+    mqCanvas.addEventListener('change', update)
+    mqTouch.addEventListener('change', update)
     const unsubscribeViewport = subscribeViewport(update)
     return () => {
-      mq.removeEventListener('change', update)
+      mqCanvas.removeEventListener('change', update)
+      mqTouch.removeEventListener('change', update)
       unsubscribeViewport()
     }
   }, [])
