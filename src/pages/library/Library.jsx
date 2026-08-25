@@ -152,7 +152,7 @@ export function Library() {
         onBackTop={scrollToTop}
       />
 
-      <main className="relative z-10 pt-16 lg:pt-20">
+      <main className="relative z-10 pt-header">
         <div className="mx-auto w-full max-w-[1440px] px-4 py-6 sm:px-6 lg:px-10 lg:py-11">
           <div className="mb-8 sm:mb-10 sm:ml-30">
             <p className="mb-2 font-body text-[8px] leading-tight text-brand-home1/70 sm:text-[11px]">

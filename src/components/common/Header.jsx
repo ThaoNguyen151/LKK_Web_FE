@@ -10,6 +10,7 @@ import youtubeWhiteIcon from '@assets/images/icon/youtube_white.png'
 import socialSelfImage from '@assets/images/social/self.png'
 import socialFamilyImage from '@assets/images/social/family.png'
 import { cn, ROUTES } from '@utils'
+import { useBreakpoint } from '@hooks'
 import { useEffect, useState } from 'react'
 
 const NAV_LINKS = [
@@ -302,14 +303,22 @@ function SocialDropdowns({
 /**
  * @param {object} props
  * @param {'fixed' | 'static'} [props.variant]
- * @param {'responsive' | 'canvas'} [props.layout]
+ * @param {'responsive' | 'canvas' | 'mobile'} [props.layout]
+ * @param {boolean} [props.showDatePill]
  */
-export function Header({ variant = 'fixed', layout = 'responsive' }) {
+export function Header({
+  variant = 'fixed',
+  layout = 'responsive',
+  showDatePill = false,
+}) {
   const [menuOpen, setMenuOpen] = useState(false)
   const [route, setRoute] = useState(
     () => window.location.hash.slice(1) || ROUTES.HOME
   )
+  const { isCanvasLayout } = useBreakpoint()
   const isCanvas = layout === 'canvas'
+  const isMobileBar =
+    layout === 'mobile' || (layout === 'responsive' && !isCanvasLayout)
 
   useEffect(() => {
     const onHashChange = () => {
@@ -318,6 +327,14 @@ export function Header({ variant = 'fixed', layout = 'responsive' }) {
     window.addEventListener('hashchange', onHashChange)
     return () => window.removeEventListener('hashchange', onHashChange)
   }, [])
+
+  useEffect(() => {
+    if (!isMobileBar) return undefined
+    document.body.style.overflow = menuOpen ? 'hidden' : ''
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [isMobileBar, menuOpen])
 
   /**
    * Canvas Home stacking (ảnh đè navbar nhưng navbar vẫn hiện):
@@ -336,11 +353,105 @@ export function Header({ variant = 'fixed', layout = 'responsive' }) {
   const leftSocials = SOCIAL_DROPDOWNS.slice(0, 2)
   const rightSocials = SOCIAL_DROPDOWNS.slice(2)
 
+  const mobileShadow =
+    'shadow-[0_0_8px_2px_rgba(90,59,196,0.06)] backdrop-blur-md'
+  const desktopShadow =
+    'shadow-[0_0_10px_5px_rgba(90,59,196,0.1),0_12px_48px_rgba(90,59,196,0.2)]'
+
+  if (isMobileBar) {
+    return (
+      <>
+        <div
+          className={cn(
+            'header-mobile-spacer bg-white/95',
+            mobileShadow,
+            variant === 'fixed' && `fixed left-0 right-0 top-0 ${spacerZ}`
+          )}
+          aria-hidden
+        />
+
+        <header
+          className={cn(
+            positionClass,
+            'pointer-events-auto bg-white/95',
+            mobileShadow
+          )}
+        >
+          <div className="header-mobile-bar flex h-12 items-center justify-between gap-2">
+            <div className="flex min-w-0 items-center gap-2">
+              <a href={`#${ROUTES.HOME}`} aria-label="Về trang chủ">
+                <img src={logo} alt="LK Logo" className="h-7 w-auto" />
+              </a>
+              <button
+                type="button"
+                className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-brand-home1 transition-colors hover:bg-purple-100"
+                aria-label={menuOpen ? 'Đóng menu' : 'Mở menu'}
+                aria-expanded={menuOpen}
+                onClick={() => setMenuOpen(open => !open)}
+              >
+                <svg
+                  className="h-4 w-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  {menuOpen ? (
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  ) : (
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M4 6h16M4 12h16M4 18h16"
+                    />
+                  )}
+                </svg>
+              </button>
+            </div>
+
+            {showDatePill ? (
+              <span className="shrink-0 rounded-full bg-white px-2.5 py-1 font-body text-[10px] font-semibold tracking-wide text-brand-home1 ring-1 ring-brand-home1/15">
+                22/12/1981
+              </span>
+            ) : null}
+          </div>
+
+          {menuOpen && (
+            <nav className="header-mobile-bar border-t border-purple-100 bg-white pb-4 pt-2 shadow-md">
+              <SocialIcons
+                className="mb-3 justify-center"
+                iconClassName="h-6 w-6"
+              />
+              <div className="flex flex-col gap-1.5">
+                {NAV_LINKS.map(link => (
+                  <NavLink
+                    key={link.label}
+                    label={link.label}
+                    href={link.href}
+                    route={route}
+                    className="rounded-lg px-3 py-2 text-center text-sm hover:bg-purple-50"
+                    onClick={() => setMenuOpen(false)}
+                  />
+                ))}
+              </div>
+            </nav>
+          )}
+        </header>
+      </>
+    )
+  }
+
   return (
     <>
       <div
         className={cn(
-          'bg-white shadow-[0_0_10px_5px_rgba(90,59,196,0.1),0_12px_48px_rgba(90,59,196,0.2)]',
+          'bg-white',
+          desktopShadow,
           isCanvas ? 'h-20' : 'h-16 lg:h-20',
           variant === 'fixed' && `fixed left-0 right-0 top-0 ${spacerZ}`
         )}

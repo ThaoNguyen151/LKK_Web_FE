@@ -1,12 +1,12 @@
-import { useEffect, useState } from 'react'
-import logo from '@assets/logo.png'
+import { useState } from 'react'
 import imageHome1 from '@assets/image_home_1.png'
 import imageHome2 from '@assets/image_home_2.png'
 import imageHome4 from '@assets/image_home_4.png'
 import imageTextHome1 from '@assets/images/le-khanh.png'
 import warrow from '@assets/images/subicon/iconWarrow.png'
+import { Header } from '@components/common'
 import { PageShell } from '@layouts'
-import { cn, ROUTES } from '@utils'
+import { cn } from '@utils'
 import {
   awardYearHref,
   FANPAGE_DATA,
@@ -15,13 +15,6 @@ import {
   HOME_STATS,
   SOCIAL_PROFILES,
 } from './homeData'
-
-const NAV_LINKS = [
-  { label: 'HOẠT ĐỘNG', href: ROUTES.ACTIVITIES },
-  { label: 'THƯ VIỆN', href: ROUTES.LIBRARY },
-  { label: 'GIẢI THƯỞNG', href: ROUTES.AWARDS },
-  { label: 'TIN TỨC', href: ROUTES.NEWS },
-]
 
 /**
  * @param {object} props
@@ -51,109 +44,6 @@ function PurpleBlobs() {
   )
 }
 
-function MobileHomeHeader() {
-  const [menuOpen, setMenuOpen] = useState(false)
-  const [route, setRoute] = useState(
-    () => window.location.hash.slice(1) || ROUTES.HOME
-  )
-
-  useEffect(() => {
-    const onHashChange = () => {
-      setRoute(window.location.hash.slice(1) || ROUTES.HOME)
-    }
-    window.addEventListener('hashchange', onHashChange)
-    return () => window.removeEventListener('hashchange', onHashChange)
-  }, [])
-
-  useEffect(() => {
-    document.body.style.overflow = menuOpen ? 'hidden' : ''
-    return () => {
-      document.body.style.overflow = ''
-    }
-  }, [menuOpen])
-
-  return (
-    <>
-      <div className="home-mobile-header-spacer" aria-hidden />
-
-      <header className="fixed left-0 right-0 top-0 z-50 bg-white/90 shadow-[0_0_10px_5px_rgba(90,59,196,0.06)] backdrop-blur-md">
-        <div className="home-mobile-header-inner flex items-start justify-between pb-2">
-          <div className="flex flex-col gap-1.5 sm:gap-2">
-            <a href={`#${ROUTES.HOME}`} aria-label="Về trang chủ">
-              <img
-                src={logo}
-                alt="LK Logo"
-                className="h-8 w-auto sm:h-9 md:h-10"
-              />
-            </a>
-            <button
-              type="button"
-              className="flex h-9 w-9 items-center justify-center rounded-full text-brand-home1 transition-colors hover:bg-purple-100 sm:h-10 sm:w-10"
-              aria-label={menuOpen ? 'Đóng menu' : 'Mở menu'}
-              aria-expanded={menuOpen}
-              onClick={() => setMenuOpen(open => !open)}
-            >
-              <svg
-                className="h-5 w-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                {menuOpen ? (
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                ) : (
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M4 6h16M4 12h16M4 18h16"
-                  />
-                )}
-              </svg>
-            </button>
-          </div>
-
-          <span className="home-mobile-tag rounded-full bg-white font-body font-semibold tracking-wide text-brand-home1 shadow-sm ring-1 ring-brand-home1/15">
-            22/12/1981
-          </span>
-        </div>
-
-        {menuOpen && (
-          <nav className="home-mobile-header-inner border-t border-purple-100 bg-white pb-[max(1.25rem,env(safe-area-inset-bottom))] pt-3 shadow-md">
-            <div className="flex flex-col gap-2">
-              {NAV_LINKS.map(link => {
-                const active =
-                  route === link.href || route.startsWith(`${link.href}/`)
-
-                return (
-                  <a
-                    key={link.label}
-                    href={`#${link.href}`}
-                    onClick={() => setMenuOpen(false)}
-                    className={cn(
-                      'rounded-xl px-3 py-2.5 text-center font-body text-sm font-semibold uppercase tracking-wide transition-colors sm:text-base',
-                      active
-                        ? 'bg-brand-home1/10 text-brand-home1'
-                        : 'text-brand-textheader/60 hover:bg-purple-50 hover:text-brand-home1'
-                    )}
-                  >
-                    {link.label}
-                  </a>
-                )
-              })}
-            </div>
-          </nav>
-        )}
-      </header>
-    </>
-  )
-}
-
 /**
  * @param {object} props
  * @param {import('react').ReactNode} props.children
@@ -178,7 +68,7 @@ function Tag({ children, variant = 'orange', className }) {
 
 function HeroSection() {
   return (
-    <MobileSection className="pb-6 pt-2 sm:pb-8 md:pt-4">
+    <MobileSection className="pb-6 pt-2 sm:pb-8">
       <div className="relative">
         <div className="relative mx-auto w-fit max-w-full">
           <img
@@ -483,7 +373,7 @@ export function HomeResponsive() {
   return (
     <PageShell className="home-mobile-shell relative overflow-x-hidden">
       <PurpleBlobs />
-      <MobileHomeHeader />
+      <Header variant="fixed" layout="mobile" showDatePill />
 
       <main className="relative z-10 w-full min-w-0">
         <HeroSection />

@@ -197,7 +197,7 @@ export function News({ route = ROUTES.NEWS }) {
         onBackTop={scrollToTop}
       />
 
-      <main className="relative z-10 pt-16 lg:pt-20">
+      <main className="relative z-10 pt-header">
         <div className="mx-auto w-full max-w-[1440px] px-4 py-6 sm:px-6 lg:px-10 lg:py-6">
           {/* Banner + cards: cards đè nửa lên khối tím */}
           <div className="relative">

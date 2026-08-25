@@ -107,7 +107,7 @@ export function Awards({ route }) {
   return (
     <PageShell className="flex h-dvh flex-col overflow-hidden">
       <Header variant="fixed" />
-      <main className="min-h-0 flex-1 overflow-hidden pt-16 lg:pt-20">
+      <main className="min-h-0 flex-1 overflow-hidden pt-header">
         <AwardDetailTemplate year={year} award={award} />
       </main>
     </PageShell>
