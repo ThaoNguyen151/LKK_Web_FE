@@ -190,6 +190,101 @@
     background: linear-gradient(to bottom, transparent, #5a3bc4, transparent);
   }
 
+  /* Home mobile — fluid từ iPhone SE (320px) tới tablet (< lg) */
+  .home-mobile-shell {
+    padding-bottom: max(1.5rem, env(safe-area-inset-bottom, 0px));
+  }
+
+  .home-mobile-header-spacer {
+    height: calc(4.25rem + env(safe-area-inset-top, 0px));
+  }
+
+  @media (min-width: 640px) {
+    .home-mobile-header-spacer {
+      height: calc(4.5rem + env(safe-area-inset-top, 0px));
+    }
+  }
+
+  .home-mobile-header-inner {
+    padding-top: max(0.75rem, env(safe-area-inset-top, 0px));
+    padding-left: max(
+      clamp(0.875rem, 4vw, 1.25rem),
+      env(safe-area-inset-left, 0px)
+    );
+    padding-right: max(
+      clamp(0.875rem, 4vw, 1.25rem),
+      env(safe-area-inset-right, 0px)
+    );
+  }
+
+  .home-mobile-section {
+    padding-inline: max(
+        clamp(0.875rem, 4vw, 1.5rem),
+        env(safe-area-inset-left, 0px)
+      )
+      max(clamp(0.875rem, 4vw, 1.5rem), env(safe-area-inset-right, 0px));
+  }
+
+  .home-mobile-content {
+    width: 100%;
+    max-width: min(100%, 26rem);
+    margin-inline: auto;
+  }
+
+  @media (min-width: 390px) {
+    .home-mobile-content {
+      max-width: min(100%, 28rem);
+    }
+  }
+
+  @media (min-width: 640px) {
+    .home-mobile-content {
+      max-width: min(100%, 32rem);
+    }
+  }
+
+  @media (min-width: 768px) {
+    .home-mobile-content {
+      max-width: min(100%, 36rem);
+    }
+  }
+
+  .home-mobile-hero-photo {
+    width: min(100%, clamp(15.5rem, 82vw, 22rem));
+  }
+
+  .home-mobile-hero-title {
+    width: min(100%, clamp(14rem, 76vw, 19rem));
+  }
+
+  .home-mobile-stat-value {
+    font-size: clamp(1.25rem, 4.8vw, 1.875rem);
+    line-height: 1;
+  }
+
+  .home-mobile-stat-label {
+    font-size: clamp(0.5625rem, 2.6vw, 0.6875rem);
+  }
+
+  .home-mobile-glass-card {
+    border-radius: clamp(1.25rem, 4.5vw, 1.75rem);
+  }
+
+  .home-mobile-social-card {
+    min-height: clamp(9.5rem, 38vw, 11.5rem);
+  }
+
+  .home-mobile-tag {
+    font-size: clamp(0.625rem, 2.8vw, 0.75rem);
+    padding-inline: clamp(0.625rem, 3vw, 0.875rem);
+    padding-block: clamp(0.3125rem, 1.5vw, 0.4375rem);
+  }
+
+  .home-mobile-award-count {
+    font-size: clamp(3rem, 12vw, 4rem);
+    line-height: 1;
+  }
+
   /* Awards year transition */
   .award-anim-layer {
     will-change: transform, opacity;
