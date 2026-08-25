@@ -30,28 +30,26 @@ export const CANVAS_VIEWPORT_INSET = 2
  */
 export const CANVAS_LAYOUT_MEDIA_QUERY = `(min-width: ${BREAKPOINTS.lg}px)`
 
-/** Touch-primary (điện thoại) — tránh Android bật "Desktop site" vẫn load canvas. */
-export const TOUCH_PRIMARY_MEDIA_QUERY = '(hover: none) and (pointer: coarse)'
+/** Desktop thật (hover + chuột) — mobile/touch luôn dùng layout responsive. */
+export const FINE_POINTER_MEDIA_QUERY = '(hover: hover) and (pointer: fine)'
 
 /**
  * @param {number} [width] Layout viewport width (px)
  */
 export function matchesCanvasLayout(width) {
-  if (typeof window === 'undefined') return true
+  if (typeof window === 'undefined') return false
 
-  const layoutWidth = typeof width === 'number' ? width : window.innerWidth
-
-  if (layoutWidth < BREAKPOINTS.lg) return false
-
-  // Phone/tablet nhỏ bật "Desktop site" — vẫn ưu tiên mobile layout
-  if (
-    layoutWidth < BREAKPOINTS.xl &&
-    window.matchMedia(TOUCH_PRIMARY_MEDIA_QUERY).matches
-  ) {
+  // Điện thoại / tablet cảm ứng: luôn mobile, kể cả bật "Desktop site"
+  if (!window.matchMedia(FINE_POINTER_MEDIA_QUERY).matches) {
     return false
   }
 
-  return true
+  const layoutWidth =
+    typeof width === 'number'
+      ? width
+      : Math.min(window.innerWidth, window.screen?.width ?? window.innerWidth)
+
+  return layoutWidth >= BREAKPOINTS.lg
 }
 
 /**

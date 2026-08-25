@@ -67,6 +67,14 @@
     box-sizing: border-box;
   }
 
+  html {
+    scroll-behavior: smooth;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    overflow-x: hidden;
+    max-width: 100%;
+  }
+
   body {
     font-family:
       'iCiel Internacional',
@@ -77,13 +85,16 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     background-color: var(--color-brand-soft);
+    overflow-x: hidden;
+    max-width: 100%;
+    /* Android: không auto-shrink viewport để nhét layout rộng */
+    min-width: 0;
   }
 
-  /* Smooth scrolling + hide browser scrollbar, keep scroll */
-  html {
-    scroll-behavior: smooth;
-    -ms-overflow-style: none;
-    scrollbar-width: none;
+  #root {
+    overflow-x: hidden;
+    max-width: 100%;
+    min-width: 0;
   }
 
   html::-webkit-scrollbar,
