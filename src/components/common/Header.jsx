@@ -353,7 +353,7 @@ export function Header({ variant = 'fixed', layout = 'responsive' }) {
           isCanvas ? 'h-20 bg-transparent' : 'h-16 bg-transparent lg:h-20'
         )}
       >
-        <div className="page-container flex h-full max-w-none items-center justify-between px-20 py-0">
+        <div className="flex h-full w-full max-w-none items-center justify-between px-4 py-0 sm:px-6 lg:px-20">
           <SocialDropdowns
             items={leftSocials}
             className={isCanvas ? 'flex' : 'hidden lg:flex'}

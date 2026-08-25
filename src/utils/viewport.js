@@ -6,14 +6,26 @@
  * để khớp viewport CSS — browser zoom sẽ phóng to lại, giữ bố cục giống 100%.
  */
 
+/** Layout width — ưu tiên visualViewport (chính xác hơn trên mobile Android/iOS). */
+export function getLayoutViewportWidth() {
+  if (typeof window === 'undefined') return 1536
+
+  const vv = window.visualViewport
+  if (vv?.width && vv.width > 0) return Math.round(vv.width)
+
+  return window.innerWidth
+}
+
 export function getViewportMetrics() {
   if (typeof window === 'undefined') {
     return { width: 1536, height: 864 }
   }
 
+  const vv = window.visualViewport
+
   return {
-    width: window.innerWidth,
-    height: window.innerHeight,
+    width: getLayoutViewportWidth(),
+    height: Math.round(vv?.height ?? window.innerHeight),
   }
 }
 
@@ -27,16 +39,16 @@ export function subscribeViewport(listener) {
 
   window.addEventListener('resize', listener)
   window.visualViewport?.addEventListener('resize', listener)
+  window.visualViewport?.addEventListener('scroll', listener)
 
-  // Chrome/Edge trên Windows đôi khi không bắn resize khi Ctrl+/Ctrl-
   const ro = new ResizeObserver(listener)
   ro.observe(document.documentElement)
 
-  let lastW = window.innerWidth
-  let lastH = window.innerHeight
+  let lastW = getLayoutViewportWidth()
+  let lastH = getViewportMetrics().height
   const pollId = window.setInterval(() => {
-    const w = window.innerWidth
-    const h = window.innerHeight
+    const w = getLayoutViewportWidth()
+    const h = getViewportMetrics().height
     if (w !== lastW || h !== lastH) {
       lastW = w
       lastH = h
@@ -47,6 +59,7 @@ export function subscribeViewport(listener) {
   return () => {
     window.removeEventListener('resize', listener)
     window.visualViewport?.removeEventListener('resize', listener)
+    window.visualViewport?.removeEventListener('scroll', listener)
     ro.disconnect()
     window.clearInterval(pollId)
   }
