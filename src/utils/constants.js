@@ -15,6 +15,7 @@ export const ROUTES = {
   LIBRARY: '/library',
   AWARDS: '/awards',
   NEWS: '/news',
+  ADMIN: '/admin',
 }
 
 /** Glow tím dùng chung (giống hover card Tin tức) */

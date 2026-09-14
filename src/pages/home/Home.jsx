@@ -23,10 +23,6 @@ import facebookIcon from '@assets/images/icon/facebook.png'
 import tiktokIcon from '@assets/images/icon/tiktok.png'
 import instagramIcon from '@assets/images/icon/instagram.png'
 import youtubeIcon from '@assets/images/icon/youtube.png'
-import facebookWhiteIcon from '@assets/images/icon/face_white.png'
-import tiktokWhiteIcon from '@assets/images/icon/tiktok_white.png'
-import instagramWhiteIcon from '@assets/images/icon/instagram_white.png'
-import youtubeWhiteIcon from '@assets/images/icon/youtube_white.png'
 import socialSelfImage from '@assets/images/social/self.png'
 import socialFamilyImage from '@assets/images/social/family.png'
 import warrow from '@assets/images/subicon/iconWarrow.png'
@@ -42,19 +38,19 @@ const SOCIAL_PROFILE_DATA = [
         label: 'Facebook',
         href: 'https://www.facebook.com/DvLeKhanh.Official',
         icon: facebookIcon,
-        iconHover: facebookWhiteIcon,
+        iconHover: facebookIcon,
       },
       {
         label: 'TikTok',
         href: 'https://www.tiktok.com/@dienvienlekhanh',
         icon: tiktokIcon,
-        iconHover: tiktokWhiteIcon,
+        iconHover: tiktokIcon,
       },
       {
         label: 'Instagram',
         href: 'https://www.instagram.com/dienvienlekhanh/',
         icon: instagramIcon,
-        iconHover: instagramWhiteIcon,
+        iconHover: instagramIcon,
       },
     ],
   },
@@ -68,19 +64,19 @@ const SOCIAL_PROFILE_DATA = [
         label: 'Facebook',
         href: 'https://www.facebook.com/profile.php?id=61590618325034&locale=vi_VN',
         icon: facebookIcon,
-        iconHover: facebookWhiteIcon,
+        iconHover: facebookIcon,
       },
       {
         label: 'TikTok',
         href: 'https://www.tiktok.com/@chuyennhalekhanhtuankhai',
         icon: tiktokIcon,
-        iconHover: tiktokWhiteIcon,
+        iconHover: tiktokIcon,
       },
       {
         label: 'YouTube',
         href: 'https://www.youtube.com/@ChuyenNhaLeKhanhTuanKhai',
         icon: youtubeIcon,
-        iconHover: youtubeWhiteIcon,
+        iconHover: youtubeIcon,
       },
     ],
   },
@@ -534,55 +530,88 @@ function HomeDesktop() {
                     MẠNG XÃ HỘI
                   </h2>
 
-                  <div className="mt-7 grid grid-cols-2 gap-12 px-2">
-                    {SOCIAL_PROFILE_DATA.map(profile => (
-                      <article
-                        key={profile.id}
-                        className="relative h-[265px] rounded-2xl bg-brand-home1 shadow-[0_10px_35px_rgba(90,59,196,0.24)]"
-                      >
-                        <img
-                          src={profile.image}
-                          alt={profile.name.replace('\n', ' ')}
-                          className={cn(
-                            'pointer-events-none absolute z-10 h-72 object-contain object-bottom',
-                            profile.imageClassName
-                          )}
-                        />
+                  <div className="mt-7 grid grid-cols-2 gap-12 px-0">
+                    {SOCIAL_PROFILE_DATA.map(profile => {
+                      const iconsOnLeft = profile.id === 'self'
+                      // Chỉ dùng cho viền — không đổ vào nền card
+                      const borderOnlyGradient = iconsOnLeft
+                        ? 'linear-gradient(to right, #ffffff 0%, #ffffff 30%, #5A3BC4 80%, #5A3BC4 100%)'
+                        : 'linear-gradient(to left, #5A3BC4 0%, #5A3BC4 30%, #ffffff 80%, #ffffff 100%)'
 
-                        <div
-                          className="pointer-events-none absolute inset-x-0 bottom-0 z-[15] h-28 rounded-b-2xl bg-gradient-to-t from-brand-home1 via-brand-home1/75 to-transparent"
-                          aria-hidden
-                        />
+                      return (
+                        <article
+                          key={profile.id}
+                          className="relative h-[265px] rounded-2xl bg-white/45 shadow-[0_10px_35px_rgba(90,59,196,0.25)] backdrop-blur-md"
+                        >
+                          {/* Viền trên nền, dưới ảnh — lộ cả cạnh dưới */}
+                          <div
+                            aria-hidden
+                            className="pointer-events-none absolute inset-0 z-[5] rounded-2xl"
+                            style={{
+                              padding: 1.5,
+                              background: borderOnlyGradient,
+                              WebkitMask:
+                                'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+                              WebkitMaskComposite: 'xor',
+                              maskComposite: 'exclude',
+                            }}
+                          />
 
-                        <h3 className="absolute bottom-4 left-5 z-20 whitespace-pre-line font-body text-lg font-semibold leading-[1.5] text-white">
-                          {profile.name}
-                        </h3>
+                          <img
+                            src={profile.image}
+                            alt={profile.name.replace('\n', ' ')}
+                            className={cn(
+                              'pointer-events-none absolute z-20 h-72 object-contain object-bottom',
+                              profile.imageClassName
+                            )}
+                          />
 
-                        <div className="absolute -right-6 bottom-10 z-30 flex flex-col gap-3">
-                          {profile.links.map(link => (
-                            <a
-                              key={link.label}
-                              href={link.href}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              aria-label={`${link.label} – ${profile.name.replace('\n', ' ')}`}
-                              className="group relative flex h-13 w-13 items-center justify-center rounded-full border-2 border-brand-home1 bg-white shadow-[0_6px_18px_rgba(90,59,196,0.2)] transition-colors hover:bg-brand-home1 hover:border-white"
-                            >
-                              <img
-                                src={link.icon}
-                                alt=""
-                                className="absolute h-6 w-6 object-contain transition-opacity group-hover:opacity-0"
-                              />
-                              <img
-                                src={link.iconHover}
-                                alt=""
-                                className="absolute h-6 w-6 object-contain opacity-0 transition-opacity group-hover:opacity-100"
-                              />
-                            </a>
-                          ))}
-                        </div>
-                      </article>
-                    ))}
+                          {/* Fade thu vào trong 2px — không che viền đáy */}
+                          <div
+                            className="pointer-events-none absolute bottom-[2px] left-[2px] right-[2px] z-[22] h-0 rounded-b-[14px] bg-gradient-to-t from-white/100 via-white/80 to-transparent"
+                            aria-hidden
+                          />
+
+                          <h3
+                            className={cn(
+                              'absolute bottom-2.5 z-[25] whitespace-pre-line font-body text-lg font-semibold leading-[1.5] text-brand-home1',
+                              iconsOnLeft ? 'left-5' : 'left-5'
+                            )}
+                          >
+                            {profile.name}
+                          </h3>
+
+                          <div
+                            className={cn(
+                              'absolute bottom-10 z-30 flex flex-col gap-3',
+                              iconsOnLeft ? '-right-6' : '-right-6'
+                            )}
+                          >
+                            {profile.links.map(link => (
+                              <a
+                                key={link.label}
+                                href={link.href}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                aria-label={`${link.label} – ${profile.name.replace('\n', ' ')}`}
+                                className="group relative flex h-13 w-13 items-center justify-center rounded-full border-[2px] border-brand-home1 bg-white transition-colors hover:shadow-[0_0_10px_5px_rgba(90,59,196,0.1),0_12px_48px_rgba(90,59,196,0.45)]"
+                              >
+                                <img
+                                  src={link.icon}
+                                  alt=""
+                                  className="absolute h-6 w-6 object-contain transition-opacity group-hover:opacity-0"
+                                />
+                                <img
+                                  src={link.iconHover}
+                                  alt=""
+                                  className="absolute h-6 w-6 object-contain opacity-0 transition-opacity group-hover:opacity-100"
+                                />
+                              </a>
+                            ))}
+                          </div>
+                        </article>
+                      )
+                    })}
                   </div>
 
                   <div
@@ -604,7 +633,7 @@ function HomeDesktop() {
                         href={page.href}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="group relative flex min-h-24 items-center gap-4 rounded-2xl border-2 border-white bg-white/20 p-4 transition-all duration-200 hover:border-brand-home1 hover:border-1 hover:shadow-[0_8px_30px_rgba(90,59,196,0.18)]"
+                        className="group relative flex min-h-24 items-center gap-4 rounded-2xl border-2 border-white bg-white/20 p-4 transition-all duration-200 hover:border-brand-home1 hover:border-1 hover:shadow-[0_0_10px_5px_rgba(90,59,196,0.1),0_12px_48px_rgba(90,59,196,0.45)]"
                       >
                         <div className="h-16 w-16 shrink-0 overflow-hidden rounded-full bg-purple-100 ring-2 ring-purple-200/60">
                           <img
