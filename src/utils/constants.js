@@ -15,6 +15,7 @@ export const ROUTES = {
   LIBRARY: '/library',
   AWARDS: '/awards',
   NEWS: '/news',
+  CONTACT: '/contact',
   ADMIN: '/admin',
 }
 

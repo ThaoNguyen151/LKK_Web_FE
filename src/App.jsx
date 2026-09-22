@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Home, Awards, News, Library, Activities, Admin } from '@pages'
+import { Home, Awards, News, Library, Activities, Contact, Admin } from '@pages'
 import { ROUTES } from '@utils'
 
 function useHashRoute() {
@@ -43,6 +43,10 @@ function App() {
     route.startsWith(`${ROUTES.ACTIVITIES}/`)
   ) {
     return <Activities route={route} />
+  }
+
+  if (route === ROUTES.CONTACT || route.startsWith(`${ROUTES.CONTACT}/`)) {
+    return <Contact />
   }
 
   return <Home />
