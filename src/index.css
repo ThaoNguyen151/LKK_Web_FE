@@ -310,12 +310,130 @@
     }
   }
 
+  /*
+   * Home mobile hero — 3 lớp độc lập trong stage cố định:
+   * 1) .home-mobile-hero-photo-wrap  → chỉ dịch ảnh (left / top / transform)
+   * 2) .home-mobile-hero-title-wrap  → chỉ dịch chữ (left / bottom / transform)
+   * 3) .home-mobile-hero-tag--*      → chỉ dịch từng tag
+   * Không chỉnh left trên .home-mobile-hero-stage (sẽ kéo cả khối).
+   */
+  .home-mobile-hero-stage {
+    position: relative;
+    left: 50%;
+    width: 100vw;
+    max-width: 100vw;
+    margin-left: -50vw;
+    overflow: visible;
+  }
+
+  /* ── Ảnh (chỉnh left / top / transform ở đây) ── */
+  .home-mobile-hero-photo-wrap {
+    position: relative;
+    z-index: 1;
+    left: -23%;
+    top: -40px;
+    width: max-content;
+    max-width: none;
+    margin: 0;
+  }
+
   .home-mobile-hero-photo {
-    width: min(100%, clamp(15.5rem, 82vw, 22rem));
+    display: block;
+    width: min(124vw, 38rem);
+    max-width: none;
+    height: auto;
+    margin: 0;
+    object-fit: contain;
+    object-position: left top;
+  }
+
+  /* Dải blur mép dưới ảnh — clone nền (JS); chỉ giữ kích thước + clip */
+  .home-mobile-hero-photo-fade {
+    pointer-events: none;
+    position: absolute;
+    inset-inline: 0;
+    bottom: 0;
+    z-index: 5;
+    height: 8.5rem;
+    overflow: hidden;
+  }
+
+  @media (min-width: 640px) {
+    .home-mobile-hero-photo-fade {
+      height: 10rem;
+    }
+  }
+
+  /* ── Chữ LÊ KHÁNH (chỉnh left / bottom / transform ở đây) ── */
+  .home-mobile-hero-title-wrap {
+    position: absolute;
+    z-index: 20;
+    left: 0;
+    top: 380px;
+    bottom: 0;
+    width: min(92vw, 26rem);
+    max-width: none;
+    margin: 0;
+    padding: 0;
+    pointer-events: none;
   }
 
   .home-mobile-hero-title {
-    width: min(100%, clamp(14rem, 76vw, 19rem));
+    display: block;
+    width: 100%;
+    height: auto;
+    margin: 0;
+    object-fit: contain;
+    object-position: left bottom;
+    filter: drop-shadow(0 2px 8px rgba(255, 255, 255, 0.45));
+  }
+
+  /* ── Tags (chỉnh từng class --* riêng) ── */
+  .home-mobile-hero-tag {
+    position: absolute;
+    z-index: 10;
+  }
+
+  .home-mobile-hero-tag--actor {
+    left: 0.75rem;
+    top: 9%;
+  }
+
+  .home-mobile-hero-tag--dob {
+    right: 0.75rem;
+    top: 5%;
+  }
+
+  .home-mobile-hero-tag--artist {
+    right: 0.75rem;
+    top: 34%;
+  }
+
+  .home-mobile-hero-tag--name {
+    right: 8%;
+    top: 48%;
+  }
+
+  @media (min-width: 640px) {
+    .home-mobile-hero-tag--actor {
+      left: 1rem;
+      top: 11%;
+    }
+
+    .home-mobile-hero-tag--dob {
+      right: 1.25rem;
+      top: 7%;
+    }
+
+    .home-mobile-hero-tag--artist {
+      right: 1.25rem;
+      top: 36%;
+    }
+
+    .home-mobile-hero-tag--name {
+      right: 12%;
+      top: 50%;
+    }
   }
 
   .home-mobile-stat-value {

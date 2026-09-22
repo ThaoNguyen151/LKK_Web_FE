@@ -1,7 +1,7 @@
-import { useState } from 'react'
+import { useLayoutEffect, useRef, useState } from 'react'
 import imageHome1 from '@assets/image_home_1.png'
 import imageHome2 from '@assets/image_home_2.png'
-import imageTextHome1 from '@assets/images/le-khanh.png'
+import imageTextHome1 from '@assets/images/mobile/home/textlekhanh.png'
 import rectRight from '@assets/Rectangle-1.png'
 import rectBottom from '@assets/Rectangle.png'
 import warrow from '@assets/images/subicon/iconWarrow.png'
@@ -33,18 +33,18 @@ function MobileSection({ children, className }) {
 }
 
 /**
- * 3 rectangle nền — giống Home desktop / các trang nội dung.
- * `fixed`: luôn nằm trong viewport; nội dung scroll đè lên, nên 3 hình “đi theo” khi lướt.
- * Trái: rectBottom xoay dọc hướng trái (hiện trọn, không cắt).
+ * Nền mobile (brand-soft + chấm). Dùng fixed cho trang; absolute + offset cho blur mép ảnh.
+ * @param {object} props
+ * @param {string} [props.className]
+ * @param {import('react').CSSProperties} [props.style]
  */
-function MobileRectBackdrop() {
+function MobileRectBackdrop({ className, style }) {
   return (
     <div
       aria-hidden
-      className="pointer-events-none fixed inset-0 z-0 overflow-hidden"
+      className={cn('overflow-hidden bg-brand-soft', className)}
+      style={style}
     >
-      {/* Khung giữ chỗ sau khi xoay — tránh hình bay ra ngoài viewport */}
-      {/* Chấm trái — to hơn, sát mép trái */}
       <div className="absolute left-[-65px] top-[8%] flex h-[min(72vw,300px)] w-[min(52vw,210px)] items-center justify-start overflow-visible sm:top-[6%] sm:h-[min(62vw,340px)] sm:w-[min(46vw,230px)]">
         <img
           src={rectBottom}
@@ -57,11 +57,65 @@ function MobileRectBackdrop() {
         alt=""
         className="absolute bottom-[12%] right-0 w-[min(58vw,240px)] object-contain opacity-75 sm:w-[min(45vw,320px)]"
       />
-      {/* Chấm dưới — scale trong viewport (overflow-hidden cắt width thuần nên trước đó không thấy to) */}
       <img
         src={rectBottom}
         alt=""
         className="absolute bottom-[6%] left-[-10%] w-[min(95vw,400px)] origin-bottom scale-[1.85] object-contain opacity-70 sm:bottom-0 sm:left-[32%] sm:w-[min(85vw,480px)] sm:scale-[2]"
+      />
+    </div>
+  )
+}
+
+/**
+ * Blur mép dưới ảnh: clone nền viewport (khớp màu + chấm), mask phớt.
+ * Nằm trong photo-wrap → dịch ảnh thì dải blur đi theo, màu luôn khớp nền phía sau.
+ */
+function HeroPhotoFade() {
+  const stripRef = useRef(/** @type {HTMLDivElement | null} */ (null))
+  const [origin, setOrigin] = useState({ top: 0, left: 0 })
+
+  useLayoutEffect(() => {
+    const update = () => {
+      const rect = stripRef.current?.getBoundingClientRect()
+      if (!rect) return
+      setOrigin({ top: rect.top, left: rect.left })
+    }
+
+    update()
+    window.addEventListener('resize', update)
+    window.addEventListener('scroll', update, true)
+    const ro = new ResizeObserver(update)
+    if (stripRef.current) ro.observe(stripRef.current)
+    const parent = stripRef.current?.parentElement
+    if (parent) ro.observe(parent)
+
+    return () => {
+      window.removeEventListener('resize', update)
+      window.removeEventListener('scroll', update, true)
+      ro.disconnect()
+    }
+  }, [])
+
+  const mask = 'linear-gradient(to top, #000 0%, #000 35%, transparent 100%)'
+
+  return (
+    <div
+      ref={stripRef}
+      aria-hidden
+      className="home-mobile-hero-photo-fade"
+      style={{
+        WebkitMaskImage: mask,
+        maskImage: mask,
+      }}
+    >
+      <MobileRectBackdrop
+        className="absolute blur-[5px]"
+        style={{
+          top: -origin.top,
+          left: -origin.left,
+          width: '100vw',
+          height: '100dvh',
+        }}
       />
     </div>
   )
@@ -91,54 +145,47 @@ function Tag({ children, variant = 'orange', className }) {
 
 function HeroSection() {
   return (
-    <MobileSection className="pb-6 pt-0 sm:pb-8">
-      <div className="relative mx-auto w-full max-w-md">
-        {/* Ảnh chính + badge */}
-        <div className="relative mx-auto w-fit max-w-full">
+    <section className="relative pb-8 pt-0 sm:pb-10">
+      {/*
+        Stage = khung full-bleed cố định (không dịch cả khối).
+        Ảnh / chữ / tag mỗi lớp absolute hoặc wrap riêng — chỉnh class tương ứng.
+      */}
+      <div className="home-mobile-hero-stage">
+        {/* Chỉ chỉnh .home-mobile-hero-photo-wrap để dịch ảnh */}
+        <div className="home-mobile-hero-photo-wrap">
           <img
             src={imageHome1}
             alt="Lê Khánh"
-            className="home-mobile-hero-photo mx-auto object-contain"
+            className="home-mobile-hero-photo"
           />
-
-          <div className="absolute left-0 top-[10%] sm:top-[12%]">
-            <Tag>20 năm nghề</Tag>
-          </div>
-
-          <div className="absolute right-0 top-[6%] sm:top-[8%]">
-            <Tag variant="light">22/12/1981</Tag>
-          </div>
-
-          <div className="absolute right-0 top-[36%] sm:top-[38%]">
-            <Tag># NGHỆ SĨ</Tag>
-          </div>
+          {/* Blur mép dưới = clone nền; theo ảnh khi dịch chuyển */}
+          <HeroPhotoFade />
         </div>
 
-        {/* Tên */}
-        <div className="relative mx-auto mt-1 flex w-fit max-w-full flex-col items-center">
+        {/* Tag — vị trí riêng, không phụ thuộc ảnh */}
+        <div className="home-mobile-hero-tag home-mobile-hero-tag--actor">
+          <Tag># DIỄN VIÊN</Tag>
+        </div>
+        <div className="home-mobile-hero-tag home-mobile-hero-tag--dob">
+          <Tag variant="light">22/12/1981</Tag>
+        </div>
+        <div className="home-mobile-hero-tag home-mobile-hero-tag--artist">
+          <Tag># NGHỆ SĨ</Tag>
+        </div>
+        <div className="home-mobile-hero-tag home-mobile-hero-tag--name">
+          <Tag variant="light">LÊ KIM KHÁNH</Tag>
+        </div>
+
+        {/* Chỉ chỉnh .home-mobile-hero-title-wrap để dịch chữ */}
+        <div className="home-mobile-hero-title-wrap">
           <img
             src={imageTextHome1}
             alt="Lê Khánh"
-            className="home-mobile-hero-title object-contain"
-          />
-          <div className="mt-2">
-            <Tag variant="light">LÊ KIM KHÁNH</Tag>
-          </div>
-        </div>
-
-        {/* 2 pill trang trí dưới tên */}
-        <div className="mx-auto mt-5 flex max-w-[16rem] flex-col gap-2.5 sm:max-w-[18rem]">
-          <div
-            aria-hidden
-            className="h-9 w-full rounded-full border border-brand-home1/25 bg-white/20"
-          />
-          <div
-            aria-hidden
-            className="mx-auto h-9 w-[72%] rounded-full border border-brand-home1/20 bg-white/15"
+            className="home-mobile-hero-title"
           />
         </div>
       </div>
-    </MobileSection>
+    </section>
   )
 }
 
@@ -365,7 +412,7 @@ function FavoriteSection() {
 export function HomeResponsive() {
   return (
     <PageShell className="home-mobile-shell relative overflow-x-clip">
-      <MobileRectBackdrop />
+      <MobileRectBackdrop className="pointer-events-none fixed inset-0 z-0" />
       <Header variant="fixed" layout="mobile" />
 
       <main className="relative z-10 w-full min-w-0 pt-15">
