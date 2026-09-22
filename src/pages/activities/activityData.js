@@ -499,10 +499,10 @@ export const ACTIVITY_CATEGORIES = [
     breadcrumb: 'Sân Khấu',
     icon: iconSK,
     tabs: [
-      { id: 'thien-dang', label: 'Sân khấu THIÊN ĐĂNG' },
-      { id: 'idecaf', label: 'Sân khấu IDECAF' },
-      { id: 'ngay-xua-ngay-xua', label: 'Ngày Xửa Ngày Xưa' },
-      { id: 'chuyen-ngay-xua', label: 'Chuyện Ngày Xưa' },
+      { id: 'thien-dang', label: 'THIÊN ĐĂNG' },
+      { id: 'idecaf-nguoi-lon', label: 'IDECAF - Người Lớn' },
+      { id: 'idecaf-thieu-nhi', label: 'IDECAF - Thiếu nhi' },
+      { id: 'phu-nhuan', label: 'PHÚ NHUẬN' },
     ],
   },
   {
@@ -655,7 +655,7 @@ export const ACTIVITY_ITEMS = [
   {
     id: 'sk-id-1',
     categoryId: 'san-khau',
-    tabId: 'idecaf',
+    tabId: 'idecaf-thieu-nhi',
     badge: 'NGÀY XỬA NGÀY XƯA',
     year: '2022',
     title: 'Ngày Xửa Ngày Xưa 33',
@@ -664,7 +664,7 @@ export const ACTIVITY_ITEMS = [
   {
     id: 'sk-id-2',
     categoryId: 'san-khau',
-    tabId: 'idecaf',
+    tabId: 'idecaf-nguoi-lon',
     badge: 'IDECAF',
     year: '2023',
     title: '13 Đức Thầy – Đức Thầy 13',

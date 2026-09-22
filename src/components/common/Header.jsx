@@ -12,11 +12,27 @@ import socialFamilyImage from '@assets/images/social/family.png'
 import { cn, ROUTES } from '@utils'
 import { useEffect, useState } from 'react'
 
-const NAV_LINKS = [
-  { label: 'HOẠT ĐỘNG', href: ROUTES.ACTIVITIES },
+const NAV_LINKS_LEFT = [
+  { label: 'HOẠT ĐỘNG NGHỆ THUẬT', href: ROUTES.ACTIVITIES },
   { label: 'THƯ VIỆN', href: ROUTES.LIBRARY },
+]
+
+const NAV_LINKS_RIGHT = [
   { label: 'GIẢI THƯỞNG', href: ROUTES.AWARDS },
   { label: 'TIN TỨC', href: ROUTES.NEWS },
+  { label: 'LIÊN HỆ', href: ROUTES.CONTACT },
+]
+
+const NAV_LINKS = [...NAV_LINKS_LEFT, ...NAV_LINKS_RIGHT]
+
+/** Menu mobile theo mockup + Liên hệ */
+const MOBILE_NAV_LINKS = [
+  { label: 'TRANG CHỦ', href: ROUTES.HOME },
+  { label: 'HOẠT ĐỘNG', href: ROUTES.ACTIVITIES },
+  { label: 'GIẢI THƯỞNG', href: ROUTES.AWARDS },
+  { label: 'THƯ VIỆN', href: ROUTES.LIBRARY },
+  { label: 'TIN TỨC', href: ROUTES.NEWS },
+  { label: 'LIÊN HỆ', href: ROUTES.CONTACT },
 ]
 
 /**
@@ -251,7 +267,7 @@ function SocialDropdowns({
             >
               <div
                 role="menu"
-                className="overflow-hidden rounded-2xl bg-white shadow-[0_12px_35px_rgba(90,59,196,0.18)]"
+                className="overflow-hidden rounded-2xl bg-white shadow-[0_0_10px_5px_rgba(90,59,196,0.1),0_12px_48px_rgba(90,59,196,0.45)]"
               >
                 {social.accounts.map((account, index) => {
                   const count = social.accounts.length
@@ -276,12 +292,12 @@ function SocialDropdowns({
                         count > 1 && isLast && 'rounded-b-2xl'
                       )}
                     >
-                      <span className="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-full bg-brand-home1">
+                      <span className="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-full bg-brand-home1/20">
                         <img
                           src={account.avatar}
                           alt=""
                           className={cn(
-                            'h-full w-full mt-2 object-contain',
+                            'h-20 w-20 mt-5 object-contain',
                             account.avatarClassName
                           )}
                         />
@@ -315,21 +331,19 @@ function MobileHeader({
   variant,
   positionClass,
   spacerZ,
-  showDatePill,
   menuOpen,
   onMenuToggle,
   onMenuClose,
   route,
   rootClassName,
 }) {
-  const mobileShadow =
-    'shadow-[0_0_8px_2px_rgba(90,59,196,0.06)] backdrop-blur-md'
+  const mobileShadow = 'shadow-[0_4px_16px_rgba(90,59,196,0.08)]'
 
   return (
     <div className={cn('header-mobile-only', rootClassName)}>
       <div
         className={cn(
-          'header-mobile-spacer bg-white/95',
+          'header-mobile-spacer bg-white',
           mobileShadow,
           variant === 'fixed' && `fixed left-0 right-0 top-0 ${spacerZ}`
         )}
@@ -339,24 +353,29 @@ function MobileHeader({
       <header
         className={cn(
           positionClass,
-          'pointer-events-auto w-full max-w-[100vw] bg-white/95',
+          'pointer-events-auto w-full max-w-[100vw] bg-white',
           mobileShadow
         )}
       >
-        <div className="header-mobile-bar flex h-12 items-center justify-between gap-2">
-          <div className="flex min-w-0 items-center gap-2">
-            <a href={`#${ROUTES.HOME}`} aria-label="Về trang chủ">
-              <img src={logo} alt="LK Logo" className="h-7 w-auto" />
-            </a>
+        <div className="header-mobile-bar flex h-12 items-center justify-between gap-3">
+          <a
+            href={`#${ROUTES.HOME}`}
+            aria-label="Về trang chủ"
+            className="shrink-0"
+          >
+            <img src={logo} alt="LK Logo" className="h-8 w-auto" />
+          </a>
+
+          <div className="flex shrink-0 items-center gap-2">
             <button
               type="button"
-              className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-brand-home1 transition-colors hover:bg-purple-100"
+              className="flex h-9 w-9 items-center justify-center rounded-full text-brand-home1 transition-colors hover:bg-purple-50"
               aria-label={menuOpen ? 'Đóng menu' : 'Mở menu'}
               aria-expanded={menuOpen}
               onClick={onMenuToggle}
             >
               <svg
-                className="h-4 w-4"
+                className="h-5 w-5"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -379,34 +398,44 @@ function MobileHeader({
               </svg>
             </button>
           </div>
-
-          {showDatePill ? (
-            <span className="shrink-0 rounded-full bg-white px-2.5 py-1 font-body text-[10px] font-semibold tracking-wide text-brand-home1 ring-1 ring-brand-home1/15">
-              22/12/1981
-            </span>
-          ) : null}
         </div>
 
-        {menuOpen && (
-          <nav className="header-mobile-bar border-t border-purple-100 bg-white pb-4 pt-2 shadow-md">
-            <SocialIcons
-              className="mb-3 justify-center"
-              iconClassName="h-6 w-6"
-            />
-            <div className="flex flex-col gap-1.5">
-              {NAV_LINKS.map(link => (
-                <NavLink
-                  key={link.label}
-                  label={link.label}
-                  href={link.href}
-                  route={route}
-                  className="rounded-lg px-3 py-2 text-center text-sm hover:bg-purple-50"
-                  onClick={onMenuClose}
-                />
-              ))}
-            </div>
+        {menuOpen ? (
+          <nav
+            className="header-mobile-bar border-t border-brand-home1/10 bg-white pb-1 pt-0 shadow-[0_8px_20px_rgba(90,59,196,0.1)]"
+            aria-label="Menu điều hướng"
+          >
+            <ul className="flex flex-col">
+              {MOBILE_NAV_LINKS.map((link, index) => {
+                const active = isNavActive(link.href, route)
+
+                return (
+                  <li key={link.href}>
+                    <a
+                      href={`#${link.href}`}
+                      aria-current={active ? 'page' : undefined}
+                      onClick={onMenuClose}
+                      className={cn(
+                        'block py-3.5 text-center font-body text-sm font-semibold uppercase tracking-wide transition-colors',
+                        active
+                          ? 'text-brand-home1'
+                          : 'text-brand-textheader/45 hover:text-brand-home1'
+                      )}
+                    >
+                      {link.label}
+                    </a>
+                    {index < MOBILE_NAV_LINKS.length - 1 ? (
+                      <div
+                        className="mx-8 h-px bg-brand-home1/10"
+                        aria-hidden
+                      />
+                    ) : null}
+                  </li>
+                )
+              })}
+            </ul>
           </nav>
-        )}
+        ) : null}
       </header>
     </div>
   )
@@ -481,10 +510,10 @@ function DesktopHeader({
           <nav
             className={cn(
               'header-desktop-nav shrink-0 items-center gap-8',
-              isCanvas ? 'flex gap-25' : 'hidden xl:gap-25 lg:flex'
+              isCanvas ? 'flex gap-20' : 'hidden xl:gap-20 lg:flex'
             )}
           >
-            {NAV_LINKS.slice(0, 2).map(link => (
+            {NAV_LINKS_LEFT.map(link => (
               <NavLink
                 key={link.label}
                 label={link.label}
@@ -499,7 +528,7 @@ function DesktopHeader({
             >
               <img src={logo} alt="LK Logo" className="h-12 w-auto" />
             </a>
-            {NAV_LINKS.slice(2).map(link => (
+            {NAV_LINKS_RIGHT.map(link => (
               <NavLink
                 key={link.label}
                 label={link.label}
