@@ -222,11 +222,11 @@
 
   .header-mobile-bar {
     padding-left: max(
-      clamp(1.25rem, 5.5vw, 1.75rem),
+      clamp(0.05rem, 0vw, 1rem),
       env(safe-area-inset-left, 0px)
     );
     padding-right: max(
-      clamp(1.25rem, 5.5vw, 1.75rem),
+      clamp(0.05rem, 0vw, 1rem),
       env(safe-area-inset-right, 0px)
     );
   }
@@ -364,18 +364,22 @@
     }
   }
 
-  /* ── Chữ LÊ KHÁNH (chỉnh left / bottom / transform ở đây) ── */
+  /* ── Chữ LÊ KHÁNH — neo theo mép dưới stage (= đáy ảnh), không dùng px cố định
+   * (top: 470px lệch giữa iPhone / Android vì chiều cao ảnh đổi theo vw) ── */
   .home-mobile-hero-title-wrap {
     position: absolute;
     z-index: 20;
     left: 0;
-    top: 470px;
-    bottom: 0;
+    top: auto;
+    /* Khớp offset top của ảnh (-20px): đáy layout thấp hơn đáy ảnh nhìn thấy */
+    bottom: 20px;
     width: min(92vw, 26rem);
     max-width: none;
     margin: 0;
     padding: 0;
     pointer-events: none;
+    /* Kéo chữ lên đè phần dưới ảnh (tỉ lệ theo chiều cao stage) */
+    transform: translateY(50%);
   }
 
   .home-mobile-hero-title {
