@@ -28,7 +28,7 @@ const NAV_LINKS = [...NAV_LINKS_LEFT, ...NAV_LINKS_RIGHT]
 /** Menu mobile theo mockup + Liên hệ */
 const MOBILE_NAV_LINKS = [
   { label: 'TRANG CHỦ', href: ROUTES.HOME },
-  { label: 'HOẠT ĐỘNG', href: ROUTES.ACTIVITIES },
+  { label: 'HOẠT ĐỘNG NGHỆ THUẬT', href: ROUTES.ACTIVITIES },
   { label: 'GIẢI THƯỞNG', href: ROUTES.AWARDS },
   { label: 'THƯ VIỆN', href: ROUTES.LIBRARY },
   { label: 'TIN TỨC', href: ROUTES.NEWS },
@@ -402,7 +402,7 @@ function MobileHeader({
 
         {menuOpen ? (
           <nav
-            className="header-mobile-bar border-t border-brand-home1/10 bg-white pb-1 pt-0 shadow-[0_8px_20px_rgba(90,59,196,0.1)]"
+            className="header-mobile-bar relative border-t border-brand-home1/10 bg-white pb-1 pt-2 shadow-[inset_0_6px_12px_-2px_rgba(90,59,196,0.16)]"
             aria-label="Menu điều hướng"
           >
             <ul className="flex flex-col">
@@ -416,7 +416,7 @@ function MobileHeader({
                       aria-current={active ? 'page' : undefined}
                       onClick={onMenuClose}
                       className={cn(
-                        'block py-3.5 text-center font-body text-sm font-semibold uppercase tracking-wide transition-colors',
+                        'block py-4 text-center font-body text-[12px] font-semibold uppercase tracking-wide transition-colors',
                         active
                           ? 'text-brand-home1'
                           : 'text-brand-textheader/45 hover:text-brand-home1'
@@ -426,7 +426,7 @@ function MobileHeader({
                     </a>
                     {index < MOBILE_NAV_LINKS.length - 1 ? (
                       <div
-                        className="mx-8 h-px bg-brand-home1/10"
+                        className="header-mobile-nav-rule mx-33"
                         aria-hidden
                       />
                     ) : null}

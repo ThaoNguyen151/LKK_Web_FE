@@ -231,6 +231,19 @@
     );
   }
 
+  /*
+   * Hairline menu: vẽ 2px rồi scaleY(0.5) → ~1px nhìn đều trên retina.
+   * Tránh h-px bị anti-alias đậm–nhạt xen kẽ theo vị trí Y.
+   * Màu = brand-textheader @ 45%.
+   */
+  .header-mobile-nav-rule {
+    height: 1px;
+    background-color: rgba(61, 61, 61, 0.45);
+    transform: scaleY(0.5);
+    transform-origin: center;
+    backface-visibility: hidden;
+  }
+
   /* Header: mobile mặc định; desktop chỉ khi chuột + màn lg+ */
   .header-mobile-only {
     display: block;
@@ -330,7 +343,7 @@
   .home-mobile-hero-photo-wrap {
     position: relative;
     z-index: 1;
-    left: -23%;
+    left: -22%;
     top: -20px;
     width: max-content;
     max-width: none;
@@ -339,7 +352,7 @@
 
   .home-mobile-hero-photo {
     display: block;
-    width: min(124vw, 38rem);
+    width: min(120vw, 36rem);
     max-width: none;
     height: auto;
     margin: 0;
@@ -372,7 +385,7 @@
     left: 0;
     top: auto;
     /* Khớp offset top của ảnh (-20px): đáy layout thấp hơn đáy ảnh nhìn thấy */
-    bottom: 20px;
+    bottom: 10px;
     width: min(92vw, 26rem);
     max-width: none;
     margin: 0;
@@ -399,23 +412,23 @@
   }
 
   .home-mobile-hero-tag--actor {
-    left: 0.75rem;
-    top: 9%;
+    left: 2.75rem;
+    top: 17%;
   }
 
   .home-mobile-hero-tag--dob {
-    right: 0.75rem;
-    top: 5%;
+    right: 2.75rem;
+    top: 9%;
   }
 
   .home-mobile-hero-tag--artist {
-    right: 0.75rem;
-    top: 34%;
+    right: 1.25rem;
+    top: 63%;
   }
 
   .home-mobile-hero-tag--name {
-    right: 8%;
-    top: 48%;
+    right: 3.75rem;
+    top: 82%;
   }
 
   @media (min-width: 640px) {
