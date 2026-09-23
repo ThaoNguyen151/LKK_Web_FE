@@ -2,7 +2,6 @@ import { useLayoutEffect, useRef, useState } from 'react'
 import imageHome1 from '@assets/image_home_1.png'
 import imageHome2 from '@assets/image_home_2.png'
 import imageTextHome1 from '@assets/images/mobile/home/textlekhanh.png'
-import rectRight from '@assets/Rectangle-1.png'
 import rectFull from '@assets/Rectangle-full.png'
 import warrow from '@assets/images/subicon/iconWarrow.png'
 import { Header } from '@components/common'
@@ -49,18 +48,13 @@ function MobileRectBackdrop({ className, style }) {
         <img
           src={rectFull}
           alt=""
-          className="h-auto w-[min(95vw,400px)] max-w-none translate-x-[-35%] object-contain opacity-85 sm:w-[min(80vw,440px)]"
+          className="h-auto w-[min(95vw,400px)] pt-[45%] max-w-none translate-x-[-35%] object-contain opacity-85 sm:w-[min(80vw,440px)]"
         />
       </div>
       <img
-        src={rectRight}
-        alt=""
-        className="absolute bottom-[30%] right-0 w-[min(58vw,240px)] object-contain opacity-75 sm:w-[min(45vw,320px)]"
-      />
-      <img
         src={rectFull}
         alt=""
-        className="absolute bottom-[-30%] left-[-10%] w-[min(95vw,400px)] origin-bottom scale-[1.85] object-contain opacity-70 sm:bottom-0 sm:left-[32%] sm:w-[min(85vw,480px)] sm:scale-[2]"
+        className="h-auto w-[min(95vw,400px)] pt-[120%] right-0 max-w-none translate-x-[40%] object-contain opacity-85 sm:w-[min(100vw,500px)]"
       />
     </div>
   )
@@ -131,10 +125,10 @@ function Tag({ children, variant = 'orange', className }) {
   return (
     <span
       className={cn(
-        'inline-block rounded-full px-3 py-1.5 font-body text-[10px] font-semibold tracking-wide sm:text-[11px]',
+        'inline-block rounded-full pt-2 px-4 py-2 font-body text-[11px] font-semibold tracking-wide sm:text-[11px]',
         variant === 'orange'
-          ? 'bg-brand-orange text-white shadow-[0_4px_12px_rgba(232,140,40,0.35)]'
-          : 'bg-white/90 text-brand-home1 shadow-sm ring-1 ring-brand-home1/12',
+          ? 'bg-brand-orange text-white shadow-[0_3px_30px_rgba(90,59,196,0.25)]'
+          : 'bg-white/70 text-brand-home1 shadow-[0_3px_30px_rgba(90,59,196,0.25)]',
         className
       )}
     >
@@ -191,8 +185,8 @@ function HeroSection() {
 
 function TreasureSection() {
   return (
-    <MobileSection>
-      <h2 className="heading-display mb-3 text-center leading-[1.05] sm:mb-4">
+    <MobileSection className="mt-30">
+      <h2 className="heading-display mb-3 ml-3 text-left leading-[1.05] sm:mb-4">
         KHO TÀNG
         <br />
         NGHỆ THUẬT
