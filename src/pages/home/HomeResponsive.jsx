@@ -60,7 +60,7 @@ function MobileRectBackdrop({ className, style }) {
       <img
         src={rectFull}
         alt=""
-        className="absolute bottom-[6%] left-[-10%] w-[min(95vw,400px)] origin-bottom scale-[1.85] object-contain opacity-70 sm:bottom-0 sm:left-[32%] sm:w-[min(85vw,480px)] sm:scale-[2]"
+        className="absolute bottom-[-30%] left-[-10%] w-[min(95vw,400px)] origin-bottom scale-[1.85] object-contain opacity-70 sm:bottom-0 sm:left-[32%] sm:w-[min(85vw,480px)] sm:scale-[2]"
       />
     </div>
   )

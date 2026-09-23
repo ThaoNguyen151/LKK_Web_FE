@@ -361,7 +361,7 @@ function MobileHeader({
           <a
             href={`#${ROUTES.HOME}`}
             aria-label="Về trang chủ"
-            className="shrink-0"
+            className="flex h-18 w-18 shrink-0 items-center justify-center"
           >
             <img src={logo} alt="LK Logo" className="h-7 w-auto" />
           </a>
@@ -369,7 +369,7 @@ function MobileHeader({
           <div className="flex shrink-0 items-center gap-2">
             <button
               type="button"
-              className="flex h-9 w-9 items-center justify-center rounded-full text-brand-home1 transition-colors hover:bg-purple-50"
+              className="flex h-18 w-18 items-center justify-center rounded-full text-brand-home1 transition-colors hover:bg-purple-50"
               aria-label={menuOpen ? 'Đóng menu' : 'Mở menu'}
               aria-expanded={menuOpen}
               onClick={onMenuToggle}
