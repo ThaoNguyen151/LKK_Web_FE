@@ -357,13 +357,13 @@ function MobileHeader({
           mobileShadow
         )}
       >
-        <div className="header-mobile-bar flex h-12 items-center justify-between gap-3">
+        <div className="header-mobile-bar flex h-18 items-center justify-between gap-3">
           <a
             href={`#${ROUTES.HOME}`}
             aria-label="Về trang chủ"
             className="shrink-0"
           >
-            <img src={logo} alt="LK Logo" className="h-8 w-auto" />
+            <img src={logo} alt="LK Logo" className="h-7 w-auto" />
           </a>
 
           <div className="flex shrink-0 items-center gap-2">
@@ -375,7 +375,7 @@ function MobileHeader({
               onClick={onMenuToggle}
             >
               <svg
-                className="h-5 w-5"
+                className="h-6 w-6"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -384,14 +384,14 @@ function MobileHeader({
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    strokeWidth={2}
+                    strokeWidth={1.5}
                     d="M6 18L18 6M6 6l12 12"
                   />
                 ) : (
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    strokeWidth={2}
+                    strokeWidth={1.5}
                     d="M4 6h16M4 12h16M4 18h16"
                   />
                 )}
@@ -558,14 +558,14 @@ function DesktopHeader({
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  strokeWidth={2}
+                  strokeWidth={1.5}
                   d="M6 18L18 6M6 6l12 12"
                 />
               ) : (
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  strokeWidth={2}
+                  strokeWidth={1.5}
                   d="M4 6h16M4 12h16M4 18h16"
                 />
               )}

@@ -222,11 +222,11 @@
 
   .header-mobile-bar {
     padding-left: max(
-      clamp(0.875rem, 4vw, 1.25rem),
+      clamp(1.25rem, 5.5vw, 1.75rem),
       env(safe-area-inset-left, 0px)
     );
     padding-right: max(
-      clamp(0.875rem, 4vw, 1.25rem),
+      clamp(1.25rem, 5.5vw, 1.75rem),
       env(safe-area-inset-right, 0px)
     );
   }
@@ -331,7 +331,7 @@
     position: relative;
     z-index: 1;
     left: -23%;
-    top: -40px;
+    top: -20px;
     width: max-content;
     max-width: none;
     margin: 0;
@@ -369,7 +369,7 @@
     position: absolute;
     z-index: 20;
     left: 0;
-    top: 380px;
+    top: 470px;
     bottom: 0;
     width: min(92vw, 26rem);
     max-width: none;
