@@ -3,7 +3,7 @@ import imageHome1 from '@assets/image_home_1.png'
 import imageHome2 from '@assets/image_home_2.png'
 import imageTextHome1 from '@assets/images/mobile/home/textlekhanh.png'
 import rectRight from '@assets/Rectangle-1.png'
-import rectBottom from '@assets/Rectangle.png'
+import rectFull from '@assets/Rectangle-full.png'
 import warrow from '@assets/images/subicon/iconWarrow.png'
 import { Header } from '@components/common'
 import { PageShell } from '@layouts'
@@ -47,18 +47,18 @@ function MobileRectBackdrop({ className, style }) {
     >
       <div className="absolute left-[-65px] top-[8%] flex h-[min(72vw,300px)] w-[min(52vw,210px)] items-center justify-start overflow-visible sm:top-[6%] sm:h-[min(62vw,340px)] sm:w-[min(46vw,230px)]">
         <img
-          src={rectBottom}
+          src={rectFull}
           alt=""
-          className="h-auto w-[min(95vw,400px)] max-w-none -translate-x-[8%] rotate-90 object-contain opacity-85 sm:w-[min(80vw,440px)]"
+          className="h-auto w-[min(95vw,400px)] max-w-none translate-x-[-35%] object-contain opacity-85 sm:w-[min(80vw,440px)]"
         />
       </div>
       <img
         src={rectRight}
         alt=""
-        className="absolute bottom-[12%] right-0 w-[min(58vw,240px)] object-contain opacity-75 sm:w-[min(45vw,320px)]"
+        className="absolute bottom-[30%] right-0 w-[min(58vw,240px)] object-contain opacity-75 sm:w-[min(45vw,320px)]"
       />
       <img
-        src={rectBottom}
+        src={rectFull}
         alt=""
         className="absolute bottom-[6%] left-[-10%] w-[min(95vw,400px)] origin-bottom scale-[1.85] object-contain opacity-70 sm:bottom-0 sm:left-[32%] sm:w-[min(85vw,480px)] sm:scale-[2]"
       />
