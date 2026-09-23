@@ -125,10 +125,10 @@ function Tag({ children, variant = 'orange', className }) {
   return (
     <span
       className={cn(
-        'inline-block rounded-full pt-3 px-4.5 py-2.5 font-body text-[12px] font-semibold tracking-wide sm:text-[12px]',
+        'inline-block rounded-full pt-2 px-4.5 py-2 font-body text-[12px] font-semibold tracking-wide sm:text-[12px]',
         variant === 'orange'
-          ? 'bg-brand-orange text-white shadow-[0_3px_25px_rgba(90,59,196,0.35)]'
-          : 'bg-white/70 text-brand-home1 shadow-[0_3px_25px_rgba(90,59,196,0.35)]',
+          ? 'bg-brand-orange text-white shadow-[0_3px_25px_rgba(90,59,196,0.25)]'
+          : 'bg-white/70 text-brand-home1 shadow-[0_3px_25px_rgba(90,59,196,0.25)]',
         className
       )}
     >
