@@ -16,11 +16,18 @@ import socialSelfImage from '@assets/images/social/self.png'
 import socialFamilyImage from '@assets/images/social/family.png'
 import { awardYearPath } from '../awards/awardsData'
 
-export const HOME_INTRO =
-  'Sau hơn 20 năm chăm chỉ hoạt động nghệ thuật, Lê Khánh sở hữu một kho tàng vai diễn với đa dạng màu sắc. Cô vinh dự được xếp vào hàng ngũ diễn viên thực lực của Việt Nam.'
+/** Intro “Kho tàng” — mỗi phần tử = 1 dòng cố định trên mobile. */
+export const HOME_INTRO_LINES = [
+  'Sau hơn 20 năm chăm chỉ hoạt động nghệ thuật,',
+  'Lê Khánh sở hữu một kho tàng vai diễn với đa dạng',
+  'màu sắc. Cô vinh dự được xếp vào hàng ngũ diễn',
+  'viên thực lực của Việt Nam.',
+]
+
+export const HOME_INTRO = HOME_INTRO_LINES.join(' ')
 
 export const HOME_STATS = [
-  { value: '100', label: 'VAI DIỄN' },
+  { value: '100', label: 'VỞ DIỄN' },
   { value: '35', label: 'PHIM TRUYỀN HÌNH' },
   { value: '15', label: 'PHIM ĐIỆN ẢNH' },
 ]
