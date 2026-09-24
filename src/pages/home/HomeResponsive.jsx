@@ -186,13 +186,13 @@ function HeroSection() {
 function TreasureSection() {
   return (
     <MobileSection className="mt-35">
-      <h2 className="heading-display text-[36px] mb-3 ml-2 text-left leading-[1.05] sm:mb-4">
+      <h2 className="heading-display text-[36px] mb-3 ml-2 text-left leading-[1.05]">
         KHO TÀNG
         <br />
         NGHỆ THUẬT
       </h2>
 
-      <p className="mb-10 mt-7 ml-2 mr-2 text-left font-body text-[12px] leading-relaxed text-gray-700">
+      <p className="mb-7 mt-5 ml-2 mr-2 text-left font-body text-[12px] leading-relaxed text-gray-700">
         {HOME_INTRO_LINES.map(line => (
           <span key={line} className="block">
             {line}
@@ -215,7 +215,7 @@ function TreasureSection() {
             {HOME_STATS.map(stat => (
               <div
                 key={stat.label}
-                className="rounded-2xl border border-white border-2 bg-white/20 text-center backdrop-blur-md"
+                className="rounded-2xl border border-white border-1 bg-white/20 text-center backdrop-blur-md"
               >
                 <div className="home-mobile-treasure-stat-value font-body text-[28px] leading-none mb-1">
                   <span className="text-black">{stat.value}</span>

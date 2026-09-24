@@ -416,10 +416,10 @@
   .home-mobile-treasure-stats {
     position: absolute;
     z-index: 2;
-    left: 87%;
+    left: 83%;
     bottom: -12%;
     top: auto;
-    width: 46%;
+    width: 50%;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
