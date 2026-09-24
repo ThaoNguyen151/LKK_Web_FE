@@ -10,27 +10,28 @@ import { ROUTES, cn } from '@utils'
 
 const CONTACT_ITEMS = [
   {
+    id: 'address',
+    label: 'ĐỊA CHỈ',
+    valueCaption: 'Công ty TNHH Truyền thông - Giải trí BÁCH PHÚC',
+    value: '24/2 Đinh Tiên Hoàng, Phường Tân Định, TP.HCM',
+    iconSide: 'right',
+    iconSrc: iconAddress,
+    external: true,
+  },
+  {
     id: 'phone',
     label: 'ĐIỆN THOẠI',
-    value: '0939 393 799',
+    value: '0879 79 62 58 - 0939 393 799',
     valueNote: '(Mr. Khải)',
-    iconSide: 'right',
+    iconSide: 'left',
     iconSrc: iconPhone,
   },
   {
     id: 'email',
     label: 'EMAIL',
     value: 'bachphucentertainment@gmail.com',
-    iconSide: 'left',
-    iconSrc: iconMail,
-  },
-  {
-    id: 'address',
-    label: 'ĐỊA CHỈ',
-    value: '24/2 Đinh Tiên Hoàng, Phường Tân Định, TP.HCM',
     iconSide: 'right',
-    iconSrc: iconAddress,
-    external: true,
+    iconSrc: iconMail,
   },
 ]
 
@@ -72,6 +73,11 @@ function ContactCard({ item }) {
             : 'text-sm font-medium sm:text-[0.95rem] lg:text-[14px]'
         )}
       >
+        {item.valueCaption ? (
+          <span className="block mb-1.5 text-[14px] font-semibold not-italic uppercase">
+            {item.valueCaption}
+          </span>
+        ) : null}
         {item.value}
         {item.valueNote ? (
           <span className="ml-1.5 text-[14px] font-normal not-italic sm:ml-2">

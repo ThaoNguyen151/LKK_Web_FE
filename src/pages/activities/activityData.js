@@ -612,7 +612,7 @@ export const ACTIVITY_ITEMS = [
     tabId: 'thien-dang',
     badge: 'THIÊN ĐĂNG',
     year: '2025',
-    title: '13 Đức Thầy – Đức Thầy 13',
+    title: 'Người lạ người thương rồi người dưng',
     subtitle: 'vai diễn: BÀ HUYỆN THANH',
   },
   {

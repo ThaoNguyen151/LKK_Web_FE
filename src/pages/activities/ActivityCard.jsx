@@ -82,7 +82,7 @@ export function ActivityCard({ item, className }) {
               {item.year}
             </span>
           </div>
-          <h3 className="font-body text-sm pt-3.5 pb-2 font-bold leading-snug text-brand-home1 sm:text-base">
+          <h3 className="min-w-0 truncate font-body text-sm pt-3.5 pb-2 font-bold leading-snug text-brand-home1 sm:text-base">
             {item.title}
           </h3>
           <ActivitySubtitle subtitle={item.subtitle} />
