@@ -11,7 +11,7 @@ import {
   awardYearHref,
   FANPAGE_DATA,
   HOME_AWARDS,
-  HOME_INTRO,
+  HOME_INTRO_LINES,
   HOME_STATS,
   SOCIAL_PROFILES,
 } from './homeData'
@@ -185,38 +185,48 @@ function HeroSection() {
 
 function TreasureSection() {
   return (
-    <MobileSection className="mt-30">
-      <h2 className="heading-display mb-3 ml-3 text-left leading-[1.05] sm:mb-4">
+    <MobileSection className="mt-35">
+      <h2 className="heading-display text-[36px] mb-3 ml-2 text-left leading-[1.05] sm:mb-4">
         KHO TÀNG
         <br />
         NGHỆ THUẬT
       </h2>
 
-      <p className="mx-auto mb-6 max-w-prose text-center font-body text-[clamp(0.8125rem,3.4vw,0.9375rem)] leading-relaxed text-gray-700">
-        {HOME_INTRO}
+      <p className="mb-10 mt-7 ml-2 mr-2 text-left font-body text-[12px] leading-relaxed text-gray-700">
+        {HOME_INTRO_LINES.map(line => (
+          <span key={line} className="block">
+            {line}
+          </span>
+        ))}
       </p>
 
-      <div className="flex items-stretch gap-3 sm:gap-4">
-        <div className="w-[42%] shrink-0 overflow-hidden rounded-2xl bg-[#e8dff5] shadow-[0_8px_24px_rgba(90,59,196,0.12)] sm:w-[44%]">
-          <img
-            src={imageHome2}
-            alt="Lê Khánh"
-            className="h-full min-h-[148px] w-full object-cover object-top sm:min-h-[170px]"
-          />
-        </div>
+      <div className="relative mx-2.5">
+        {/* Block = đúng bề ngang khung ảnh → stats neo theo ảnh, không theo full màn */}
+        <div className="home-mobile-treasure-block">
+          <div className="home-mobile-treasure-frame">
+            <img
+              src={imageHome2}
+              alt="Lê Khánh"
+              className="home-mobile-treasure-photo"
+            />
+          </div>
 
-        <div className="flex min-w-0 flex-1 flex-col justify-center gap-3 py-1 sm:gap-4">
-          {HOME_STATS.map(stat => (
-            <div key={stat.label}>
-              <div className="font-body text-[clamp(1.5rem,6vw,2rem)] leading-none">
-                <span className="text-black">{stat.value}</span>
-                <span className="text-brand-home1">+</span>
+          <div className="home-mobile-treasure-stats">
+            {HOME_STATS.map(stat => (
+              <div
+                key={stat.label}
+                className="rounded-2xl border border-white border-2 bg-white/20 text-center backdrop-blur-md"
+              >
+                <div className="home-mobile-treasure-stat-value font-body text-[28px] leading-none mb-1">
+                  <span className="text-black">{stat.value}</span>
+                  <span className="text-brand-home1">+</span>
+                </div>
+                <div className="home-mobile-treasure-stat-label mt-1 font-body uppercase tracking-wide text-[9px] text-gray-600">
+                  {stat.label}
+                </div>
               </div>
-              <div className="mt-0.5 font-body text-[clamp(0.625rem,2.8vw,0.75rem)] uppercase tracking-wide text-gray-600">
-                {stat.label}
-              </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </MobileSection>
@@ -229,7 +239,7 @@ function AwardsSection() {
 
   return (
     <MobileSection>
-      <div className="mb-4 flex justify-center gap-2.5 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+      <div className="mt-20 mb-4 flex justify-center gap-2.5 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         {HOME_AWARDS.map((award, index) => (
           <button
             key={award.id}
