@@ -48,13 +48,13 @@ function MobileRectBackdrop({ className, style }) {
         <img
           src={rectFull}
           alt=""
-          className="h-auto w-[min(95vw,400px)] pt-[45%] max-w-none translate-x-[-35%] object-contain opacity-85 sm:w-[min(80vw,440px)]"
+          className="h-auto w-[min(110vw,520px)] rotate-[330deg] pt-[80%] max-w-none translate-x-[-50%] object-contain opacity-85 sm:w-[min(140vw,580px)]"
         />
       </div>
       <img
         src={rectFull}
         alt=""
-        className="h-auto w-[min(95vw,400px)] pt-[120%] right-0 max-w-none translate-x-[40%] object-contain opacity-85 sm:w-[min(100vw,500px)]"
+        className="h-auto w-[min(90vw,380px)] pt-[100%] right-0 max-w-none translate-x-[50%] object-contain opacity-85 sm:w-[min(90vw,380px)]"
       />
     </div>
   )
@@ -128,7 +128,7 @@ function Tag({ children, variant = 'orange', className }) {
         'inline-block rounded-full pt-2 px-4.5 py-2 font-body text-[12px] font-semibold tracking-wide sm:text-[12px]',
         variant === 'orange'
           ? 'bg-brand-orange text-white shadow-[0_3px_25px_rgba(90,59,196,0.25)]'
-          : 'bg-white/70 text-brand-home1 shadow-[0_3px_25px_rgba(90,59,196,0.25)]',
+          : 'bg-white/20 text-brand-home1 shadow-[0_3px_25px_rgba(90,59,196,0.25)]',
         className
       )}
     >
