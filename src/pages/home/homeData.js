@@ -95,7 +95,7 @@ export const SOCIAL_PROFILES = [
   },
   {
     id: 'family',
-    name: 'Chuyện nhà\nLê Khánh – Tuấn Khải',
+    name: 'Chuyện nhà\nLê Khánh - Tuấn Khải',
     image: socialFamilyImage,
     imageSide: 'left',
     iconSide: 'right',
@@ -127,7 +127,7 @@ export const SOCIAL_PROFILES = [
 
 export const FANPAGE_DATA = [
   {
-    name: 'CherishK – all about Lê Khánh',
+    name: 'CherishK - all about Lê Khánh',
     href: 'https://facebook.com/LeKhanhcollection',
     avatar: avatarCherishK,
   },
