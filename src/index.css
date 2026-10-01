@@ -572,7 +572,8 @@
   }
 
   .home-mobile-glass-card-award {
-    border-radius: 1.5rem;
+    /* rem (góc tròn) — khung rộng hơn treasure nên bo lớn hơn 1.5rem */
+    border-radius: 3.25rem;
   }
 
   .home-mobile-social-card {

@@ -284,50 +284,59 @@ function AwardsSection() {
           })}
         </div>
 
-        {/* Khung cố định size — title 1/2 hàng không đổi chiều cao */}
-        <div className="home-mobile-glass-card relative z-0 flex h-[22rem] flex-col bg-brand-home1/10 px-5 pb-6 pt-13 backdrop-blur-sm sm:h-[26rem] sm:px-7 sm:pb-4 sm:pt-12">
-          <h3 className="font-display-medium h-[5rem] shrink-0 overflow-hidden whitespace-pre-line text-left font-display text-[36px] italic leading-[1.15] text-brand-home1 sm:h-[5.25rem]">
-            {active.title}
-          </h3>
+        {/* Khung: overflow + rounded trực tiếp (backdrop-blur tách lớp để bo góc ăn) */}
+        <div
+          className="relative z-0 h-[22rem] overflow-hidden rounded-[1.5rem] sm:h-[26rem]"
+          style={{ borderRadius: '1.5rem' }}
+        >
+          <div
+            className="absolute inset-0 bg-brand-home1/10 backdrop-blur-sm"
+            aria-hidden
+          />
+          <div className="relative z-[1] flex h-full flex-col px-5 pb-6 pt-13 sm:px-7 sm:pb-4 sm:pt-12">
+            <h3 className="font-display-medium h-[5rem] shrink-0 overflow-hidden whitespace-pre-line text-left font-display text-[36px] italic leading-[1.15] text-brand-home1 sm:h-[5.25rem]">
+              {active.title}
+            </h3>
 
-          <div className="relative min-h-0 flex-1">
-            {/* Năm — lơ lửng giữa khối nội dung */}
-            <div
-              className={cn(
-                'absolute left-[3%] top-[30%] grid min-w-0 -translate-y-1/2 gap-x-7 gap-y-6',
-                active.id !== 'htv' && active.years.length > 1
-                  ? 'grid-cols-2'
-                  : 'grid-cols-1'
-              )}
-            >
-              {active.years.map(year => (
-                <a
-                  key={year}
-                  href={awardYearHref(year)}
-                  className="font-body text-[13px] transition-colors hover:text-brand-home1 sm:text-lg"
-                >
-                  {year}
-                </a>
-              ))}
-            </div>
+            <div className="relative min-h-0 flex-1">
+              {/* Năm — lơ lửng giữa khối nội dung */}
+              <div
+                className={cn(
+                  'absolute left-[3%] top-[30%] grid min-w-0 -translate-y-1/2 gap-x-7 gap-y-6',
+                  active.id !== 'htv' && active.years.length > 1
+                    ? 'grid-cols-2'
+                    : 'grid-cols-1'
+                )}
+              >
+                {active.years.map(year => (
+                  <a
+                    key={year}
+                    href={awardYearHref(year)}
+                    className="font-body text-[13px] transition-colors hover:text-brand-home1 sm:text-lg"
+                  >
+                    {year}
+                  </a>
+                ))}
+              </div>
 
-            {/* Cúp + số — Liên hoan phim/sân khấu: gap số↔cúp lớn hơn */}
-            <div
-              className={cn(
-                'absolute bottom-0 right-0 flex items-end',
-                active.id === 'san-khau' || active.id === 'phim-vn'
-                  ? 'gap-2'
-                  : 'gap-0'
-              )}
-            >
-              <span className="home-mobile-award-count -translate-y-1 font-display text-[115px] leading-none text-brand-cup">
-                {active.count}
-              </span>
-              <img
-                src={active.cup}
-                alt=""
-                className="h-48 w-auto object-contain"
-              />
+              {/* Cúp + số — Liên hoan phim/sân khấu: gap số↔cúp lớn hơn */}
+              <div
+                className={cn(
+                  'absolute bottom-0 right-0 flex items-end',
+                  active.id === 'san-khau' || active.id === 'phim-vn'
+                    ? 'gap-2'
+                    : 'gap-0'
+                )}
+              >
+                <span className="home-mobile-award-count -translate-y-1 font-display text-[115px] leading-none text-brand-cup">
+                  {active.count}
+                </span>
+                <img
+                  src={active.cup}
+                  alt=""
+                  className="h-48 w-auto object-contain"
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -385,27 +394,47 @@ function SocialProfileCard({ profile }) {
             ))}
           </div>
 
-          {/* Nền giống web: trắng mờ + blur */}
+          {/* Khung: overflow + rounded 1.5rem (giống awards/treasure); blur tách lớp */}
           <div
-            className="absolute inset-0 rounded-[1.5rem] bg-white/45 shadow-[0_10px_35px_rgba(90,59,196,0.25)] backdrop-blur-md"
-            aria-hidden
-          />
+            className="absolute inset-0 z-0 overflow-hidden rounded-[1.5rem] shadow-[0_10px_35px_rgba(90,59,196,0.25)]"
+            style={{ borderRadius: '1.5rem' }}
+          >
+            <div
+              className="absolute inset-0 bg-white/45 backdrop-blur-md"
+              aria-hidden
+            />
 
-          {/* Viền gradient — cạnh phải/trái tím nguyên cả cạnh */}
-          <div
-            aria-hidden
-            className="pointer-events-none absolute inset-0 z-[4] rounded-2xl"
-            style={{
-              padding: 1.5,
-              background: borderOnlyGradient,
-              WebkitMask:
-                'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
-              WebkitMaskComposite: 'xor',
-              maskComposite: 'exclude',
-            }}
-          />
+            {/* Viền gradient */}
+            <div
+              aria-hidden
+              className="pointer-events-none absolute inset-0 z-[4] rounded-[1.5rem]"
+              style={{
+                borderRadius: '1.5rem',
+                padding: 1.5,
+                background: borderOnlyGradient,
+                WebkitMask:
+                  'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+                WebkitMaskComposite: 'xor',
+                maskComposite: 'exclude',
+              }}
+            />
 
-          {/* Ảnh — vị trí/size theo từng profile (imageClassName trong homeData) */}
+            <div
+              className="pointer-events-none absolute bottom-[2px] left-[2px] right-[2px] z-[7] h-24 rounded-b-[1.35rem] bg-gradient-to-t from-white via-white/70 to-transparent"
+              aria-hidden
+            />
+
+            <p
+              className={cn(
+                'absolute z-10 max-w-[80%] whitespace-pre-line px-5 font-body text-[15px] font-bold leading-snug text-brand-home1 sm:text-sm',
+                imageOnRight ? 'left-0 top-4' : 'bottom-4 left-0'
+              )}
+            >
+              {profile.name}
+            </p>
+          </div>
+
+          {/* Ảnh ngoài khung clip — vẫn tràn trên */}
           <img
             src={profile.image}
             alt=""
@@ -414,20 +443,6 @@ function SocialProfileCard({ profile }) {
               profile.imageClassName
             )}
           />
-
-          <div
-            className="pointer-events-none absolute bottom-[2px] left-[2px] right-[2px] z-[7] h-24 rounded-b-[14px] bg-gradient-to-t from-white via-white/70 to-transparent"
-            aria-hidden
-          />
-
-          <p
-            className={cn(
-              'absolute z-10 max-w-[80%] whitespace-pre-line px-5 font-body text-[15px] font-bold leading-snug text-brand-home1 sm:text-sm',
-              imageOnRight ? 'left-0 top-4' : 'bottom-4 left-0'
-            )}
-          >
-            {profile.name}
-          </p>
         </div>
       </div>
     </article>
