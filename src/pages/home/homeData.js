@@ -101,7 +101,7 @@ export const SOCIAL_PROFILES = [
     iconSide: 'right',
     // Vị trí ảnh riêng card 2 (mobile) — chỉnh độc lập với card 1
     imageClassName:
-      'bottom-0 left-[45%] h-[310px] -translate-x-1/2 translate-y-[6%]',
+      'bottom-0 left-[45%] h-[300px] -translate-x-1/2 translate-y-[6%]',
     links: [
       {
         label: 'Facebook',
