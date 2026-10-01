@@ -318,7 +318,7 @@ function SocialProfileCard({ profile }) {
     <article
       className={cn(
         'relative overflow-visible',
-        iconsOnLeft ? 'ml-auto w-[95%]' : 'mr-auto w-[95%]'
+        iconsOnLeft ? 'ml-auto w-[92%]' : 'mr-auto w-[92%]'
       )}
     >
       {/* pt cố định = phần ảnh tràn trên khung — không đổi theo độ rộng màn */}
@@ -430,12 +430,12 @@ function FavoriteSection() {
             href={page.href}
             target="_blank"
             rel="noopener noreferrer"
-            className="home-mobile-glass-card flex min-h-[11rem] flex-col border border-white/80 bg-white/20 px-2 py-4 shadow-[0_6px_24px_rgba(90,59,196,0.1)] backdrop-blur-sm transition-colors hover:border-brand-home1/40"
+            className="home-mobile-glass-card flex min-h-[11rem] flex-col border border-white/80 bg-white/20 px-2 py-4 transition-colors"
           >
             <img
               src={page.avatar}
               alt={page.name.replace('\n', ' ')}
-              className="mx-auto h-20 w-20 rounded-full object-cover ring-2 ring-purple-200/60"
+              className="mx-auto h-20 w-20 rounded-full object-cover"
             />
             <h3
               className="mt-3.5 w-full flex-1 whitespace-pre-line text-center font-body text-[15px] font-bold leading-[1.15] text-brand-home1"
