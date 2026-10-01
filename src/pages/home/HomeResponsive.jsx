@@ -383,7 +383,7 @@ function SocialProfileCard({ profile }) {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={link.label}
-                className="flex h-14 w-14 items-center justify-center rounded-full border-[1.5px] border-brand-home1 bg-white shadow-[0_4px_14px_rgba(90,59,196,0.14)] transition-colors hover:bg-brand-home1/5"
+                className="flex h-14 w-14 items-center justify-center rounded-full border-[1.5px] border-brand-home1 bg-white/80 shadow-[0_4px_14px_rgba(90,59,196,0.14)] transition-colors hover:bg-brand-home1/5"
               >
                 <img
                   src={link.icon}
@@ -394,15 +394,12 @@ function SocialProfileCard({ profile }) {
             ))}
           </div>
 
-          {/* Khung: overflow + rounded 1.5rem (giống awards/treasure); blur tách lớp */}
+          {/* Khung: overflow + rounded 1.5rem (giống awards/treasure) */}
           <div
-            className="absolute inset-0 z-0 overflow-hidden rounded-[1.5rem] shadow-[0_10px_35px_rgba(90,59,196,0.25)]"
+            className="absolute inset-0 z-0 overflow-hidden rounded-[1.5rem] shadow-[0_10px_35px_rgba(90,59,196,0.1)]"
             style={{ borderRadius: '1.5rem' }}
           >
-            <div
-              className="absolute inset-0 bg-white/45 backdrop-blur-md"
-              aria-hidden
-            />
+            <div className="absolute inset-0 bg-white/15" aria-hidden />
 
             {/* Viền gradient */}
             <div
@@ -419,8 +416,9 @@ function SocialProfileCard({ profile }) {
               }}
             />
 
+            {/* Fade đáy cũng phải nhạt — trước từ trắng đục che mất bg-white/15 */}
             <div
-              className="pointer-events-none absolute bottom-[2px] left-[2px] right-[2px] z-[7] h-24 rounded-b-[1.35rem] bg-gradient-to-t from-white via-white/70 to-transparent"
+              className="pointer-events-none absolute bottom-[2px] left-[2px] right-[2px] z-[7] h-24 rounded-b-[1.35rem] bg-gradient-to-t from-white/25 via-white/10 to-transparent"
               aria-hidden
             />
 
