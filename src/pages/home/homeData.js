@@ -63,14 +63,17 @@ export const HOME_AWARDS = [
   },
 ]
 
-/** @type {Array<{ id: string, name: string, image: string, imageSide: 'left' | 'right', iconSide: 'left' | 'right', links: Array<{ label: string, href: string, icon: string, iconHover: string }> }>} */
+/** @type {Array<{ id: string, name: string, image: string, imageSide: 'left' | 'right', iconSide: 'left' | 'right', imageClassName?: string, links: Array<{ label: string, href: string, icon: string, iconHover: string }> }>} */
 export const SOCIAL_PROFILES = [
   {
     id: 'self',
-    name: 'Diễn viên Lê Khánh',
+    name: 'Diễn viên\nLê Khánh',
     image: socialSelfImage,
     imageSide: 'right',
     iconSide: 'left',
+    // Vị trí ảnh riêng card 1 (mobile) — chỉnh translate/h/left tại đây
+    imageClassName:
+      'bottom-0 left-[57%] h-[320px] -translate-x-1/2 translate-y-[12%]',
     links: [
       {
         label: 'Facebook',
@@ -94,10 +97,13 @@ export const SOCIAL_PROFILES = [
   },
   {
     id: 'family',
-    name: 'Chuyện nhà\nLê Khánh - Tuấn Khải',
+    name: 'Chuyện nhà\nLê Khánh – Tuấn Khải',
     image: socialFamilyImage,
     imageSide: 'left',
     iconSide: 'right',
+    // Vị trí ảnh riêng card 2 (mobile) — chỉnh độc lập với card 1
+    imageClassName:
+      'bottom-0 left-[45%] h-[310px] -translate-x-1/2 translate-y-[6%]',
     links: [
       {
         label: 'Facebook',
