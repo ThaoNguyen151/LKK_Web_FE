@@ -350,6 +350,16 @@ function MobileHeader({
         aria-hidden
       />
 
+      {/* Chạm ngoài menu → đóng */}
+      {menuOpen ? (
+        <button
+          type="button"
+          aria-label="Đóng menu"
+          className="fixed inset-0 z-[35] cursor-default bg-black/20"
+          onClick={onMenuClose}
+        />
+      ) : null}
+
       <header
         className={cn(
           positionClass,
