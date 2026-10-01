@@ -438,7 +438,7 @@ function FavoriteSection() {
               className="mx-auto h-20 w-20 rounded-full object-cover"
             />
             <h3
-              className="mt-3.5 w-[87%] flex-1 whitespace-pre-line text-center font-body text-[15px] font-bold leading-relaxed text-brand-home1"
+              className="mx-auto mt-3.5 w-[87%] flex-1 whitespace-pre-line text-center font-body text-[15px] font-bold leading-relaxed text-brand-home1"
               style={{ wordSpacing: '-0.08em' }}
             >
               {page.name}
