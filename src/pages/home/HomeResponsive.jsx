@@ -185,14 +185,14 @@ function HeroSection() {
 
 function TreasureSection() {
   return (
-    <MobileSection className="mt-35">
+    <MobileSection className="mt-40">
       <h2 className="heading-display text-[36px] mb-3 ml-2 text-left leading-[1.05]">
         KHO TÀNG
         <br />
         NGHỆ THUẬT
       </h2>
 
-      <p className="mb-7 mt-5 ml-2 mr-2 text-left font-body text-[12px] leading-relaxed text-gray-700">
+      <p className="mb-7 mt-5 ml-2 mr-2 text-left font-body text-[13px] leading-relaxed text-gray-700">
         {HOME_INTRO_LINES.map(line => (
           <span key={line} className="block">
             {line}
@@ -239,7 +239,7 @@ function AwardsSection() {
 
   return (
     <MobileSection>
-      <div className="mt-20 mb-4 flex justify-center gap-2.5 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+      <div className="mt-18 mb-4 flex justify-center gap-2.5 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         {HOME_AWARDS.map((award, index) => (
           <button
             key={award.id}
@@ -308,53 +308,88 @@ function AwardsSection() {
  */
 function SocialProfileCard({ profile }) {
   const iconsOnLeft = profile.iconSide === 'left'
+  const imageOnRight = profile.imageSide === 'right'
+  // Card 1: cạnh phải tím nguyên; card 2: cạnh trái tím nguyên
+  const borderOnlyGradient = iconsOnLeft
+    ? 'linear-gradient(to right, #ffffff 0%, #ffffff 25%,  #5A3BC4 100%)'
+    : 'linear-gradient(to right, #5A3BC4 0%, #ffffff 75%, #ffffff 100%)'
 
   return (
-    <article className="home-mobile-glass-card relative overflow-visible border border-brand-home1/35 bg-white/55 shadow-[0_8px_28px_rgba(90,59,196,0.12)] backdrop-blur-sm">
-      {/* Icon MXH đè mép card */}
-      <div
-        className={cn(
-          'absolute top-1/2 z-20 flex -translate-y-1/2 flex-col gap-2',
-          iconsOnLeft ? '-left-3' : '-right-3'
-        )}
-      >
-        {profile.links.map(
-          /** @param {{ label: string, href: string, icon: string }} link */
-          link => (
-            <a
-              key={link.label}
-              href={link.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={link.label}
-              className="flex h-9 w-9 items-center justify-center rounded-full border-2 border-brand-home1 bg-white shadow-[0_4px_12px_rgba(90,59,196,0.18)] transition-colors hover:bg-brand-home1"
-            >
-              <img src={link.icon} alt="" className="h-4 w-4 object-contain" />
-            </a>
-          )
-        )}
-      </div>
+    <article
+      className={cn(
+        'relative overflow-visible',
+        iconsOnLeft ? 'ml-auto w-[95%]' : 'mr-auto w-[95%]'
+      )}
+    >
+      {/* pt cố định = phần ảnh tràn trên khung — không đổi theo độ rộng màn */}
+      <div className="relative pt-[60px]">
+        <div className="relative h-[250px] overflow-visible">
+          {/* 3 nút đè nửa mép khung trắng */}
+          <div
+            className={cn(
+              'absolute z-20 flex flex-col gap-2',
+              iconsOnLeft
+                ? 'left-0 top-[28%] -translate-x-1/2'
+                : 'right-0 top-[-10%] translate-x-1/2'
+            )}
+          >
+            {profile.links.map(link => (
+              <a
+                key={link.label}
+                href={link.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={link.label}
+                className="flex h-16 w-16 items-center justify-center rounded-full border-[2px] border-brand-home1 bg-white shadow-[0_4px_14px_rgba(90,59,196,0.14)] transition-colors hover:bg-brand-home1/5"
+              >
+                <img
+                  src={link.icon}
+                  alt=""
+                  className="h-8 w-8 object-contain"
+                />
+              </a>
+            ))}
+          </div>
 
-      <div className="relative flex min-h-[160px] items-stretch overflow-hidden rounded-[inherit] sm:min-h-[175px]">
-        <div className="relative min-w-0 flex-1">
+          {/* Nền trắng */}
+          <div
+            className="absolute inset-0 rounded-2xl bg-white shadow-[0_8px_28px_rgba(90,59,196,0.12)]"
+            aria-hidden
+          />
+
+          {/* Viền gradient — cạnh phải/trái tím nguyên cả cạnh */}
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-0 z-[4] rounded-2xl"
+            style={{
+              padding: 1.5,
+              background: borderOnlyGradient,
+              WebkitMask:
+                'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+              WebkitMaskComposite: 'xor',
+              maskComposite: 'exclude',
+            }}
+          />
+
+          {/* Ảnh — vị trí/size theo từng profile (imageClassName trong homeData) */}
           <img
             src={profile.image}
             alt=""
             className={cn(
-              'absolute bottom-0 h-[90%] w-auto max-w-[62%] object-contain object-bottom',
-              profile.imageSide === 'right' ? 'right-0' : 'left-0'
+              'pointer-events-none absolute z-[6] w-auto object-contain object-bottom',
+              profile.imageClassName
             )}
           />
+
           <div
-            className="pointer-events-none absolute inset-x-0 bottom-0 z-[5] h-20 bg-gradient-to-t from-white/90 via-white/40 to-transparent"
+            className="pointer-events-none absolute bottom-[2px] left-[2px] right-[2px] z-[7] h-24 rounded-b-[14px] bg-gradient-to-t from-white via-white/70 to-transparent"
             aria-hidden
           />
+
           <p
             className={cn(
-              'absolute bottom-3 z-10 whitespace-pre-line px-3 font-body text-[clamp(0.75rem,3.2vw,0.875rem)] font-bold leading-snug text-brand-home1',
-              profile.imageSide === 'right'
-                ? 'left-3 max-w-[52%]'
-                : 'right-3 max-w-[52%] text-right'
+              'absolute z-10 max-w-[80%] whitespace-pre-line px-5 font-body text-[15px] font-bold leading-snug text-brand-home1 sm:text-sm',
+              imageOnRight ? 'left-0 top-4' : 'bottom-4 left-0'
             )}
           >
             {profile.name}
@@ -368,9 +403,13 @@ function SocialProfileCard({ profile }) {
 function SocialSection() {
   return (
     <MobileSection>
-      <h2 className="heading-section mb-5 text-center">MẠNG XÃ HỘI</h2>
+      {/* mb cố định; pt của card lo phần ảnh tràn → khoảng title→profile ổn định */}
+      <h2 className="heading-section mb-[-10px] mt-6 text-[36px] text-center">
+        MẠNG XÃ HỘI
+      </h2>
 
-      <div className="flex flex-col gap-5 px-1 sm:gap-6">
+      {/* px chừa chỗ nút đè mép; gap cố định giữa 2 card */}
+      <div className="mx-1 flex flex-col gap-6 px-4">
         {SOCIAL_PROFILES.map(profile => (
           <SocialProfileCard key={profile.id} profile={profile} />
         ))}
@@ -381,29 +420,36 @@ function SocialSection() {
 
 function FavoriteSection() {
   return (
-    <MobileSection className="pb-8 sm:pb-10">
-      <h2 className="heading-section mb-5 text-center">FAVORITE</h2>
+    <MobileSection className="mt-10 mb-1">
+      <h2 className="heading-section mb-8 text-[36px] text-center">FANSITE</h2>
 
-      <div className="grid grid-cols-2 gap-3 sm:gap-4">
+      <div className="mx-3 grid grid-cols-2 gap-3">
         {FANPAGE_DATA.map(page => (
           <a
             key={page.name}
             href={page.href}
             target="_blank"
             rel="noopener noreferrer"
-            className="home-mobile-glass-card flex min-h-[11rem] flex-col border border-white/80 bg-white/60 p-3 shadow-[0_6px_24px_rgba(90,59,196,0.1)] backdrop-blur-sm transition-colors hover:border-brand-home1/40 sm:min-h-[12rem] sm:p-3.5"
+            className="home-mobile-glass-card flex min-h-[11rem] flex-col border border-white/80 bg-white/20 px-2 py-4 shadow-[0_6px_24px_rgba(90,59,196,0.1)] backdrop-blur-sm transition-colors hover:border-brand-home1/40"
           >
             <img
               src={page.avatar}
               alt={page.name.replace('\n', ' ')}
-              className="mx-auto h-16 w-16 rounded-full object-cover ring-2 ring-purple-200/60 sm:h-[4.5rem] sm:w-[4.5rem]"
+              className="mx-auto h-20 w-20 rounded-full object-cover ring-2 ring-purple-200/60"
             />
-            <h3 className="mt-3 flex-1 whitespace-pre-line text-center font-body text-[clamp(0.625rem,2.8vw,0.75rem)] font-bold leading-snug text-brand-home1">
+            <h3
+              className="mt-3.5 w-full flex-1 whitespace-pre-line text-center font-body text-[15px] font-bold leading-[1.15] tracking-[-0.01em] text-brand-home1"
+              style={{ wordSpacing: '-0.08em' }}
+            >
               {page.name}
             </h3>
-            <span className="mt-3 inline-flex items-center justify-center gap-1 font-body text-[10px] font-semibold uppercase tracking-wide text-brand-orange">
+            <span className="mt-2 inline-flex items-center justify-center gap-1 font-body text-[10px] font-semibold uppercase tracking-wide text-gray-500">
               Theo dõi
-              <img src={warrow} alt="" className="h-3 w-3" />
+              <img
+                src={warrow}
+                alt=""
+                className="h-3 w-3 brightness-0 opacity-50"
+              />
             </span>
           </a>
         ))}
