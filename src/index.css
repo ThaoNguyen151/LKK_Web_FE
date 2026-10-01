@@ -571,6 +571,10 @@
     border-radius: 1rem;
   }
 
+  .home-mobile-glass-card-award {
+    border-radius: 1.5rem;
+  }
+
   .home-mobile-social-card {
     min-height: clamp(9.5rem, 38vw, 11.5rem);
   }

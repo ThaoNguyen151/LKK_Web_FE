@@ -265,7 +265,7 @@ function AwardsSection() {
                 aria-pressed={isActive}
                 onClick={() => setActiveIndex(index)}
                 className={cn(
-                  'group flex shrink-0 items-center justify-center rounded-[1.5rem] transition-all duration-300 ease-out',
+                  'group flex shrink-0 items-center justify-center rounded-full transition-all duration-300 ease-out',
                   isActive
                     ? 'h-[6.5rem] w-14 bg-white/80 px-2 py-3 shadow-[0_8px_22px_rgba(90,59,196,0.24)] ring-[1.5px] ring-white hover:bg-white hover:shadow-[0_10px_28px_rgba(90,59,196,0.32)]'
                     : 'h-14 w-14 bg-white/25 px-2 py-2.5 opacity-90 ring-[1.5px] ring-white hover:bg-white/55 hover:opacity-100 hover:shadow-[0_4px_14px_rgba(90,59,196,0.18)] sm:h-16 sm:w-16'
