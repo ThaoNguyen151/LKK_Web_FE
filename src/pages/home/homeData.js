@@ -47,14 +47,14 @@ export const HOME_AWARDS = [
   },
   {
     id: 'phim-vn',
-    title: 'LIÊN HOAN\nPHIM VN',
+    title: 'LIÊN HOAN PHIM\nVIỆT NAM',
     years: ['2011'],
     count: '1',
     cup: imageCupLHP,
   },
   {
     id: 'htv',
-    title: 'HTV\nAWARDS',
+    title: 'HTV AWARDS',
     years: ['2009', '2008'],
     count: '2',
     cup: imageCupHTV,

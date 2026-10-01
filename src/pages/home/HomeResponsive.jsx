@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import imageHome1 from '@assets/image_home_1.png'
 import imageHome2 from '@assets/image_home_2.png'
 import imageTextHome1 from '@assets/images/mobile/home/textlekhanh.png'
@@ -237,64 +237,98 @@ function AwardsSection() {
   const [activeIndex, setActiveIndex] = useState(0)
   const active = HOME_AWARDS[activeIndex]
 
+  // Tự chuyển tab mỗi 3s; bấm tay sẽ reset chu kỳ
+  useEffect(() => {
+    const id = window.setInterval(() => {
+      setActiveIndex(i => (i + 1) % HOME_AWARDS.length)
+    }, 3000)
+    return () => window.clearInterval(id)
+  }, [activeIndex])
+
   return (
     <MobileSection>
-      <div className="mt-18 mb-4 flex justify-center gap-2.5 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-        {HOME_AWARDS.map((award, index) => (
-          <button
-            key={award.id}
-            type="button"
-            aria-label={award.title.replace('\n', ' ')}
-            aria-pressed={index === activeIndex}
-            onClick={() => setActiveIndex(index)}
-            className={cn(
-              'flex h-12 w-12 shrink-0 items-center justify-center rounded-full transition-all sm:h-13 sm:w-13',
-              index === activeIndex
-                ? 'bg-white shadow-[0_4px_16px_rgba(90,59,196,0.18)] ring-1 ring-brand-home1/15'
-                : 'bg-white/50 opacity-75'
-            )}
-          >
-            <img
-              src={award.cup}
-              alt=""
-              className="h-7 w-auto object-contain sm:h-8"
-            />
-          </button>
-        ))}
-      </div>
+      {/* mt chừa chỗ cúp nhô trên khung */}
+      <div className="relative mt-40 mb-5">
+        {/*
+          Hàng cúp neo mép trên khung: inactive cách khung,
+          active dài xuống vẫn đè nhẹ lên khung (z cao hơn).
+        */}
+        <div className="absolute inset-x-0 top-0 z-20 flex h-[5.7rem] -translate-y-[75px] items-start justify-center gap-[20px]">
+          {HOME_AWARDS.map((award, index) => {
+            const isActive = index === activeIndex
 
-      <div className="home-mobile-glass-card border border-white/70 bg-white/50 p-5 shadow-[0_8px_30px_rgba(90,59,196,0.14)] backdrop-blur-sm sm:p-6">
-        <h3 className="font-display-medium mb-4 whitespace-pre-line text-center font-display text-[clamp(1.75rem,7vw,2.25rem)] italic leading-tight text-brand-home1">
-          {active.title}
-        </h3>
-
-        <div className="flex items-end justify-between gap-3">
-          <div
-            className={cn(
-              'grid min-w-0 gap-x-5 gap-y-2',
-              active.years.length > 1 ? 'grid-cols-2' : 'grid-cols-1'
-            )}
-          >
-            {active.years.map(year => (
-              <a
-                key={year}
-                href={awardYearHref(year)}
-                className="font-body text-sm text-black transition-colors hover:text-brand-home1 sm:text-base"
+            return (
+              <button
+                key={award.id}
+                type="button"
+                aria-label={award.title.replace('\n', ' ')}
+                aria-pressed={isActive}
+                onClick={() => setActiveIndex(index)}
+                className={cn(
+                  'group flex shrink-0 items-center justify-center rounded-full transition-all duration-300 ease-out',
+                  isActive
+                    ? 'h-[6.5rem] w-14 bg-white/80 px-2 py-3 shadow-[0_8px_22px_rgba(90,59,196,0.24)] ring-2 ring-white hover:bg-white hover:shadow-[0_10px_28px_rgba(90,59,196,0.32)]'
+                    : 'h-14 w-14 bg-white/25 px-2 py-2.5 opacity-90 ring-2 ring-white hover:bg-white/55 hover:opacity-100 hover:shadow-[0_4px_14px_rgba(90,59,196,0.18)] sm:h-16 sm:w-16'
+                )}
               >
-                {year}
-              </a>
-            ))}
-          </div>
+                <img
+                  src={award.cup}
+                  alt=""
+                  className={cn(
+                    'w-auto origin-top object-contain transition-all duration-300 ease-out group-hover:scale-105',
+                    isActive ? 'h-21' : 'h-11'
+                  )}
+                />
+              </button>
+            )
+          })}
+        </div>
 
-          <div className="flex shrink-0 items-end gap-1">
-            <span className="home-mobile-award-count font-display text-brand-cup">
-              {active.count}
-            </span>
-            <img
-              src={active.cup}
-              alt=""
-              className="h-14 w-auto object-contain sm:h-16"
-            />
+        {/* Khung cố định size — title 1/2 hàng không đổi chiều cao */}
+        <div className="home-mobile-glass-card relative z-0 flex h-[22rem] flex-col bg-brand-home1/10 px-5 pb-6 pt-13 backdrop-blur-sm sm:h-[26rem] sm:px-7 sm:pb-4 sm:pt-12">
+          <h3 className="font-display-medium h-[5rem] shrink-0 overflow-hidden whitespace-pre-line text-left font-display text-[36px] italic leading-[1.15] text-brand-home1 sm:h-[5.25rem]">
+            {active.title}
+          </h3>
+
+          <div className="relative min-h-0 flex-1">
+            {/* Năm — lơ lửng giữa khối nội dung */}
+            <div
+              className={cn(
+                'absolute left-[3%] top-[30%] grid min-w-0 -translate-y-1/2 gap-x-7 gap-y-6',
+                active.id !== 'htv' && active.years.length > 1
+                  ? 'grid-cols-2'
+                  : 'grid-cols-1'
+              )}
+            >
+              {active.years.map(year => (
+                <a
+                  key={year}
+                  href={awardYearHref(year)}
+                  className="font-body text-[13px] transition-colors hover:text-brand-home1 sm:text-lg"
+                >
+                  {year}
+                </a>
+              ))}
+            </div>
+
+            {/* Cúp + số — Liên hoan phim/sân khấu: gap số↔cúp lớn hơn */}
+            <div
+              className={cn(
+                'absolute bottom-0 right-0 flex items-end',
+                active.id === 'san-khau' || active.id === 'phim-vn'
+                  ? 'gap-2'
+                  : 'gap-0'
+              )}
+            >
+              <span className="home-mobile-award-count -translate-y-0.5 font-display text-[115px] leading-none text-brand-cup">
+                {active.count}
+              </span>
+              <img
+                src={active.cup}
+                alt=""
+                className="h-48 w-auto object-contain"
+              />
+            </div>
           </div>
         </div>
       </div>
