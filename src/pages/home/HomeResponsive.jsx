@@ -186,13 +186,13 @@ function HeroSection() {
 function TreasureSection() {
   return (
     <MobileSection className="mt-40">
-      <h2 className="heading-display text-[36px] mb-3 ml-2 text-left leading-[1.05]">
+      <h2 className="heading-display mb-3 text-left text-[36px] leading-[1.05]">
         KHO TÀNG
         <br />
         NGHỆ THUẬT
       </h2>
 
-      <p className="mb-7 mt-5 ml-2 mr-2 text-left font-body text-[13px] leading-relaxed tracking-[-0.01em] text-gray-700">
+      <p className="mb-7 mt-5 text-left font-body text-[13px] leading-relaxed tracking-[-0.01em] text-gray-700">
         {HOME_INTRO_LINES.map(line => (
           <span key={line} className="block">
             {line}
@@ -200,7 +200,7 @@ function TreasureSection() {
         ))}
       </p>
 
-      <div className="relative mx-2.5">
+      <div className="relative">
         {/* Block = đúng bề ngang khung ảnh → stats neo theo ảnh, không theo full màn */}
         <div className="home-mobile-treasure-block">
           <div className="home-mobile-treasure-frame">
@@ -217,11 +217,11 @@ function TreasureSection() {
                 key={stat.label}
                 className="rounded-2xl border border-white border-1 bg-white/20 text-center backdrop-blur-md"
               >
-                <div className="home-mobile-treasure-stat-value font-body text-[28px] leading-none mb-1">
+                <div className="home-mobile-treasure-stat-value mb-1 font-body text-[28px] leading-none">
                   <span className="text-black">{stat.value}</span>
                   <span className="text-brand-home1">+</span>
                 </div>
-                <div className="home-mobile-treasure-stat-label mt-1 font-body uppercase tracking-wide text-[9px] text-gray-600">
+                <div className="home-mobile-treasure-stat-label mt-1 font-body text-[9px] uppercase tracking-wide text-gray-600">
                   {stat.label}
                 </div>
               </div>
@@ -322,14 +322,14 @@ function SocialProfileCard({ profile }) {
       )}
     >
       {/* pt cố định = phần ảnh tràn trên khung — không đổi theo độ rộng màn */}
-      <div className="relative pt-[60px]">
-        <div className="relative h-[250px] overflow-visible">
+      <div className="relative pt-[70px]">
+        <div className="relative h-[230px] overflow-visible">
           {/* 3 nút đè nửa mép khung trắng */}
           <div
             className={cn(
               'absolute z-20 flex flex-col gap-2',
               iconsOnLeft
-                ? 'left-0 top-[36%] -translate-x-1/2'
+                ? 'left-0 top-[32%] -translate-x-1/2'
                 : 'right-0 top-[-11%] translate-x-1/2'
             )}
           >
@@ -404,12 +404,12 @@ function SocialSection() {
   return (
     <MobileSection>
       {/* mb cố định; pt của card lo phần ảnh tràn → khoảng title→profile ổn định */}
-      <h2 className="heading-section mb-[-10px] mt-6 text-[36px] text-center">
+      <h2 className="heading-section mb-[-5px] mt-6 text-[36px] text-center">
         MẠNG XÃ HỘI
       </h2>
 
-      {/* px chừa chỗ nút đè mép; gap cố định giữa 2 card */}
-      <div className="mx-1 flex flex-col gap-6 px-4">
+      {/* gap cố định giữa 2 card — lề ngang theo home-mobile-content (= Treasure) */}
+      <div className="flex flex-col gap-6">
         {SOCIAL_PROFILES.map(profile => (
           <SocialProfileCard key={profile.id} profile={profile} />
         ))}
@@ -423,7 +423,7 @@ function FavoriteSection() {
     <MobileSection className="mt-10 mb-1">
       <h2 className="heading-section mb-8 text-[36px] text-center">FANSITE</h2>
 
-      <div className="mx-3 grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-2 gap-3">
         {FANPAGE_DATA.map(page => (
           <a
             key={page.name}
