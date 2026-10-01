@@ -84,7 +84,7 @@ const SOCIAL_PROFILE_DATA = [
 
 const FANPAGE_DATA = [
   {
-    name: 'CherishK – all about Lê Khánh',
+    name: 'CherishK - all about Lê Khánh',
     href: 'https://facebook.com/LeKhanhcollection',
     facebookUsername: 'LeKhanhcollection',
     avatar: avatarCherishK,
