@@ -340,7 +340,7 @@ function SocialProfileCard({ profile }) {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={link.label}
-                className="flex h-14 w-14 items-center justify-center rounded-full border-[2px] border-brand-home1 bg-white shadow-[0_4px_14px_rgba(90,59,196,0.14)] transition-colors hover:bg-brand-home1/5"
+                className="flex h-14 w-14 items-center justify-center rounded-full border-[1.5px] border-brand-home1 bg-white shadow-[0_4px_14px_rgba(90,59,196,0.14)] transition-colors hover:bg-brand-home1/5"
               >
                 <img
                   src={link.icon}
