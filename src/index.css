@@ -303,6 +303,8 @@
     width: 100%;
     max-width: min(100%, 26rem);
     margin-inline: auto;
+    /* Lề ngang = Treasure (mx-2.5) — dùng chung mọi section */
+    padding-inline: 0.625rem;
   }
 
   @media (min-width: 390px) {
