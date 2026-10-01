@@ -19,9 +19,7 @@ import { awardYearPath } from '../awards/awardsData'
 /** Intro “Kho tàng” — mỗi phần tử = 1 dòng cố định trên mobile. */
 export const HOME_INTRO_LINES = [
   'Sau hơn 20 năm chăm chỉ hoạt động nghệ thuật,',
-  'Lê Khánh sở hữu một kho tàng vai diễn với đa dạng',
-  'màu sắc. Cô vinh dự được xếp vào hàng ngũ diễn',
-  'viên thực lực của Việt Nam.',
+  'Lê Khánh sở hữu một kho tàng vai diễn với đa dạng màu sắc. Cô vinh dự được xếp vào hàng ngũ diễn viên thực lực của Việt Nam.',
 ]
 
 export const HOME_INTRO = HOME_INTRO_LINES.join(' ')
@@ -134,7 +132,7 @@ export const FANPAGE_DATA = [
     avatar: avatarCherishK,
   },
   {
-    name: '1200 Hột É của chị\nLê Khánh',
+    name: '1200 Hột É của chị Lê Khánh',
     href: 'https://www.facebook.com/profile.php?id=61555671172772',
     avatar: avatar1200HotE,
   },
