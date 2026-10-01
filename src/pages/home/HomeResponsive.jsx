@@ -192,7 +192,7 @@ function TreasureSection() {
         NGHỆ THUẬT
       </h2>
 
-      <p className="mb-7 mt-5 ml-2 mr-2 text-left font-body text-[13px] leading-relaxed text-gray-700">
+      <p className="mb-7 mt-5 ml-2 mr-2 text-left font-body text-[13px] leading-relaxed tracking-[-0.01em] text-gray-700">
         {HOME_INTRO_LINES.map(line => (
           <span key={line} className="block">
             {line}
@@ -329,8 +329,8 @@ function SocialProfileCard({ profile }) {
             className={cn(
               'absolute z-20 flex flex-col gap-2',
               iconsOnLeft
-                ? 'left-0 top-[28%] -translate-x-1/2'
-                : 'right-0 top-[-10%] translate-x-1/2'
+                ? 'left-0 top-[36%] -translate-x-1/2'
+                : 'right-0 top-[-11%] translate-x-1/2'
             )}
           >
             {profile.links.map(link => (
@@ -340,20 +340,20 @@ function SocialProfileCard({ profile }) {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={link.label}
-                className="flex h-16 w-16 items-center justify-center rounded-full border-[2px] border-brand-home1 bg-white shadow-[0_4px_14px_rgba(90,59,196,0.14)] transition-colors hover:bg-brand-home1/5"
+                className="flex h-14 w-14 items-center justify-center rounded-full border-[2px] border-brand-home1 bg-white shadow-[0_4px_14px_rgba(90,59,196,0.14)] transition-colors hover:bg-brand-home1/5"
               >
                 <img
                   src={link.icon}
                   alt=""
-                  className="h-8 w-8 object-contain"
+                  className="h-6 w-6 object-contain"
                 />
               </a>
             ))}
           </div>
 
-          {/* Nền trắng */}
+          {/* Nền giống web: trắng mờ + blur */}
           <div
-            className="absolute inset-0 rounded-2xl bg-white shadow-[0_8px_28px_rgba(90,59,196,0.12)]"
+            className="absolute inset-0 rounded-2xl bg-white/45 shadow-[0_10px_35px_rgba(90,59,196,0.25)] backdrop-blur-md"
             aria-hidden
           />
 
@@ -438,7 +438,7 @@ function FavoriteSection() {
               className="mx-auto h-20 w-20 rounded-full object-cover ring-2 ring-purple-200/60"
             />
             <h3
-              className="mt-3.5 w-full flex-1 whitespace-pre-line text-center font-body text-[15px] font-bold leading-[1.15] tracking-[-0.01em] text-brand-home1"
+              className="mt-3.5 w-full flex-1 whitespace-pre-line text-center font-body text-[15px] font-bold leading-[1.15] text-brand-home1"
               style={{ wordSpacing: '-0.08em' }}
             >
               {page.name}
