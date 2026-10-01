@@ -350,15 +350,17 @@ function MobileHeader({
         aria-hidden
       />
 
-      {/* Chạm ngoài menu → đóng */}
-      {menuOpen ? (
-        <button
-          type="button"
-          aria-label="Đóng menu"
-          className="fixed inset-0 z-[35] cursor-default bg-black/20"
-          onClick={onMenuClose}
-        />
-      ) : null}
+      {/* Chạm ngoài menu → đóng (+ fade) */}
+      <button
+        type="button"
+        aria-label="Đóng menu"
+        tabIndex={menuOpen ? 0 : -1}
+        className={cn(
+          'header-mobile-menu-backdrop fixed inset-0 z-[35] cursor-default bg-black/20',
+          menuOpen && 'is-open'
+        )}
+        onClick={onMenuClose}
+      />
 
       <header
         className={cn(
@@ -410,42 +412,48 @@ function MobileHeader({
           </div>
         </div>
 
-        {menuOpen ? (
-          <nav
-            className="header-mobile-bar relative border-t border-brand-home1/10 bg-white pb-1 pt-2 shadow-[inset_0_6px_12px_-2px_rgba(90,59,196,0.16)]"
-            aria-label="Menu điều hướng"
-          >
-            <ul className="flex flex-col">
-              {MOBILE_NAV_LINKS.map((link, index) => {
-                const active = isNavActive(link.href, route)
+        <div
+          className={cn('header-mobile-menu', menuOpen && 'is-open')}
+          aria-hidden={!menuOpen}
+        >
+          <div className="header-mobile-menu__panel">
+            <nav
+              className="header-mobile-bar relative border-t border-brand-home1/10 bg-white pb-1 pt-2 shadow-[inset_0_6px_12px_-2px_rgba(90,59,196,0.16)]"
+              aria-label="Menu điều hướng"
+            >
+              <ul className="flex flex-col">
+                {MOBILE_NAV_LINKS.map((link, index) => {
+                  const active = isNavActive(link.href, route)
 
-                return (
-                  <li key={link.href}>
-                    <a
-                      href={`#${link.href}`}
-                      aria-current={active ? 'page' : undefined}
-                      onClick={onMenuClose}
-                      className={cn(
-                        'block py-4 text-center font-body text-[12px] font-semibold uppercase tracking-wide transition-colors',
-                        active
-                          ? 'text-brand-home1'
-                          : 'text-brand-textheader/45 hover:text-brand-home1'
-                      )}
-                    >
-                      {link.label}
-                    </a>
-                    {index < MOBILE_NAV_LINKS.length - 1 ? (
-                      <div
-                        className="header-mobile-nav-rule mx-33"
-                        aria-hidden
-                      />
-                    ) : null}
-                  </li>
-                )
-              })}
-            </ul>
-          </nav>
-        ) : null}
+                  return (
+                    <li key={link.href}>
+                      <a
+                        href={`#${link.href}`}
+                        aria-current={active ? 'page' : undefined}
+                        tabIndex={menuOpen ? 0 : -1}
+                        onClick={onMenuClose}
+                        className={cn(
+                          'block py-4 text-center font-body text-[12px] font-semibold uppercase tracking-wide transition-colors',
+                          active
+                            ? 'text-brand-home1'
+                            : 'text-brand-textheader/45 hover:text-brand-home1'
+                        )}
+                      >
+                        {link.label}
+                      </a>
+                      {index < MOBILE_NAV_LINKS.length - 1 ? (
+                        <div
+                          className="header-mobile-nav-rule mx-33"
+                          aria-hidden
+                        />
+                      ) : null}
+                    </li>
+                  )
+                })}
+              </ul>
+            </nav>
+          </div>
+        </div>
       </header>
     </div>
   )
