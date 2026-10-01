@@ -215,7 +215,7 @@ function TreasureSection() {
             {HOME_STATS.map(stat => (
               <div
                 key={stat.label}
-                className="rounded-2xl border border-white border-1 bg-white/20 text-center backdrop-blur-md"
+                className="rounded-2xl border border-white border-[1.5px] bg-white/20 text-center backdrop-blur-md"
               >
                 <div className="home-mobile-treasure-stat-value mb-1 font-body text-[28px] leading-none">
                   <span className="text-black">{stat.value}</span>
@@ -265,10 +265,10 @@ function AwardsSection() {
                 aria-pressed={isActive}
                 onClick={() => setActiveIndex(index)}
                 className={cn(
-                  'group flex shrink-0 items-center justify-center rounded-full transition-all duration-300 ease-out',
+                  'group flex shrink-0 items-center justify-center rounded-[1.5rem] transition-all duration-300 ease-out',
                   isActive
-                    ? 'h-[6.5rem] w-14 bg-white/80 px-2 py-3 shadow-[0_8px_22px_rgba(90,59,196,0.24)] ring-1 ring-white hover:bg-white hover:shadow-[0_10px_28px_rgba(90,59,196,0.32)]'
-                    : 'h-14 w-14 bg-white/25 px-2 py-2.5 opacity-90 ring-1 ring-white hover:bg-white/55 hover:opacity-100 hover:shadow-[0_4px_14px_rgba(90,59,196,0.18)] sm:h-16 sm:w-16'
+                    ? 'h-[6.5rem] w-14 bg-white/80 px-2 py-3 shadow-[0_8px_22px_rgba(90,59,196,0.24)] ring-[1.5px] ring-white hover:bg-white hover:shadow-[0_10px_28px_rgba(90,59,196,0.32)]'
+                    : 'h-14 w-14 bg-white/25 px-2 py-2.5 opacity-90 ring-[1.5px] ring-white hover:bg-white/55 hover:opacity-100 hover:shadow-[0_4px_14px_rgba(90,59,196,0.18)] sm:h-16 sm:w-16'
                 )}
               >
                 <img
@@ -387,7 +387,7 @@ function SocialProfileCard({ profile }) {
 
           {/* Nền giống web: trắng mờ + blur */}
           <div
-            className="absolute inset-0 rounded-2xl bg-white/45 shadow-[0_10px_35px_rgba(90,59,196,0.25)] backdrop-blur-md"
+            className="absolute inset-0 rounded-[1.5rem] bg-white/45 shadow-[0_10px_35px_rgba(90,59,196,0.25)] backdrop-blur-md"
             aria-hidden
           />
 
@@ -464,7 +464,7 @@ function FavoriteSection() {
             href={page.href}
             target="_blank"
             rel="noopener noreferrer"
-            className="home-mobile-glass-card flex min-h-[11rem] flex-col border-2 border-white/80 bg-white/20 px-2 py-4 transition-colors"
+            className="home-mobile-glass-card flex min-h-[11rem] flex-col border-[1.5px] border-white/80 bg-white/20 px-2 py-4 transition-colors"
           >
             <img
               src={page.avatar}

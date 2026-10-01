@@ -437,7 +437,7 @@
     position: absolute;
     inset: 0;
     overflow: hidden;
-    border-radius: 1.5em;
+    border-radius: 1.5rem;
     background: rgb(255 255 255 / 0.2);
     box-shadow: 0 10px 28px rgba(90, 59, 196, 0.25);
   }
@@ -568,7 +568,7 @@
   }
 
   .home-mobile-glass-card {
-    border-radius: clamp(1.25rem, 4.5vw, 1.75rem);
+    border-radius: 1rem;
   }
 
   .home-mobile-social-card {
