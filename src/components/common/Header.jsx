@@ -433,7 +433,7 @@ function MobileHeader({
                         tabIndex={menuOpen ? 0 : -1}
                         onClick={onMenuClose}
                         className={cn(
-                          'block py-4 text-center font-body text-[12px] font-semibold uppercase tracking-wide transition-colors',
+                          'block py-4 text-center font-body text-[12px] font-semibold uppercase tracking-wide transition-colors hover:bg-brand-home1/15',
                           active
                             ? 'text-brand-home1'
                             : 'text-brand-textheader/45 hover:text-brand-home1'
