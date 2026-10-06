@@ -1,8 +1,10 @@
 import { useEffect, useRef } from 'react'
 import { Header } from '@components/common'
+import { useBreakpoint } from '@hooks'
 import { PageShell } from '@layouts'
 import { ROUTES } from '@utils'
 import { AwardDetailTemplate } from './AwardDetailTemplate'
+import { AwardsResponsive } from './AwardsResponsive'
 import {
   DEFAULT_AWARD_YEAR,
   YEARS,
@@ -54,6 +56,20 @@ function navigateToAwardYear(year) {
  * @param {string} props.route Current hash path without `#`
  */
 export function Awards({ route }) {
+  const { isCanvasLayout } = useBreakpoint()
+
+  if (!isCanvasLayout) {
+    return <AwardsResponsive route={route} />
+  }
+
+  return <AwardsDesktop route={route} />
+}
+
+/**
+ * @param {object} props
+ * @param {string} props.route
+ */
+function AwardsDesktop({ route }) {
   const yearFromRoute = parseAwardYearFromRoute(route)
   const year =
     yearFromRoute && getAwardByYear(yearFromRoute)
@@ -72,7 +88,6 @@ export function Awards({ route }) {
     }
   }, [route, year])
 
-  // Tự nhảy năm sau 40s; lăn chuột đổi năm (xuống = năm dưới, lên = năm trên)
   useEffect(() => {
     const goNext = () => navigateToAwardYear(adjacentAwardYear(year, 1))
     const goPrev = () => navigateToAwardYear(adjacentAwardYear(year, -1))
