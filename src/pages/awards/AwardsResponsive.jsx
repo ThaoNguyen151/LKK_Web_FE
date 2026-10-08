@@ -24,8 +24,8 @@ import {
 const SWIPE_THRESHOLD_PX = 48
 const AUTO_ADVANCE_MS = 4_000
 
-/** Chiều cao thiết kế cố định của khối nội dung (logo → pager) */
-const STACK_DESIGN_HEIGHT = 620
+/** Lề trên (sau header) = lề dưới (trước đáy màn) — cùng 1 khoảng */
+const EDGE_INSET = '1.25rem'
 
 /**
  * @param {string} eventName
@@ -231,7 +231,7 @@ export function AwardsResponsive({ route }) {
   const active = slides[activeIndex] ?? slides[0]
   const activeYear = active?.year ?? DEFAULT_AWARD_YEAR
 
-  // Scale cả khối nội dung cho vừa mọi chiều cao màn — gap & cúp giữ tỷ lệ giống nhau
+  // Chỉ scale khi máy thấp bị tràn — máy cao giữ lề đều, không phình gap
   useLayoutEffect(() => {
     const stage = stageRef.current
     const stack = stackRef.current
@@ -239,8 +239,8 @@ export function AwardsResponsive({ route }) {
 
     const update = () => {
       const available = stage.clientHeight
-      const needed = stack.offsetHeight || STACK_DESIGN_HEIGHT
-      const next = available > 0 ? Math.min(1, available / needed) : 1
+      const needed = stack.scrollHeight
+      const next = available > 0 && needed > available ? available / needed : 1
       setScale(next)
     }
 
@@ -332,49 +332,53 @@ export function AwardsResponsive({ route }) {
         onTouchStart={onTouchStart}
         onTouchEnd={onTouchEnd}
       >
-        {/* Stage: căn giữa; scale xuống nếu máy thấp để luôn thấy năm */}
+        {/*
+          Lề trên = lề dưới (EDGE_INSET).
+          justify-between → logo | cúp | phân trang cách đều phần còn lại.
+        */}
         <div
           ref={stageRef}
-          className="flex min-h-0 flex-1 items-center justify-center overflow-hidden px-0"
+          className="flex min-h-0 flex-1 flex-col overflow-hidden"
+          style={{
+            paddingTop: EDGE_INSET,
+            paddingBottom: `max(${EDGE_INSET}, env(safe-area-inset-bottom, 0px))`,
+          }}
         >
           <div
             ref={stackRef}
-            className="flex w-full max-w-md flex-col"
+            className="mx-auto flex min-h-0 w-full max-w-md flex-1 flex-col justify-between"
             style={{
               transform: `scale(${scale})`,
               transformOrigin: 'center center',
             }}
           >
-            {/* Lề trên trong khối thiết kế */}
-            <div className="shrink-0 pt-6">
+            {/* Đầu: logo giải */}
+            <div className="shrink-0">
               <AwardMobileTop
                 key={`${active.year}-${active.entry.slug ?? active.entryIndex}`}
                 entry={active.entry}
               />
             </div>
 
-            {/* Gap cố định chữ → cúp (không flex-1 nên không phình trên máy cao) */}
-            <div className="h-5 shrink-0" aria-hidden />
-
-            {/* Cúp + khối tím — size cố định */}
-            <div className="relative mx-auto h-[200px] w-full shrink-0">
+            {/* Giữa: khối tím + cúp (to hơn) */}
+            <div className="relative mx-auto h-[230px] w-full shrink-0">
               <img
                 src={awardBlock}
                 alt=""
                 aria-hidden
-                className="pointer-events-none absolute bottom-0 left-1/2 h-[130px] w-[280px] max-w-[86%] -translate-x-1/2 object-contain object-bottom"
+                className="pointer-events-none absolute bottom-0 left-1/2 h-[145px] w-[300px] max-w-[88%] -translate-x-1/2 object-contain object-bottom"
               />
               {active.entry.cupSrc ? (
                 <img
                   src={active.entry.cupSrc}
                   alt=""
-                  className="absolute bottom-2 left-1/2 z-10 h-[185px] w-auto max-w-[220px] -translate-x-1/2 object-contain object-bottom drop-shadow-[0_8px_24px_rgba(90,59,196,0.2)]"
+                  className="absolute bottom-2 left-1/2 z-10 h-[215px] w-auto max-w-[250px] -translate-x-1/2 object-contain object-bottom drop-shadow-[0_8px_24px_rgba(90,59,196,0.2)]"
                 />
               ) : null}
             </div>
 
-            {/* Phân trang — nằm trong stack nên luôn hiện cùng tỷ lệ */}
-            <div className="shrink-0 pt-4 pb-3">
+            {/* Cuối: phân trang */}
+            <div className="shrink-0">
               {yearSlides.length > 1 ? (
                 <div
                   className="mb-2 flex justify-center gap-1.5"
