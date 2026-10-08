@@ -427,10 +427,12 @@ function AwardsSection() {
       {/* mt chừa chỗ cúp nhô trên khung */}
       <div className="relative mt-40 mb-5">
         {/*
-          Hàng cúp neo mép trên khung: inactive cách khung,
-          active dài xuống vẫn đè nhẹ lên khung (z cao hơn).
+          Reveal 1: 4 nút cúp → Reveal 2: khung + nội dung chung 1 lượt.
         */}
-        <div className="absolute inset-x-0 top-0 z-20 flex h-[5.7rem] -translate-y-[75px] items-start justify-center gap-[20px]">
+        <div
+          className="home-mobile-reveal absolute inset-x-0 top-0 z-20 flex h-[5.7rem] -translate-y-[75px] items-start justify-center gap-[20px]"
+          data-home-reveal
+        >
           {HOME_AWARDS.map((award, index) => {
             const isActive = index === activeIndex
 
@@ -461,10 +463,11 @@ function AwardsSection() {
           })}
         </div>
 
-        {/* Khung: overflow + rounded trực tiếp (backdrop-blur tách lớp để bo góc ăn) */}
+        {/* Khung + nội dung — 1 lượt reveal */}
         <div
-          className="relative z-0 h-[22rem] overflow-hidden rounded-[1.5rem] sm:h-[26rem]"
+          className="home-mobile-reveal relative z-0 h-[22rem] overflow-hidden rounded-[1.5rem] sm:h-[26rem]"
           style={{ borderRadius: '1.5rem' }}
+          data-home-reveal
         >
           <div
             className="absolute inset-0 bg-brand-home1/10 backdrop-blur-sm"
@@ -489,7 +492,7 @@ function AwardsSection() {
                   <a
                     key={year}
                     href={awardYearHref(year)}
-                    className="font-body text-[13px] transition-colors hover:text-brand-home1 sm:text-lg"
+                    className="font-body text-[13px] text-center transition-colors hover:text-brand-home1 sm:text-lg"
                   >
                     {year}
                   </a>
@@ -537,9 +540,10 @@ function SocialProfileCard({ profile }) {
   return (
     <article
       className={cn(
-        'relative overflow-visible',
+        'home-mobile-reveal relative overflow-visible',
         iconsOnLeft ? 'ml-auto w-[92%]' : 'mr-auto w-[92%]'
       )}
+      data-home-reveal
     >
       {/* pt cố định = phần ảnh tràn trên khung — không đổi theo độ rộng màn */}
       <div className="relative pt-[70px]">
@@ -627,8 +631,11 @@ function SocialProfileCard({ profile }) {
 function SocialSection() {
   return (
     <MobileSection sectionIndex={3}>
-      {/* mb cố định; pt của card lo phần ảnh tràn → khoảng title→profile ổn định */}
-      <h2 className="heading-section mb-[-5px] mt-6 text-[36px] text-center">
+      {/* Reveal: title → từng card tuần tự khi lướt tới */}
+      <h2
+        className="home-mobile-reveal heading-section mb-[-5px] mt-6 text-[36px] text-center"
+        data-home-reveal
+      >
         MẠNG XÃ HỘI
       </h2>
 
@@ -645,9 +652,18 @@ function SocialSection() {
 function FavoriteSection() {
   return (
     <MobileSection sectionIndex={4} className="mt-10 mb-1">
-      <h2 className="heading-section mb-8 text-[36px] text-center">FANSITE</h2>
+      {/* Reveal: title → lưới card chung 1 lượt */}
+      <h2
+        className="home-mobile-reveal heading-section mb-8 text-[36px] text-center"
+        data-home-reveal
+      >
+        FANSITE
+      </h2>
 
-      <div className="grid grid-cols-2 gap-3">
+      <div
+        className="home-mobile-reveal grid grid-cols-2 gap-3"
+        data-home-reveal
+      >
         {FANPAGE_DATA.map(page => (
           <a
             key={page.name}
