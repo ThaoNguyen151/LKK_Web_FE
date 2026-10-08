@@ -345,11 +345,10 @@ export function AwardsResponsive({ route }) {
               transformOrigin: 'center center',
             }}
           >
-            {/* 1. Logo giải*/}
             <img
               src={active.entry.logoSrc}
               alt=""
-              className="mx-auto h-26 w-auto shrink-0 object-contain"
+              className="awards-mobile-slide-ltr mx-auto h-26 w-auto shrink-0 object-contain"
             />
 
             <div className="min-h-3 flex-1" aria-hidden />
@@ -359,7 +358,7 @@ export function AwardsResponsive({ route }) {
               const { titleClass, subtitleClass, titleMaxPx, subtitleMaxPx } =
                 getTitleClasses(active.entry)
               return (
-                <div className="inline-flex w-max max-w-full shrink-0 items-center gap-2 self-center">
+                <div className="awards-mobile-slide-ltr inline-flex w-max max-w-full shrink-0 items-center gap-2 self-center">
                   <img
                     src={wreathL}
                     alt=""
@@ -395,8 +394,8 @@ export function AwardsResponsive({ route }) {
 
             <div className="min-h-3 flex-1" aria-hidden />
 
-            {/* 3. Vai diễn / vở diễn */}
-            <div className="shrink-0 space-y-0.5 text-center font-body text-[13px] text-gray-800">
+            {/* 3. Vai diễn / vở diễn — L→R */}
+            <div className="awards-mobile-slide-ltr shrink-0 space-y-0.5 text-center font-body text-[13px] text-gray-800">
               <p>
                 <span className="italic font-body text-[10px] text-gray-500">
                   Vai diễn:
@@ -417,7 +416,7 @@ export function AwardsResponsive({ route }) {
 
             <div className="min-h-3 flex-1" aria-hidden />
 
-            {/* 4. Khối tím + cúp — mọi năm/mọi giải cùng một chiều cao cố định */}
+            {/* 4. Khối tím đứng yên; chỉ hình cúp R→L */}
             <div className="relative mx-auto h-[280px] w-full shrink-0">
               <img
                 src={awardBlock}
@@ -426,11 +425,13 @@ export function AwardsResponsive({ route }) {
                 className="pointer-events-none absolute bottom-0 left-1/2 h-[170px] w-[320px] max-w-[90%] -translate-x-1/2 object-contain object-bottom"
               />
               {active.entry.cupSrc ? (
-                <img
-                  src={active.entry.cupSrc}
-                  alt=""
-                  className="absolute bottom-2 left-1/2 z-10 h-[270px] w-auto -translate-x-1/2 object-contain object-bottom drop-shadow-[0_8px_24px_rgba(90,59,196,0.2)]"
-                />
+                <div className="absolute bottom-2 left-1/2 z-10 -translate-x-1/2">
+                  <img
+                    src={active.entry.cupSrc}
+                    alt=""
+                    className="awards-mobile-slide-rtl h-[270px] w-auto object-contain object-bottom drop-shadow-[0_8px_24px_rgba(90,59,196,0.2)]"
+                  />
+                </div>
               ) : null}
             </div>
 
