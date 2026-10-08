@@ -298,7 +298,7 @@ export function AwardsResponsive({ route }) {
             <img
               src={active.entry.logoSrc}
               alt=""
-              className="mx-auto h-20 w-auto shrink-0 object-contain sm:h-[5.5rem]"
+              className="mx-auto h-24 w-auto shrink-0 object-contain sm:h-28"
             />
 
             <div className="min-h-3 flex-1" aria-hidden />
@@ -352,49 +352,54 @@ export function AwardsResponsive({ route }) {
 
             <div className="min-h-3 flex-1" aria-hidden />
 
-            {/* 4. Khối tím + cúp */}
-            <div className="relative mx-auto h-[230px] w-full shrink-0">
+            {/* 4. Khối tím + cúp — mọi năm/mọi giải cùng một chiều cao cố định */}
+            <div className="relative mx-auto h-[260px] w-full shrink-0">
               <img
                 src={awardBlock}
                 alt=""
                 aria-hidden
-                className="pointer-events-none absolute bottom-0 left-1/2 h-[145px] w-[300px] max-w-[88%] -translate-x-1/2 object-contain object-bottom"
+                className="pointer-events-none absolute bottom-0 left-1/2 h-[155px] w-[320px] max-w-[90%] -translate-x-1/2 object-contain object-bottom"
               />
               {active.entry.cupSrc ? (
                 <img
                   src={active.entry.cupSrc}
                   alt=""
-                  className="absolute bottom-2 left-1/2 z-10 h-[215px] w-auto max-w-[250px] -translate-x-1/2 object-contain object-bottom drop-shadow-[0_8px_24px_rgba(90,59,196,0.2)]"
+                  className="absolute bottom-2 left-1/2 z-10 h-[240px] w-auto -translate-x-1/2 object-contain object-bottom drop-shadow-[0_8px_24px_rgba(90,59,196,0.2)]"
                 />
               ) : null}
             </div>
 
-            {/* Phân trang — sát lề dưới */}
+            {/* Phân trang — sát lề dưới; chừa chỗ cố định cho chấm phụ (2011) để không xê dịch */}
             <div className="shrink-0 pt-3">
-              {yearSlides.length > 1 ? (
-                <div
-                  className="mb-2 flex justify-center gap-1.5"
-                  role="tablist"
-                  aria-label={`Giải thưởng năm ${activeYear}`}
-                >
-                  {yearSlides.map(s => (
-                    <button
-                      key={`${s.year}-${s.entryIndex}`}
-                      type="button"
-                      role="tab"
-                      aria-selected={s.i === activeIndex}
-                      aria-label={s.entry.title}
-                      onClick={() => goToIndex(s.i)}
-                      className={cn(
-                        'h-1.5 rounded-full transition-all',
-                        s.i === activeIndex
-                          ? 'w-4 bg-brand-orange'
-                          : 'w-1.5 bg-brand-orange/30'
-                      )}
-                    />
-                  ))}
-                </div>
-              ) : null}
+              <div
+                className="mb-2 flex h-3 items-center justify-center gap-1.5"
+                role={yearSlides.length > 1 ? 'tablist' : undefined}
+                aria-label={
+                  yearSlides.length > 1
+                    ? `Giải thưởng năm ${activeYear}`
+                    : undefined
+                }
+                aria-hidden={yearSlides.length < 2}
+              >
+                {yearSlides.length > 1
+                  ? yearSlides.map(s => (
+                      <button
+                        key={`${s.year}-${s.entryIndex}`}
+                        type="button"
+                        role="tab"
+                        aria-selected={s.i === activeIndex}
+                        aria-label={s.entry.title}
+                        onClick={() => goToIndex(s.i)}
+                        className={cn(
+                          'h-1.5 rounded-full transition-all',
+                          s.i === activeIndex
+                            ? 'w-4 bg-brand-orange'
+                            : 'w-1.5 bg-brand-orange/30'
+                        )}
+                      />
+                    ))
+                  : null}
+              </div>
 
               <AwardYearPager
                 activeYear={activeYear}
