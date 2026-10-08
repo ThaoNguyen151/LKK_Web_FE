@@ -81,7 +81,7 @@ function AwardsMobileBackdrop({ className, style }) {
 function AwardYearPager({ activeYear, onSelectYear }) {
   return (
     <div
-      className="flex h-10 w-full items-center justify-center gap-2.5 px-5"
+      className="flex h-10 w-full items-center justify-center gap-3 px-5"
       role="tablist"
       aria-label="Chọn năm giải thưởng"
     >
@@ -99,13 +99,13 @@ function AwardYearPager({ activeYear, onSelectYear }) {
             className={cn(
               'flex shrink-0 items-center justify-center transition-all duration-300 ease-out',
               isActive
-                ? 'min-w-[3.25rem] flex-col gap-1'
-                : 'h-2 w-2 rounded-full bg-brand-home1/30 hover:bg-brand-home1/50'
+                ? 'min-w-[2.25rem] flex-col gap-1.5'
+                : 'h-1.5 w-2 rounded-full bg-brand-home1/15 hover:bg-brand-home1/50'
             )}
           >
             {isActive ? (
               <>
-                <span className="font-body text-[15px] font-semibold leading-none text-brand-home1">
+                <span className="font-body text-[13px] font-semibold leading-none text-brand-home1">
                   {year}
                 </span>
                 <span className="h-[2px] w-full rounded-full bg-brand-home1" />
@@ -128,14 +128,14 @@ function getTitleClasses(entry) {
   // leading đủ cao để không cắt dấu tiếng Việt
   const titleClass =
     titleStyle === 'title-emphasis'
-      ? 'font-body font-extrabold leading-[1.35] tracking-wide text-brand-orange'
-      : 'font-body font-medium leading-[1.35] tracking-wide text-brand-orange'
+      ? 'font-body font-black leading-[1.35] tracking-tight text-brand-orange'
+      : 'font-body font-bold leading-[1.35] tracking-wide text-brand-orange'
   const subtitleClass =
     titleStyle === 'title-emphasis'
-      ? 'mt-1.5 font-body font-medium leading-[1.35] tracking-wide text-brand-orange'
-      : 'mt-1.5 font-body font-extrabold leading-[1.35] tracking-wide text-brand-orange'
-  const titleMaxPx = titleStyle === 'title-emphasis' ? 20 : 13
-  const subtitleMaxPx = titleStyle === 'title-emphasis' ? 13 : 20
+      ? 'mt-0 font-body font-bold leading-[1.35] tracking-wide text-brand-orange'
+      : 'mt-0 font-body font-black leading-[1.35] tracking-tight text-brand-orange'
+  const titleMaxPx = titleStyle === 'title-emphasis' ? 20 : 15
+  const subtitleMaxPx = titleStyle === 'title-emphasis' ? 15 : 20
   return { titleClass, subtitleClass, titleMaxPx, subtitleMaxPx }
 }
 
@@ -176,7 +176,9 @@ function FitOneLine({ children, className, as = 'p', maxPx = 20, minPx = 10 }) {
   const Tag = as
   return (
     <Tag
-      ref={ref}
+      ref={el => {
+        ref.current = el
+      }}
       className={cn('whitespace-nowrap py-0.5', className)}
       style={{ lineHeight: 1.35 }}
     >
@@ -357,14 +359,14 @@ export function AwardsResponsive({ route }) {
               const { titleClass, subtitleClass, titleMaxPx, subtitleMaxPx } =
                 getTitleClasses(active.entry)
               return (
-                <div className="inline-flex w-full max-w-[22rem] shrink-0 items-center justify-center gap-2 self-center">
+                <div className="inline-flex w-max max-w-full shrink-0 items-center gap-2 self-center">
                   <img
                     src={wreathL}
                     alt=""
                     className="h-12 w-auto shrink-0 object-contain"
                     aria-hidden
                   />
-                  <div className="min-w-0 flex-1 overflow-x-clip overflow-y-visible px-1 py-0.5 text-center">
+                  <div className="min-w-0 overflow-x-clip overflow-y-visible py-0.5 text-center">
                     <FitOneLine
                       className={titleClass}
                       maxPx={titleMaxPx}
@@ -394,15 +396,17 @@ export function AwardsResponsive({ route }) {
             <div className="min-h-3 flex-1" aria-hidden />
 
             {/* 3. Vai diễn / vở diễn */}
-            <div className="shrink-0 space-y-1 text-center font-body text-xs text-gray-800">
+            <div className="shrink-0 space-y-0.5 text-center font-body text-[13px] text-gray-800">
               <p>
-                <span className="italic text-gray-500">Vai diễn:</span>{' '}
+                <span className="italic font-body text-[10px] text-gray-500">
+                  Vai diễn:
+                </span>{' '}
                 <span className="font-semibold uppercase">
                   {active.entry.role}
                 </span>
               </p>
               <p>
-                <span className="italic text-gray-500">
+                <span className="italic font-body text-[10px] text-gray-500">
                   {active.entry.playLabel ?? 'Vở diễn'}:
                 </span>{' '}
                 <span className="font-semibold uppercase">
@@ -414,24 +418,24 @@ export function AwardsResponsive({ route }) {
             <div className="min-h-3 flex-1" aria-hidden />
 
             {/* 4. Khối tím + cúp — mọi năm/mọi giải cùng một chiều cao cố định */}
-            <div className="relative mx-auto h-[260px] w-full shrink-0">
+            <div className="relative mx-auto h-[280px] w-full shrink-0">
               <img
                 src={awardBlock}
                 alt=""
                 aria-hidden
-                className="pointer-events-none absolute bottom-0 left-1/2 h-[155px] w-[320px] max-w-[90%] -translate-x-1/2 object-contain object-bottom"
+                className="pointer-events-none absolute bottom-0 left-1/2 h-[170px] w-[320px] max-w-[90%] -translate-x-1/2 object-contain object-bottom"
               />
               {active.entry.cupSrc ? (
                 <img
                   src={active.entry.cupSrc}
                   alt=""
-                  className="absolute bottom-2 left-1/2 z-10 h-[240px] w-auto -translate-x-1/2 object-contain object-bottom drop-shadow-[0_8px_24px_rgba(90,59,196,0.2)]"
+                  className="absolute bottom-2 left-1/2 z-10 h-[270px] w-auto -translate-x-1/2 object-contain object-bottom drop-shadow-[0_8px_24px_rgba(90,59,196,0.2)]"
                 />
               ) : null}
             </div>
 
             {/* Phân trang — sát lề dưới; chừa chỗ cố định cho chấm phụ (2011) để không xê dịch */}
-            <div className="shrink-0 pt-3">
+            <div className="shrink-0 pt-4">
               <div
                 className="mb-2 flex h-3 items-center justify-center gap-1.5"
                 role={yearSlides.length > 1 ? 'tablist' : undefined}
@@ -454,8 +458,8 @@ export function AwardsResponsive({ route }) {
                         className={cn(
                           'h-1.5 rounded-full transition-all',
                           s.i === activeIndex
-                            ? 'w-4 bg-brand-orange'
-                            : 'w-1.5 bg-brand-orange/30'
+                            ? 'w-2 bg-brand-orange'
+                            : 'w-2 bg-brand-orange/30'
                         )}
                       />
                     ))
