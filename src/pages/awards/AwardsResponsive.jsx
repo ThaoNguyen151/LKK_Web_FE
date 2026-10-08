@@ -24,21 +24,10 @@ import {
 const SWIPE_THRESHOLD_PX = 48
 const AUTO_ADVANCE_MS = 4_000
 
-/** Lề trên (sau header) = lề dưới (trước đáy màn) — cùng 1 khoảng */
-const EDGE_INSET = '1.25rem'
-
-/**
- * @param {string} eventName
- */
-function formatEventNameLines(eventName) {
-  const text = eventName.trim()
-  const cityIdx = text.indexOf('THÀNH PHỐ')
-  if (cityIdx > 0) {
-    return [text.slice(0, cityIdx).trim(), text.slice(cityIdx).trim()]
-  }
-  // Tên ngắn (HTV AWARDS 2009, GIẢI MAI VÀNG 2023…) — giữ 1 dòng
-  return [text]
-}
+/** Lề dưới (giữ nguyên) */
+const EDGE_BOTTOM = '1.25rem'
+/** Lề trên lớn hơn lề dưới */
+const EDGE_TOP = '2.25rem'
 
 /**
  * @returns {Array<{ year: string, entryIndex: number, entry: import('./awardsData').AwardEntry }>}
@@ -132,67 +121,19 @@ function AwardYearPager({ activeYear, onSelectYear }) {
 }
 
 /**
- * @param {object} props
- * @param {import('./awardsData').AwardEntry} props.entry
+ * @param {import('./awardsData').AwardEntry} entry
  */
-function AwardMobileTop({ entry }) {
+function getTitleClasses(entry) {
   const titleStyle = entry.titleStyle ?? 'subtitle-emphasis'
-  const playLabel = entry.playLabel ?? 'Vở diễn'
-  const eventLines = formatEventNameLines(entry.eventName ?? '')
-
   const titleClass =
     titleStyle === 'title-emphasis'
       ? 'font-body text-[20px] font-extrabold leading-tight text-brand-orange'
       : 'font-body text-[13px] font-medium leading-none tracking-wide text-brand-orange'
-
   const subtitleClass =
     titleStyle === 'title-emphasis'
       ? 'mt-1.5 font-body text-[13px] font-medium leading-none tracking-wide text-brand-orange'
       : 'mt-1.5 font-body text-[20px] font-extrabold leading-tight text-brand-orange'
-
-  return (
-    <div className="flex w-full flex-col items-center px-5">
-      <img src={entry.logoSrc} alt="" className="h-14 w-auto object-contain" />
-
-      <p className="mt-2.5 max-w-[18rem] text-center font-body text-[11px] font-semibold uppercase leading-snug tracking-wide text-brand-home1">
-        {eventLines.map(line => (
-          <span key={line} className="block">
-            {line}
-          </span>
-        ))}
-      </p>
-
-      <div className="mt-5 inline-flex w-full max-w-[22rem] items-center justify-center gap-2">
-        <img
-          src={wreathL}
-          alt=""
-          className="h-12 w-auto shrink-0 object-contain"
-          aria-hidden
-        />
-        <div className="min-w-0 flex-1 px-1 text-center">
-          <p className={titleClass}>{entry.title}</p>
-          <h2 className={subtitleClass}>{entry.subtitle}</h2>
-        </div>
-        <img
-          src={wreathR}
-          alt=""
-          className="h-12 w-auto shrink-0 object-contain"
-          aria-hidden
-        />
-      </div>
-
-      <div className="mt-3.5 space-y-1 text-center font-body text-xs text-gray-800">
-        <p>
-          <span className="italic text-gray-500">Vai diễn:</span>{' '}
-          <span className="font-semibold uppercase">{entry.role}</span>
-        </p>
-        <p>
-          <span className="italic text-gray-500">{playLabel}:</span>{' '}
-          <span className="font-semibold uppercase">{entry.play}</span>
-        </p>
-      </div>
-    </div>
-  )
+  return { titleClass, subtitleClass }
 }
 
 /**
@@ -333,34 +274,85 @@ export function AwardsResponsive({ route }) {
         onTouchEnd={onTouchEnd}
       >
         {/*
-          Lề trên = lề dưới (EDGE_INSET).
-          justify-between → logo | cúp | phân trang cách đều phần còn lại.
+          Lề trên lớn hơn, lề dưới giữ nguyên.
+          Logo → tên giải → vai/vở → cúp: 3 khoảng flex-1 bằng nhau.
         */}
         <div
           ref={stageRef}
           className="flex min-h-0 flex-1 flex-col overflow-hidden"
           style={{
-            paddingTop: EDGE_INSET,
-            paddingBottom: `max(${EDGE_INSET}, env(safe-area-inset-bottom, 0px))`,
+            paddingTop: EDGE_TOP,
+            paddingBottom: `max(${EDGE_BOTTOM}, env(safe-area-inset-bottom, 0px))`,
           }}
         >
           <div
             ref={stackRef}
-            className="mx-auto flex min-h-0 w-full max-w-md flex-1 flex-col justify-between"
+            key={`${active.year}-${active.entry.slug ?? active.entryIndex}`}
+            className="mx-auto flex min-h-0 w-full max-w-md flex-1 flex-col px-5"
             style={{
               transform: `scale(${scale})`,
               transformOrigin: 'center center',
             }}
           >
-            {/* Đầu: logo giải */}
-            <div className="shrink-0">
-              <AwardMobileTop
-                key={`${active.year}-${active.entry.slug ?? active.entryIndex}`}
-                entry={active.entry}
-              />
+            {/* 1. Logo giải — to hơn; không còn dòng eventName tím */}
+            <img
+              src={active.entry.logoSrc}
+              alt=""
+              className="mx-auto h-20 w-auto shrink-0 object-contain sm:h-[5.5rem]"
+            />
+
+            <div className="min-h-3 flex-1" aria-hidden />
+
+            {/* 2. Tên giải + vòng nguyệt quế */}
+            {(() => {
+              const { titleClass, subtitleClass } = getTitleClasses(
+                active.entry
+              )
+              return (
+                <div className="inline-flex w-full max-w-[22rem] shrink-0 items-center justify-center gap-2 self-center">
+                  <img
+                    src={wreathL}
+                    alt=""
+                    className="h-12 w-auto shrink-0 object-contain"
+                    aria-hidden
+                  />
+                  <div className="min-w-0 flex-1 px-1 text-center">
+                    <p className={titleClass}>{active.entry.title}</p>
+                    <h2 className={subtitleClass}>{active.entry.subtitle}</h2>
+                  </div>
+                  <img
+                    src={wreathR}
+                    alt=""
+                    className="h-12 w-auto shrink-0 object-contain"
+                    aria-hidden
+                  />
+                </div>
+              )
+            })()}
+
+            <div className="min-h-3 flex-1" aria-hidden />
+
+            {/* 3. Vai diễn / vở diễn */}
+            <div className="shrink-0 space-y-1 text-center font-body text-xs text-gray-800">
+              <p>
+                <span className="italic text-gray-500">Vai diễn:</span>{' '}
+                <span className="font-semibold uppercase">
+                  {active.entry.role}
+                </span>
+              </p>
+              <p>
+                <span className="italic text-gray-500">
+                  {active.entry.playLabel ?? 'Vở diễn'}:
+                </span>{' '}
+                <span className="font-semibold uppercase">
+                  {active.entry.play}
+                </span>
+              </p>
             </div>
 
-            {/* Giữa: khối tím + cúp (to hơn) */}
+            <div className="min-h-3 flex-1" aria-hidden />
+
+            {/* 4. Khối tím + cúp */}
             <div className="relative mx-auto h-[230px] w-full shrink-0">
               <img
                 src={awardBlock}
@@ -377,8 +369,8 @@ export function AwardsResponsive({ route }) {
               ) : null}
             </div>
 
-            {/* Cuối: phân trang */}
-            <div className="shrink-0">
+            {/* Phân trang — sát lề dưới */}
+            <div className="shrink-0 pt-3">
               {yearSlides.length > 1 ? (
                 <div
                   className="mb-2 flex justify-center gap-1.5"
