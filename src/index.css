@@ -618,6 +618,37 @@
     line-height: 0.9;
   }
 
+  /* Awards mobile: đổi slide — chữ L→R, cúp R→L */
+  .awards-mobile-slide-ltr {
+    animation: awards-mobile-ltr 2000ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .awards-mobile-slide-rtl {
+    animation: awards-mobile-rtl 2000ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  @keyframes awards-mobile-ltr {
+    from {
+      opacity: 0;
+      transform: translate3d(-2.5rem, 0, 0);
+    }
+    to {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+  }
+
+  @keyframes awards-mobile-rtl {
+    from {
+      opacity: 0;
+      transform: translate3d(2.5rem, 0, 0);
+    }
+    to {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+  }
+
   /* Awards year transition */
   .award-anim-layer {
     will-change: transform, opacity;
@@ -690,7 +721,9 @@
     .award-anim-content-exit,
     .award-anim-content-enter,
     .award-anim-cup-exit,
-    .award-anim-cup-enter {
+    .award-anim-cup-enter,
+    .awards-mobile-slide-ltr,
+    .awards-mobile-slide-rtl {
       animation: none;
       opacity: 1;
       transform: none;
