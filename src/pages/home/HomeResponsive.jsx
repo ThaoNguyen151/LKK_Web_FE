@@ -19,16 +19,179 @@ import {
 /**
  * @param {object} props
  * @param {import('react').ReactNode} props.children
+ * @param {number} props.sectionIndex
  * @param {string} [props.className]
  */
-function MobileSection({ children, className }) {
+function MobileSection({ children, sectionIndex, className }) {
   return (
     <section
       className={cn('home-mobile-section pb-8 sm:pb-10 md:pb-12', className)}
+      data-home-section={sectionIndex}
     >
-      <div className="home-mobile-content">{children}</div>
+      <div
+        className="home-mobile-content home-section-content"
+        data-home-section-content
+      >
+        {children}
+      </div>
     </section>
   )
+}
+
+/** Scroll reveal — xuống: hiện từ dưới; lên: hiện từ trên (dùng chung CSS desktop). */
+function useHomeMobileReveal() {
+  useLayoutEffect(() => {
+    const sections = /** @type {HTMLElement[]} */ (
+      Array.from(document.querySelectorAll('[data-home-section]')).filter(el =>
+        el.closest('.home-mobile-shell')
+      )
+    )
+    if (sections.length === 0) return
+
+    const reducedMotion = window.matchMedia(
+      '(prefers-reduced-motion: reduce)'
+    ).matches
+
+    /** @type {'forward' | 'reverse'} */
+    let scrollDir = 'forward'
+    let lastScrollY = window.scrollY || window.pageYOffset
+    /** @type {Record<number, boolean>} */
+    const inViewState = {}
+
+    /**
+     * @param {HTMLElement} sectionEl
+     * @param {boolean} inView
+     * @param {'forward' | 'reverse'} direction
+     */
+    const syncInView = (sectionEl, inView, direction) => {
+      sectionEl.classList.toggle('home-section-inview', inView)
+
+      const content = sectionEl.querySelector('[data-home-section-content]')
+      if (!(content instanceof HTMLElement)) return
+
+      if (reducedMotion) {
+        content.classList.remove(
+          'anim-enter-up',
+          'anim-enter-down',
+          'anim-exit-up',
+          'anim-exit-down'
+        )
+        content.classList.add('is-inview')
+        content.style.opacity = '1'
+        content.style.transform = 'none'
+        return
+      }
+
+      content.classList.remove(
+        'anim-enter-up',
+        'anim-enter-down',
+        'anim-exit-up',
+        'anim-exit-down',
+        'is-inview'
+      )
+      void content.offsetWidth
+
+      if (inView) {
+        content.classList.add(
+          direction === 'forward' ? 'anim-enter-up' : 'anim-enter-down',
+          'is-inview'
+        )
+      } else {
+        content.classList.add(
+          direction === 'forward' ? 'anim-exit-up' : 'anim-exit-down'
+        )
+      }
+    }
+
+    const onScroll = () => {
+      const y = window.scrollY || window.pageYOffset
+      const delta = y - lastScrollY
+      if (Math.abs(delta) > 2) {
+        scrollDir = delta > 0 ? 'forward' : 'reverse'
+      }
+      lastScrollY = y
+    }
+
+    const observer = new IntersectionObserver(
+      entries => {
+        entries.forEach(entry => {
+          const index = Number(
+            /** @type {HTMLElement} */ (entry.target).dataset.homeSection
+          )
+          const nowInView = entry.isIntersecting
+          if (inViewState[index] !== nowInView) {
+            inViewState[index] = nowInView
+            syncInView(
+              /** @type {HTMLElement} */ (entry.target),
+              nowInView,
+              scrollDir
+            )
+          }
+        })
+      },
+      {
+        root: null,
+        threshold: [0.12, 0.22, 0.35],
+        rootMargin: '0px 0px -6% 0px',
+      }
+    )
+
+    window.addEventListener('scroll', onScroll, { passive: true })
+
+    sections.forEach(section => {
+      observer.observe(section)
+      const rect = section.getBoundingClientRect()
+      const visible = rect.top < window.innerHeight * 0.85 && rect.bottom > 48
+      if (visible) {
+        const index = Number(section.dataset.homeSection)
+        inViewState[index] = true
+        syncInView(section, true, 'forward')
+      }
+    })
+
+    return () => {
+      observer.disconnect()
+      window.removeEventListener('scroll', onScroll)
+    }
+  }, [])
+}
+
+/** Từng .home-mobile-reveal hiện khi chính nó vào viewport (không bung cả section). */
+function useHomeMobileRevealItems() {
+  useLayoutEffect(() => {
+    const items = /** @type {HTMLElement[]} */ (
+      Array.from(
+        document.querySelectorAll('.home-mobile-shell [data-home-reveal]')
+      )
+    )
+    if (items.length === 0) return
+
+    const reducedMotion = window.matchMedia(
+      '(prefers-reduced-motion: reduce)'
+    ).matches
+
+    if (reducedMotion) {
+      items.forEach(el => el.classList.add('is-revealed'))
+      return
+    }
+
+    const observer = new IntersectionObserver(
+      entries => {
+        entries.forEach(entry => {
+          entry.target.classList.toggle('is-revealed', entry.isIntersecting)
+        })
+      },
+      {
+        root: null,
+        threshold: [0, 0.18, 0.35],
+        // Phải vào vùng giữa màn mới hiện — tránh vừa chạm mép dưới là bung hết
+        rootMargin: '0px 0px -22% 0px',
+      }
+    )
+
+    items.forEach(el => observer.observe(el))
+    return () => observer.disconnect()
+  }, [])
 }
 
 /**
@@ -139,44 +302,47 @@ function Tag({ children, variant = 'orange', className }) {
 
 function HeroSection() {
   return (
-    <section className="relative pb-8 pt-0 sm:pb-10">
+    <section className="relative pb-8 pt-0 sm:pb-10" data-home-section={0}>
       {/*
         Stage = khung full-bleed cố định (không dịch cả khối).
         Ảnh / chữ / tag mỗi lớp absolute hoặc wrap riêng — chỉnh class tương ứng.
+        Tag nằm ngoài home-section-content để cascade riêng (không bị opacity cha).
       */}
       <div className="home-mobile-hero-stage">
-        {/* Chỉ chỉnh .home-mobile-hero-photo-wrap để dịch ảnh */}
-        <div className="home-mobile-hero-photo-wrap">
-          <img
-            src={imageHome1}
-            alt="Lê Khánh"
-            className="home-mobile-hero-photo"
-          />
-          {/* Blur mép dưới = clone nền; theo ảnh khi dịch chuyển */}
-          <HeroPhotoFade />
+        <div className="home-section-content" data-home-section-content>
+          {/* Chỉ chỉnh .home-mobile-hero-photo-wrap để dịch ảnh */}
+          <div className="home-mobile-hero-photo-wrap">
+            <img
+              src={imageHome1}
+              alt="Lê Khánh"
+              className="home-mobile-hero-photo"
+            />
+            {/* Blur mép dưới = clone nền; theo ảnh khi dịch chuyển */}
+            <HeroPhotoFade />
+          </div>
+
+          {/* Chỉ chỉnh .home-mobile-hero-title-wrap để dịch chữ */}
+          <div className="home-mobile-hero-title-wrap">
+            <img
+              src={imageTextHome1}
+              alt="Lê Khánh"
+              className="home-mobile-hero-title"
+            />
+          </div>
         </div>
 
-        {/* Tag — vị trí riêng, không phụ thuộc ảnh */}
-        <div className="home-mobile-hero-tag home-mobile-hero-tag--actor">
-          <Tag># DIỄN VIÊN</Tag>
-        </div>
+        {/* Tag — trên → dưới: dob → actor → artist → name */}
         <div className="home-mobile-hero-tag home-mobile-hero-tag--dob">
           <Tag variant="light">22/12/1981</Tag>
+        </div>
+        <div className="home-mobile-hero-tag home-mobile-hero-tag--actor">
+          <Tag># DIỄN VIÊN</Tag>
         </div>
         <div className="home-mobile-hero-tag home-mobile-hero-tag--artist">
           <Tag># NGHỆ SĨ</Tag>
         </div>
         <div className="home-mobile-hero-tag home-mobile-hero-tag--name">
           <Tag variant="light">LÊ KIM KHÁNH</Tag>
-        </div>
-
-        {/* Chỉ chỉnh .home-mobile-hero-title-wrap để dịch chữ */}
-        <div className="home-mobile-hero-title-wrap">
-          <img
-            src={imageTextHome1}
-            alt="Lê Khánh"
-            className="home-mobile-hero-title"
-          />
         </div>
       </div>
     </section>
@@ -185,14 +351,21 @@ function HeroSection() {
 
 function TreasureSection() {
   return (
-    <MobileSection className="mt-40">
-      <h2 className="heading-display mb-3 text-left text-[36px] leading-[1.05]">
+    <MobileSection sectionIndex={1} className="mt-40">
+      {/* Mỗi khối tự hiện khi lướt tới — không bung cả section */}
+      <h2
+        className="home-mobile-reveal heading-display mb-3 text-left text-[36px] leading-[1.05]"
+        data-home-reveal
+      >
         KHO TÀNG
         <br />
         NGHỆ THUẬT
       </h2>
 
-      <p className="mb-7 mt-5 text-left font-body text-[13px] leading-relaxed tracking-[-0.01em] text-gray-700">
+      <p
+        className="home-mobile-reveal mb-7 mt-5 text-left font-body text-[13px] leading-relaxed tracking-[-0.01em] text-gray-700"
+        data-home-reveal
+      >
         {HOME_INTRO_LINES.map(line => (
           <span key={line} className="block">
             {line}
@@ -203,7 +376,10 @@ function TreasureSection() {
       <div className="relative">
         {/* Block = đúng bề ngang khung ảnh → stats neo theo ảnh, không theo full màn */}
         <div className="home-mobile-treasure-block">
-          <div className="home-mobile-treasure-frame">
+          <div
+            className="home-mobile-reveal home-mobile-treasure-frame"
+            data-home-reveal
+          >
             <img
               src={imageHome2}
               alt="Lê Khánh"
@@ -215,7 +391,8 @@ function TreasureSection() {
             {HOME_STATS.map(stat => (
               <div
                 key={stat.label}
-                className="rounded-2xl border border-white border-[1.5px] bg-white/20 text-center backdrop-blur-md"
+                className="home-mobile-reveal rounded-2xl border border-white border-[1.5px] bg-white/20 text-center backdrop-blur-md"
+                data-home-reveal
               >
                 <div className="home-mobile-treasure-stat-value mb-1 font-body text-[28px] leading-none">
                   <span className="text-black">{stat.value}</span>
@@ -246,7 +423,7 @@ function AwardsSection() {
   }, [activeIndex])
 
   return (
-    <MobileSection>
+    <MobileSection sectionIndex={2}>
       {/* mt chừa chỗ cúp nhô trên khung */}
       <div className="relative mt-40 mb-5">
         {/*
@@ -449,7 +626,7 @@ function SocialProfileCard({ profile }) {
 
 function SocialSection() {
   return (
-    <MobileSection>
+    <MobileSection sectionIndex={3}>
       {/* mb cố định; pt của card lo phần ảnh tràn → khoảng title→profile ổn định */}
       <h2 className="heading-section mb-[-5px] mt-6 text-[36px] text-center">
         MẠNG XÃ HỘI
@@ -467,7 +644,7 @@ function SocialSection() {
 
 function FavoriteSection() {
   return (
-    <MobileSection className="mt-10 mb-1">
+    <MobileSection sectionIndex={4} className="mt-10 mb-1">
       <h2 className="heading-section mb-8 text-[36px] text-center">FANSITE</h2>
 
       <div className="grid grid-cols-2 gap-3">
@@ -507,6 +684,9 @@ function FavoriteSection() {
 
 /** Mobile & tablet (< lg) — bố cục theo mockup. */
 export function HomeResponsive() {
+  useHomeMobileReveal()
+  useHomeMobileRevealItems()
+
   return (
     <PageShell className="home-mobile-shell relative overflow-x-clip">
       <MobileRectBackdrop className="pointer-events-none fixed inset-0 z-0" />
