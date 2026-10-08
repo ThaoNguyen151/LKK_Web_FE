@@ -125,15 +125,64 @@ function AwardYearPager({ activeYear, onSelectYear }) {
  */
 function getTitleClasses(entry) {
   const titleStyle = entry.titleStyle ?? 'subtitle-emphasis'
+  // leading đủ cao để không cắt dấu tiếng Việt
   const titleClass =
     titleStyle === 'title-emphasis'
-      ? 'font-body text-[20px] font-extrabold leading-tight text-brand-orange'
-      : 'font-body text-[13px] font-medium leading-none tracking-wide text-brand-orange'
+      ? 'font-body font-extrabold leading-[1.35] tracking-wide text-brand-orange'
+      : 'font-body font-medium leading-[1.35] tracking-wide text-brand-orange'
   const subtitleClass =
     titleStyle === 'title-emphasis'
-      ? 'mt-1.5 font-body text-[13px] font-medium leading-none tracking-wide text-brand-orange'
-      : 'mt-1.5 font-body text-[20px] font-extrabold leading-tight text-brand-orange'
-  return { titleClass, subtitleClass }
+      ? 'mt-1.5 font-body font-medium leading-[1.35] tracking-wide text-brand-orange'
+      : 'mt-1.5 font-body font-extrabold leading-[1.35] tracking-wide text-brand-orange'
+  const titleMaxPx = titleStyle === 'title-emphasis' ? 20 : 13
+  const subtitleMaxPx = titleStyle === 'title-emphasis' ? 13 : 20
+  return { titleClass, subtitleClass, titleMaxPx, subtitleMaxPx }
+}
+
+/**
+ * Một hàng chữ — câu dài tự giảm font-size cho vừa khung, không wrap.
+ * @param {object} props
+ * @param {import('react').ReactNode} props.children
+ * @param {string} [props.className]
+ * @param {'p' | 'h2'} [props.as]
+ * @param {number} [props.maxPx]
+ * @param {number} [props.minPx]
+ */
+function FitOneLine({ children, className, as = 'p', maxPx = 20, minPx = 10 }) {
+  const ref = useRef(/** @type {HTMLElement | null} */ (null))
+
+  useLayoutEffect(() => {
+    const el = ref.current
+    const parent = el?.parentElement
+    if (!el || !parent) return
+
+    const fit = () => {
+      let size = maxPx
+      el.style.fontSize = `${size}px`
+      el.style.whiteSpace = 'nowrap'
+      // Cho phép đo full width trước khi thu
+      while (el.scrollWidth > parent.clientWidth && size > minPx) {
+        size -= 0.5
+        el.style.fontSize = `${size}px`
+      }
+    }
+
+    fit()
+    const ro = new ResizeObserver(fit)
+    ro.observe(parent)
+    return () => ro.disconnect()
+  }, [children, maxPx, minPx])
+
+  const Tag = as
+  return (
+    <Tag
+      ref={ref}
+      className={cn('whitespace-nowrap py-0.5', className)}
+      style={{ lineHeight: 1.35 }}
+    >
+      {children}
+    </Tag>
+  )
 }
 
 /**
@@ -294,20 +343,19 @@ export function AwardsResponsive({ route }) {
               transformOrigin: 'center center',
             }}
           >
-            {/* 1. Logo giải — to hơn; không còn dòng eventName tím */}
+            {/* 1. Logo giải*/}
             <img
               src={active.entry.logoSrc}
               alt=""
-              className="mx-auto h-24 w-auto shrink-0 object-contain sm:h-28"
+              className="mx-auto h-26 w-auto shrink-0 object-contain"
             />
 
             <div className="min-h-3 flex-1" aria-hidden />
 
-            {/* 2. Tên giải + vòng nguyệt quế */}
+            {/* 2. Tên giải + vòng nguyệt quế — mỗi dòng 1 hàng, dài thì thu chữ */}
             {(() => {
-              const { titleClass, subtitleClass } = getTitleClasses(
-                active.entry
-              )
+              const { titleClass, subtitleClass, titleMaxPx, subtitleMaxPx } =
+                getTitleClasses(active.entry)
               return (
                 <div className="inline-flex w-full max-w-[22rem] shrink-0 items-center justify-center gap-2 self-center">
                   <img
@@ -316,9 +364,22 @@ export function AwardsResponsive({ route }) {
                     className="h-12 w-auto shrink-0 object-contain"
                     aria-hidden
                   />
-                  <div className="min-w-0 flex-1 px-1 text-center">
-                    <p className={titleClass}>{active.entry.title}</p>
-                    <h2 className={subtitleClass}>{active.entry.subtitle}</h2>
+                  <div className="min-w-0 flex-1 overflow-x-clip overflow-y-visible px-1 py-0.5 text-center">
+                    <FitOneLine
+                      className={titleClass}
+                      maxPx={titleMaxPx}
+                      minPx={10}
+                    >
+                      {active.entry.title}
+                    </FitOneLine>
+                    <FitOneLine
+                      as="h2"
+                      className={subtitleClass}
+                      maxPx={subtitleMaxPx}
+                      minPx={10}
+                    >
+                      {active.entry.subtitle}
+                    </FitOneLine>
                   </div>
                   <img
                     src={wreathR}
