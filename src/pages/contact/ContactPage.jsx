@@ -1,130 +1,14 @@
 import rectLeft from '@assets/Rectangle-2.png'
 import rectRight from '@assets/Rectangle-1.png'
 import rectBottom from '@assets/Rectangle.png'
-import iconAddress from '@assets/images/contact/contactWaddress.png'
-import iconMail from '@assets/images/contact/contactWmail.png'
-import iconPhone from '@assets/images/contact/contactWphone.png'
 import { Header } from '@components/common'
 import { PageShell } from '@layouts'
-import { ROUTES, cn } from '@utils'
+import { ROUTES } from '@utils'
+import { ContactCard } from './ContactCard'
+import { CONTACT_ITEMS } from './contactData'
 
-const CONTACT_ITEMS = [
-  {
-    id: 'address',
-    label: 'ĐỊA CHỈ',
-    valueCaption: 'Công ty TNHH Truyền thông - Giải trí BÁCH PHÚC',
-    value: '24/2 Đinh Tiên Hoàng, Phường Tân Định, TP.HCM',
-    iconSide: 'right',
-    iconSrc: iconAddress,
-    external: true,
-  },
-  {
-    id: 'phone',
-    label: 'ĐIỆN THOẠI',
-    value: '0879 79 62 58 - 0939 393 799',
-    valueNote: '(Mr. Khải)',
-    iconSide: 'left',
-    iconSrc: iconPhone,
-  },
-  {
-    id: 'email',
-    label: 'EMAIL',
-    value: 'bachphucentertainment@gmail.com',
-    iconSide: 'right',
-    iconSrc: iconMail,
-  },
-]
-
-/**
- * @param {object} props
- * @param {(typeof CONTACT_ITEMS)[number]} props.item
- */
-function ContactCard({ item }) {
-  const isLeft = item.iconSide === 'left'
-
-  // Icon phải: trắng → tím (trái → phải); icon trái: tím → trắng
-  const borderGradient = isLeft
-    ? 'linear-gradient(to right, #5A3BC4 0%, #5A3BC4 30%, #ffffff 80%, #ffffff 100%)'
-    : 'linear-gradient(to right, #ffffff 0%, #ffffff 30%, #5A3BC4 80%, #5A3BC4 100%)'
-
-  const radiusClass = cn(
-    'rounded-2xl sm:rounded-[1rem]',
-    isLeft
-      ? 'rounded-bl-[2.75rem] sm:rounded-bl-[4rem]'
-      : 'rounded-br-[2.75rem] sm:rounded-br-[4rem]'
-  )
-
-  const cardClass = cn(
-    'relative flex min-h-0 flex-1 flex-col justify-center bg-white/10 px-7 py-6 backdrop-blur-sm transition-shadow duration-200 sm:px-14 sm:py-10',
-    radiusClass,
-    isLeft ? 'pl-10 sm:pl-14' : 'pr-10 sm:pr-12'
-  )
-
-  const body = (
-    <div>
-      <p className="font-body text-[11px] font-bold text-brand-home1 sm:text-[10px]">
-        {item.label}
-      </p>
-      <p
-        className={cn(
-          'mt-2 font-body leading-snug text-brand-textheader',
-          item.id === 'phone'
-            ? 'text-lg font-semibold italic sm:text-xl lg:text-[1.35rem]'
-            : 'text-sm font-medium sm:text-[0.95rem] lg:text-[14px]'
-        )}
-      >
-        {item.valueCaption ? (
-          <span className="block mb-1.5 text-[14px] font-semibold not-italic uppercase">
-            {item.valueCaption}
-          </span>
-        ) : null}
-        {item.value}
-        {item.valueNote ? (
-          <span className="ml-1.5 text-[14px] font-normal not-italic sm:ml-2">
-            {item.valueNote}
-          </span>
-        ) : null}
-      </p>
-      <span
-        aria-hidden="true"
-        className={cn(
-          'absolute bottom-5 z-10 flex h-11 w-11 translate-y-1/5 items-center justify-center rounded-full bg-brand-home1 sm:bottom-1.5 sm:h-10 sm:w-10',
-          isLeft ? '-left-5 sm:-left-0' : '-right-5 sm:-right-0'
-        )}
-      >
-        <img
-          src={item.iconSrc}
-          alt=""
-          className="h-3.5 w-3.5 object-contain h-5 w-5"
-        />
-      </span>
-    </div>
-  )
-
-  return (
-    <article className={cardClass}>
-      <div
-        aria-hidden
-        className={cn(
-          'pointer-events-none absolute inset-0 z-[5]',
-          radiusClass
-        )}
-        style={{
-          padding: 1.25,
-          background: borderGradient,
-          WebkitMask:
-            'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
-          WebkitMaskComposite: 'xor',
-          maskComposite: 'exclude',
-        }}
-      />
-      {body}
-    </article>
-  )
-}
-
-/** Trang Liên hệ — panel tím + 3 thẻ thông tin. */
-export function Contact() {
+/** Desktop canvas — panel tím LIÊN HỆ + 3 thẻ thông tin. */
+export function ContactDesktop() {
   return (
     <PageShell className="relative overflow-x-hidden">
       <Header variant="fixed" />
