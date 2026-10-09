@@ -1,1 +1,5 @@
-export { Contact } from './ContactPage'
+export { Contact } from './Contact'
+export { ContactDesktop } from './ContactPage'
+export { ContactResponsive, ContactMobile } from './ContactResponsive'
+export { ContactCard } from './ContactCard'
+export { CONTACT_ITEMS } from './contactData'
