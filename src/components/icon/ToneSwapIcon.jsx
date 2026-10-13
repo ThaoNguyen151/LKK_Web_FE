@@ -49,7 +49,7 @@ export function ToneSwapIcon({
 
 /** Class nút tròn có nền (BackToTop). */
 export const ICON_ROUND_BUTTON_CLASS =
-  'group/icon flex h-9 w-9 items-center justify-center rounded-full bg-white shadow-[0_0_10px_5px_rgba(90,59,196,0.1),0_12px_48px_rgba(90,59,196,0.45)] transition-[background-color,box-shadow,opacity,transform] duration-300 hover:bg-brand-home1 disabled:opacity-30'
+  'group/icon flex h-10 w-10 lg:h-12 lg:w-12 items-center justify-center rounded-full bg-white shadow-[0_0_10px_5px_rgba(90,59,196,0.1),0_12px_48px_rgba(90,59,196,0.45)] transition-[background-color,box-shadow,opacity,transform] duration-300 hover:bg-brand-home1 disabled:opacity-30'
 
 /** Nút chỉ icon, nền trắng. */
 export const ICON_GHOST_BUTTON_CLASS =

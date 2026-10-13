@@ -156,16 +156,57 @@ export const NEWS_ITEMS = Array.from({ length: SAMPLE_TOTAL }, (_, index) => {
 })
 
 /**
+ * @param {string} date DD/MM/YYYY
+ */
+export function parseNewsDate(date) {
+  const [d, m, y] = date.split('/').map(Number)
+  if (!d || !m || !y) return 0
+  return Date.UTC(y, m - 1, d)
+}
+
+/**
+ * @param {NewsItem[]} items
+ * @param {string} query
+ * @param {'desc' | 'asc' | 'az' | 'za'} sort
+ */
+export function filterAndSortNews(items, query, sort) {
+  const q = query.trim().toLowerCase()
+  let list = q
+    ? items.filter(
+        item =>
+          item.title.toLowerCase().includes(q) ||
+          item.source.toLowerCase().includes(q)
+      )
+    : [...items]
+
+  list.sort((a, b) => {
+    if (sort === 'az') return a.title.localeCompare(b.title, 'vi')
+    if (sort === 'za') return b.title.localeCompare(a.title, 'vi')
+    const da = parseNewsDate(a.date)
+    const db = parseNewsDate(b.date)
+    return sort === 'asc' ? da - db : db - da
+  })
+
+  return list
+}
+
+/**
  * @param {number} page 1-based
  * @param {number} [pageSize]
+ * @param {{ query?: string, sort?: 'desc' | 'asc' | 'az' | 'za' }} [opts]
  * @returns {{ items: NewsItem[], totalPages: number, page: number }}
  */
-export function getNewsPage(page = 1, pageSize = NEWS_PAGE_SIZE) {
-  const totalPages = Math.max(1, Math.ceil(NEWS_ITEMS.length / pageSize))
+export function getNewsPage(
+  page = 1,
+  pageSize = NEWS_PAGE_SIZE,
+  { query = '', sort = 'desc' } = {}
+) {
+  const list = filterAndSortNews(NEWS_ITEMS, query, sort)
+  const totalPages = Math.max(1, Math.ceil(list.length / pageSize))
   const safePage = Math.min(Math.max(1, page), totalPages)
   const start = (safePage - 1) * pageSize
   return {
-    items: NEWS_ITEMS.slice(start, start + pageSize),
+    items: list.slice(start, start + pageSize),
     totalPages,
     page: safePage,
   }

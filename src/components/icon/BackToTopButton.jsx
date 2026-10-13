@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import arrowP from '@assets/images/subicon/iconParrowup.png'
 import arrowW from '@assets/images/subicon/iconWarrowup.png'
 import { cn } from '@utils'
@@ -6,6 +7,7 @@ import { ToneSwapIcon, ICON_ROUND_BUTTON_CLASS } from './ToneSwapIcon'
 /**
  * Nút cuộn lên đầu trang / đầu danh sách.
  * Hover: hiện nhãn pill bên trái (vd. “Về đầu trang”).
+ * Click: ẩn nhãn ngay (kể cả còn hover), hiện lại khi rê chuột vào lần sau.
  * @param {object} props
  * @param {boolean} props.show
  * @param {() => void} props.onClick
@@ -18,6 +20,8 @@ export function BackToTopButton({
   label = 'Về đầu trang',
   className,
 }) {
+  const [labelSuppressed, setLabelSuppressed] = useState(false)
+
   return (
     <div
       className={cn(
@@ -27,26 +31,32 @@ export function BackToTopButton({
           : 'pointer-events-none translate-y-3 opacity-0',
         className
       )}
+      onMouseLeave={() => setLabelSuppressed(false)}
     >
       <button
         type="button"
         aria-label={label}
         tabIndex={show ? 0 : -1}
-        onClick={onClick}
+        onClick={event => {
+          setLabelSuppressed(true)
+          onClick()
+          event.currentTarget.blur()
+        }}
         className={cn(
           ICON_ROUND_BUTTON_CLASS,
-          'relative h-11 w-11 lg:h-12 lg:w-12'
+          'relative h-14 w-14 lg:h-12 lg:w-12'
+          /*'relative h-11 w-11 shadow-none lg:h-12 lg:w-12 lg:shadow-[0_0_10px_5px_rgba(90,59,196,0.1),0_12px_48px_rgba(90,59,196,0.45)]'*/
         )}
       >
         <span
           className={cn(
-            'pointer-events-none absolute right-full top-1/2 mr-2 -translate-y-1/2',
+            'pointer-events-none absolute right-full top-1/2 mr-2 hidden -translate-y-1/2 lg:block',
             'whitespace-nowrap rounded-full bg-brand-home1 px-3.5 py-2',
             'font-body text-[10px] tracking-[0.5px] text-white',
             'shadow-[0_0_10px_5px_rgba(90,59,196,0.1),0_12px_48px_rgba(90,59,196,0.45)]',
             'origin-right scale-95 opacity-0 transition-all duration-300',
-            'group-hover/backtop:scale-100 group-hover/backtop:opacity-100',
-            'group-focus-within/backtop:scale-100 group-focus-within/backtop:opacity-100'
+            !labelSuppressed &&
+              'group-hover/backtop:scale-100 group-hover/backtop:opacity-100'
           )}
           aria-hidden
         >
@@ -55,7 +65,7 @@ export function BackToTopButton({
         <ToneSwapIcon
           purpleSrc={arrowP}
           whiteSrc={arrowW}
-          className="h-4 w-4"
+          className="h-5 w-5 lg:h-4 lg:w-4"
         />
       </button>
     </div>
