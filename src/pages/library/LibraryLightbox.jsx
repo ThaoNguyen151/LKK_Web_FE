@@ -42,15 +42,21 @@ export function LibraryLightbox({
 
   return createPortal(
     <div
-      className="fixed inset-0 z-[200] flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm sm:p-8"
+      className="fixed inset-0 z-[200] flex items-center justify-center p-4 sm:p-8"
       role="dialog"
       aria-modal="true"
       aria-label={item.alt || 'Xem ảnh'}
       onClick={onClose}
     >
+      {/* Mobile: nền tối đặc — tránh khung mờ/blur ôm quanh ảnh (WebKit). Desktop giữ blur. */}
+      <div
+        aria-hidden
+        className="absolute inset-0 bg-black/70 backdrop-blur-md sm:bg-black/70 sm:backdrop-blur-md"
+      />
+
       <CloseButton
         onClick={onClose}
-        className="absolute right-4 top-4 z-10 sm:right-20 sm:top-6"
+        className="absolute right-4 top-[max(2.5rem,calc(env(safe-area-inset-top)+2.5rem))] z-10 sm:right-20 sm:top-6"
       />
 
       {hasPrev ? (
@@ -78,13 +84,13 @@ export function LibraryLightbox({
       ) : null}
 
       <div
-        className="flex h-[85vh] w-[min(92vw,1400px)] items-center justify-center px-12 sm:px-16"
+        className="relative z-[1] flex h-[85vh] w-[min(92vw,1400px)] items-center justify-center bg-transparent px-12 sm:px-16"
         onClick={event => event.stopPropagation()}
       >
         <img
           src={item.src}
           alt={item.alt ?? ''}
-          className="h-full w-full rounded-xl object-contain shadow-2xl"
+          className="h-full w-full bg-transparent object-contain sm:[filter:drop-shadow(0_16px_36px_rgba(0,0,0,0.4))]"
         />
       </div>
     </div>,

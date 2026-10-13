@@ -11,7 +11,7 @@ import { ICON_PANEL_CLASS, ToneSwapIcon } from './ToneSwapIcon'
 /** @typedef {'desc' | 'asc' | 'az' | 'za'} SortValue */
 
 /** @type {{ value: SortValue, label: string }[]} */
-const DEFAULT_SORT_OPTIONS = [
+export const DEFAULT_SORT_OPTIONS = [
   { value: 'desc', label: 'Mới nhất' },
   { value: 'asc', label: 'Cũ nhất' },
   { value: 'az', label: 'A - Z' },
@@ -155,7 +155,12 @@ export function SortButton({
                     onChange?.(option.value)
                     setOpen(false)
                   }}
-                  className="flex w-full items-center justify-between gap-3 py-1.5 text-left font-body text-xs text-gray-700 transition-colors hover:text-brand-home1"
+                  className={cn(
+                    'flex w-full items-center justify-between gap-3 py-1.5 text-left font-body text-xs transition-colors hover:text-brand-home1',
+                    selected
+                      ? 'font-bold text-brand-home1'
+                      : 'font-normal text-gray-700'
+                  )}
                 >
                   <span>{option.label}</span>
                   {selected ? (

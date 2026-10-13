@@ -8,7 +8,7 @@ const ICON_SIZE = 'h-6 w-6 sm:h-5 sm:w-5'
 
 /**
  * @param {object} props
- * @param {'purple' | 'white'} [props.tone]
+ * @param {'purple' | 'white' | 'gray'} [props.tone]
  * @param {boolean} [props.swapOnGroupHover] Trắng → tím khi hover (parent `group/icon`)
  * @param {string} [props.className]
  */
