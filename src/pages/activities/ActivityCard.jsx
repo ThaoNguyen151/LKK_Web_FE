@@ -1,5 +1,6 @@
 import { cn } from '@utils'
 import { activityDetailPath, normalizeActivityDetail } from './activityData'
+import { getActivityPosterSrc } from './posterData'
 import playIcon from '@assets/images/subicon/iconWplay.png'
 import infoIcon from '@assets/images/subicon/iconWarrow.png'
 
@@ -28,7 +29,7 @@ function ActivitySubtitle({ subtitle }) {
   return (
     <p className="font-body text-[10px] text-gray-500 sm:text-[11px]">
       <span className="text-[9px] italic sm:text-[11px]">{label}</span>
-      {value ? <> {value}</> : null}
+      {value ? <span className="font-bold"> {value}</span> : null}
     </p>
   )
 }
@@ -45,6 +46,8 @@ export function ActivityCard({ item, className }) {
     'video'
   )
   const videoHref = hasVideoTab ? detailHref : item.videoUrl || detailHref
+  /** Web list — poster ngang */
+  const posterSrc = getActivityPosterSrc(item, 'landscape')
 
   return (
     <div
@@ -60,11 +63,11 @@ export function ActivityCard({ item, className }) {
           'group-hover:border-brand-home1'
         )}
       >
-        {/* 3 ngang : 2 dọc — tăng nhẹ chiều cao qua width */}
+        {/* Web list — khung ngang 3:2 */}
         <div className="relative aspect-[3/2] w-[8.5rem] shrink-0 overflow-hidden bg-[#cbb8e8] sm:w-40 lg:w-42">
-          {item.image ? (
+          {posterSrc ? (
             <img
-              src={item.image}
+              src={posterSrc}
               alt=""
               className="h-full w-full object-cover transition duration-300 group-hover:scale-105 group-hover:blur-[3px] group-hover:opacity-70"
             />

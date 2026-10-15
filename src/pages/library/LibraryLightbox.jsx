@@ -56,7 +56,7 @@ export function LibraryLightbox({
 
       <CloseButton
         onClick={onClose}
-        className="absolute right-4 top-[max(2.5rem,calc(env(safe-area-inset-top)+2.5rem))] z-10 sm:right-20 sm:top-6"
+        className="absolute right-4 top-[max(1.25rem,calc(env(safe-area-inset-top)+0.5rem))] z-10 sm:right-20 sm:top-6"
       />
 
       {hasPrev ? (
@@ -67,7 +67,7 @@ export function LibraryLightbox({
             event.stopPropagation()
             onPrev?.()
           }}
-          className="absolute left-3 z-10 sm:left-6"
+          className="absolute left-2 z-10 sm:left-6"
         />
       ) : null}
 
@@ -79,7 +79,7 @@ export function LibraryLightbox({
             event.stopPropagation()
             onNext?.()
           }}
-          className="absolute right-3 z-10 sm:right-6"
+          className="absolute right-2 z-10 sm:right-6"
         />
       ) : null}
 

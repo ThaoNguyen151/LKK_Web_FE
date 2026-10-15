@@ -116,7 +116,7 @@ export function SortButton({
         purpleSrc={iconP}
         whiteSrc={iconW}
         variant={variant}
-        aria-label="Lọc / sắp xếp"
+        aria-label="Sắp xếp theo"
         aria-haspopup="listbox"
         aria-expanded={open}
         aria-controls={panelId}

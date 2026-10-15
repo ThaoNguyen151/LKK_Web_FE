@@ -49,7 +49,9 @@ import iconHDK from '@assets/images/activity/iconHDK.png'
  * @property {string} year
  * @property {string} title
  * @property {string} subtitle
- * @property {string} [image]
+ * @property {string} [image] Cover chung (fallback)
+ * @property {string} [imagePortrait] Poster dọc (~2:3) — mobile list, web detail
+ * @property {string} [imageLandscape] Poster ngang (~3:2) — web list, mobile detail
  * @property {string} [videoUrl]
  * @property {string} [infoUrl]
  * @property {('info'|'images'|'video')[]} [detailTabs]
