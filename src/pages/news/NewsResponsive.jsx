@@ -95,8 +95,8 @@ function NewsCardMobile({ item }) {
           />
         ) : null}
       </div>
-      <div className="flex flex-1 flex-col justify-between gap-2 px-3.5 py-2.5 pt-3">
-        <span className="inline-flex w-fit rounded-full bg-brand-orange px-2 py-0.5 pt-1 font-body text-[10px] font-semibold uppercase tracking-wide text-white">
+      <div className="flex flex-1 flex-col justify-between gap-2 px-4 py-2.5 pt-3">
+        <span className="inline-flex w-fit rounded-full bg-brand-orange px-2 py-0.5 pt-1 font-body text-[9px] font-semibold uppercase tracking-wide text-white">
           {item.source}
         </span>
         <h2 className="line-clamp-3 pt-0.5 font-body text-[15px] font-bold leading-snug text-brand-home1">
@@ -150,18 +150,18 @@ function NewsSortSheet({ open, value, onClose, onSelect }) {
     <div className="fixed inset-0 z-[180] flex flex-col justify-end">
       <button
         type="button"
-        aria-label="Đóng bộ lọc"
+        aria-label="Đóng sắp xếp theo"
         className="absolute inset-0 bg-black/35"
         onClick={onClose}
       />
       <div
         role="dialog"
         aria-modal="true"
-        aria-label="Bộ lọc"
+        aria-label="Sắp xếp theo"
         className="relative z-10 rounded-t-[1.5rem] bg-white pb-[max(1.25rem,env(safe-area-inset-bottom))] pt-5 shadow-[0_-8px_32px_rgba(0,0,0,0.12)]"
       >
         <h2 className="text-center font-body text-[15px] font-bold text-brand-home1">
-          Bộ lọc
+          Sắp xếp theo
         </h2>
 
         {/* Lề ngang = grid tin (home-mobile-section + content) — tick sát lề trái grid */}
@@ -331,7 +331,7 @@ export function NewsResponsive({ route = ROUTES.NEWS }) {
         <section className="home-mobile-section pb-10 pt-4 sm:pb-12 sm:pt-5">
           <div className="home-mobile-content">
             <div className="mb-6.5 flex items-center gap-2.5">
-              <label className="flex min-w-0 flex-1 items-center gap-2 rounded-full border border-brand-home1 bg-white/50 px-3.5 py-3 shadow-[0_2px_12px_rgba(90,59,196,0.06)] backdrop-blur-sm">
+              <label className="flex min-h-10  min-w-0 flex-1 items-center gap-2 rounded-full border border-brand-home1 bg-white/50 px-3.5 py-1 shadow-[0_2px_12px_rgba(90,59,196,0.06)] backdrop-blur-sm">
                 <span className="inline-flex h-4 w-4 shrink-0 items-center justify-center">
                   <SearchIcon
                     tone="purple"
@@ -358,7 +358,7 @@ export function NewsResponsive({ route = ROUTES.NEWS }) {
                   }}
                   placeholder="Tìm kiếm"
                   aria-label="Tìm kiếm tin tức"
-                  className="min-w-0 flex-1 bg-transparent font-body text-[13px] leading-none text-brand-textheader outline-none placeholder:italic placeholder:text-gray-400 [&::-webkit-search-cancel-button]:hidden [&::-webkit-search-decoration]:hidden"
+                  className="min-w-0 flex-1 bg-transparent font-body text-[13px] leading-normal text-brand-textheader outline-none placeholder:italic placeholder:text-gray-400 [&::-webkit-search-cancel-button]:hidden [&::-webkit-search-decoration]:hidden"
                 />
                 {draftQuery ? (
                   <button
@@ -402,7 +402,7 @@ export function NewsResponsive({ route = ROUTES.NEWS }) {
                   purpleSrc={iconPsort}
                   whiteSrc={iconWsort}
                   variant="activities"
-                  aria-label="Bộ lọc / sắp xếp"
+                  aria-label="Sắp xếp theo"
                   aria-haspopup="dialog"
                   aria-expanded={sortOpen}
                   className="h-10 w-10 shrink-0"

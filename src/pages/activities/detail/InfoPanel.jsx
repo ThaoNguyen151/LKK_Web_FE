@@ -40,9 +40,12 @@ function formatPlayTitleValue(value) {
  * @param {boolean} [props.splitPlayTitle] Tựa vở: vế đầu bold, phần dài không bold
  */
 function InfoField({ label, value, large = false, splitPlayTitle = false }) {
-  const content = splitPlayTitle
-    ? formatPlayTitleValue(value)
-    : value?.trim() || '—'
+  const trimmed = value?.trim() ?? ''
+  const content = !trimmed
+    ? 'Đang cập nhật'
+    : splitPlayTitle
+      ? formatPlayTitleValue(trimmed)
+      : trimmed
 
   return (
     <div className="min-w-0">
@@ -73,13 +76,14 @@ function InfoField({ label, value, large = false, splitPlayTitle = false }) {
 export function InfoPanel({ item, scrollRef, onScrollState, sidebarRef }) {
   const fields = getInfoFieldsForCategory(item.categoryId)
   const info = item.info ?? {}
-  const posterSrc = getActivityPosterSrc(item)
+  /** Web detail — poster dọc */
+  const posterSrc = getActivityPosterSrc(item, 'portrait')
   const primaryFields = fields.filter(
-    field => field.primary && Boolean(info[field.key]?.trim())
+    field =>
+      field.primary &&
+      (field.key === 'role' || Boolean(info[field.key]?.trim()))
   )
-  const secondaryFields = fields.filter(
-    field => !field.primary && Boolean(info[field.key]?.trim())
-  )
+  const secondaryFields = fields.filter(field => !field.primary)
 
   return (
     <div className="flex h-full min-h-0 flex-col gap-6 lg:flex-row lg:gap-12">
@@ -139,16 +143,14 @@ export function InfoPanel({ item, scrollRef, onScrollState, sidebarRef }) {
             </div>
           ) : null}
 
-          {item.description ? (
-            <div className="mt-8 sm:mt-6">
-              <p className="mb-0.5 font-body text-[10px] font-semibold uppercase tracking-[2px] text-brand-home1/40 sm:text-[10px]">
-                Mô tả
-              </p>
-              <p className="mr-22 font-body text-sm text-justify leading-relaxed text-brand-textheader sm:text-[14px] sm:leading-6">
-                {item.description}
-              </p>
-            </div>
-          ) : null}
+          <div className="mt-8 sm:mt-6">
+            <p className="mb-0.5 font-body text-[10px] font-semibold uppercase tracking-[2px] text-brand-home1/40 sm:text-[10px]">
+              Mô tả
+            </p>
+            <p className="mr-22 font-body text-sm text-justify leading-relaxed text-brand-textheader sm:text-[14px] sm:leading-6">
+              {item.description?.trim() || 'Đang cập nhật'}
+            </p>
+          </div>
         </div>
       </ScrollFadeContainer>
     </div>

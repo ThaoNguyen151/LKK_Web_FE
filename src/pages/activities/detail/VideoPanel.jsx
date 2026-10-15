@@ -207,7 +207,8 @@ export function VideoPanel({ item }) {
     ? videos.reduce((max, video) => Math.max(max, video.episode ?? 0), 0) ||
       videos.length
     : 0
-  const posterSrc = getActivityPosterSrc(item)
+  /** Web detail — poster dọc */
+  const posterSrc = getActivityPosterSrc(item, 'portrait')
   const scrollKey = `${item.id}-${activePartId}-${sort}-${query}`
 
   useEffect(() => {

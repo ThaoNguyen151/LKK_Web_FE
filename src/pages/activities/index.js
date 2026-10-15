@@ -1,4 +1,7 @@
 export { Activities } from './Activities'
+export { ActivitiesDesktop } from './ActivitiesPage'
+export { ActivitiesResponsive, ActivitiesMobile } from './ActivitiesResponsive'
 export { ActivityCard } from './ActivityCard'
 export { ActivityDetail } from './ActivityDetail'
+export { ActivityDetailResponsive } from './ActivityDetailResponsive'
 export { InfoPanel, ImagesPanel, VideoPanel } from './detail'
