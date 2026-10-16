@@ -19,10 +19,13 @@ export const DEVICE = {
 }
 
 export const CANVAS_DESIGN_WIDTH = 1536
-/** Giữ 1 — không phóng canvas > 1536px; tránh ảnh to/nhỏ khác nhau giữa các máy cùng màn */
-export const CANVAS_MAX_SCALE = 1
-/** Tránh tràn ngang do làm tròn sub-pixel khi zoom 110%–125% */
-export const CANVAS_VIEWPORT_INSET = 2
+/**
+ * @deprecated Canvas luôn scale = viewportWidth / 1536 (full-bleed).
+ * Giữ hằng số để tương thích import cũ.
+ */
+export const CANVAS_MAX_SCALE = Number.POSITIVE_INFINITY
+/** @deprecated Không còn trừ inset — tránh lề trắng trên laptop 14". */
+export const CANVAS_VIEWPORT_INSET = 0
 
 /**
  * Ngưỡng desktop canvas — dùng px (không rem) để khớp mọi trình duyệt mobile.

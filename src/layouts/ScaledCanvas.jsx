@@ -2,8 +2,8 @@ import { CANVAS_DESIGN_WIDTH } from '@/constants/breakpoints'
 import { useViewportCanvas } from '@hooks'
 
 /**
- * Desktop-only scaled canvas for complex landing pages.
- * Wrap page content designed at a fixed width; scales to fit viewport on lg+.
+ * Desktop canvas cố định 1536px — scale full-bleed theo bề ngang viewport
+ * (origin top-left, không translateX(-50%) → hết lề trắng hai bên).
  */
 export function ScaledCanvas({ children, className = '' }) {
   const layout = useViewportCanvas()
@@ -13,11 +13,11 @@ export function ScaledCanvas({ children, className = '' }) {
       className={`relative h-dvh w-full max-w-[100vw] overflow-x-clip overflow-y-hidden bg-brand-soft ${className}`}
     >
       <div
-        className="absolute top-0 left-1/2 max-w-[100vw] origin-top will-change-transform"
+        className="absolute top-0 left-0 origin-top-left will-change-transform"
         style={{
           width: CANVAS_DESIGN_WIDTH,
           height: layout.height,
-          transform: `translateX(-50%) scale(${layout.scale})`,
+          transform: `scale(${layout.scale})`,
         }}
       >
         {children}
