@@ -489,13 +489,70 @@ function DesktopHeader({
   const desktopShadow =
     'shadow-[0_0_10px_5px_rgba(90,59,196,0.1),0_12px_48px_rgba(90,59,196,0.2)]'
 
+  /**
+   * Canvas Home: fixed trong ScaledCanvas (containing block = transform),
+   * KHÔNG dùng max-w-[100vw] — để width = 1536 rồi scale cùng hero.
+   * Giữ px-20 / gap-20 / h-20 / logo h-12 theo design.
+   */
+  if (isCanvas) {
+    return (
+      <div className={cn('header-desktop-only', rootClassName)}>
+        <div
+          className={cn(
+            'pointer-events-none fixed left-0 right-0 top-0 z-30 h-20 w-full bg-white',
+            desktopShadow
+          )}
+          aria-hidden
+        />
+        <header className="pointer-events-auto fixed left-0 right-0 top-0 z-50 flex h-20 w-full items-center overflow-x-clip bg-transparent">
+          <div className="flex h-full w-full items-center justify-between px-20">
+            <SocialDropdowns
+              items={leftSocials}
+              className="header-desktop-socials flex shrink-0"
+            />
+            <nav className="header-desktop-nav flex shrink-0 items-center gap-20">
+              {NAV_LINKS_LEFT.map(link => (
+                <NavLink
+                  key={link.label}
+                  label={link.label}
+                  href={link.href}
+                  route={route}
+                />
+              ))}
+              <a
+                href={`#${ROUTES.HOME}`}
+                className="mx-2 shrink-0"
+                aria-label="Về trang chủ"
+              >
+                <img src={logo} alt="LK Logo" className="h-12 w-auto" />
+              </a>
+              {NAV_LINKS_RIGHT.map(link => (
+                <NavLink
+                  key={link.label}
+                  label={link.label}
+                  href={link.href}
+                  route={route}
+                />
+              ))}
+            </nav>
+            <SocialDropdowns
+              items={rightSocials}
+              align="right"
+              className="header-desktop-socials flex shrink-0"
+            />
+          </div>
+        </header>
+      </div>
+    )
+  }
+
   return (
     <div className={cn('header-desktop-only', rootClassName)}>
       <div
         className={cn(
           'bg-white',
           desktopShadow,
-          isCanvas ? 'h-20' : 'h-16 lg:h-20',
+          'h-16 lg:h-20',
           variant === 'fixed' &&
             `fixed left-0 right-0 top-0 w-full max-w-[100vw] ${spacerZ}`
         )}
@@ -505,32 +562,23 @@ function DesktopHeader({
       <header
         className={cn(
           positionClass,
-          'pointer-events-auto w-full max-w-[100vw] overflow-x-clip',
-          isCanvas ? 'h-20 bg-transparent' : 'h-16 bg-transparent lg:h-20'
+          'pointer-events-auto h-16 w-full max-w-[100vw] overflow-x-clip bg-transparent lg:h-20'
         )}
       >
         <div className="flex h-full w-full max-w-full items-center justify-between overflow-x-clip px-4 py-0 sm:px-6 lg:px-20">
           <SocialDropdowns
             items={leftSocials}
-            className={cn(
-              'header-desktop-socials shrink-0',
-              isCanvas ? 'flex' : 'hidden lg:flex'
-            )}
+            className="header-desktop-socials hidden shrink-0 lg:flex"
           />
 
           <a
             href={`#${ROUTES.HOME}`}
-            className={cn('shrink-0', isCanvas ? 'hidden' : 'lg:hidden')}
+            className="shrink-0 lg:hidden"
             aria-label="Về trang chủ"
           >
             <img src={logo} alt="LK Logo" className="h-10 w-auto" />
           </a>
-          <nav
-            className={cn(
-              'header-desktop-nav shrink-0 items-center gap-8',
-              isCanvas ? 'flex gap-20' : 'hidden xl:gap-20 lg:flex'
-            )}
-          >
+          <nav className="header-desktop-nav hidden shrink-0 items-center gap-8 lg:flex xl:gap-20">
             {NAV_LINKS_LEFT.map(link => (
               <NavLink
                 key={link.label}
@@ -558,10 +606,7 @@ function DesktopHeader({
 
           <button
             type="button"
-            className={cn(
-              'flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-brand-home1 transition-colors hover:bg-purple-100',
-              isCanvas ? 'hidden' : 'lg:hidden'
-            )}
+            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-brand-home1 transition-colors hover:bg-purple-100 lg:hidden"
             aria-label={menuOpen ? 'Đóng menu' : 'Mở menu'}
             aria-expanded={menuOpen}
             onClick={onMenuToggle}
@@ -593,14 +638,11 @@ function DesktopHeader({
           <SocialDropdowns
             items={rightSocials}
             align="right"
-            className={cn(
-              'header-desktop-socials shrink-0',
-              isCanvas ? 'flex' : 'hidden lg:flex'
-            )}
+            className="header-desktop-socials hidden shrink-0 lg:flex"
           />
         </div>
 
-        {menuOpen && !isCanvas && (
+        {menuOpen ? (
           <div className="border-t border-purple-100 bg-white px-4 pb-6 pt-4 shadow-md lg:hidden">
             <SocialIcons
               className="mb-4 justify-center"
@@ -619,7 +661,7 @@ function DesktopHeader({
               ))}
             </nav>
           </div>
-        )}
+        ) : null}
       </header>
     </div>
   )

@@ -363,7 +363,7 @@ function TreasureSection() {
       </h2>
 
       <p
-        className="home-mobile-reveal mb-7 mt-5 text-left font-body text-[13px] leading-relaxed tracking-[-0.01em] text-gray-700"
+        className="home-mobile-reveal mb-7 mt-5 text-left font-body text-[13px] leading-relaxed tracking-[-0.038em] text-gray-700"
         data-home-reveal
       >
         {HOME_INTRO_LINES.map(line => (
@@ -474,7 +474,7 @@ function AwardsSection() {
             aria-hidden
           />
           <div className="relative z-[1] flex h-full flex-col px-5 pb-6 pt-13 sm:px-7 sm:pb-4 sm:pt-12">
-            <h3 className="font-display-medium h-[5rem] shrink-0 overflow-hidden whitespace-pre-line text-left font-display text-[36px] italic leading-[1.15] text-brand-home1 sm:h-[5.25rem]">
+            <h3 className="font-display-medium h-[6rem] shrink-0 overflow-hidden whitespace-pre-line text-left font-display text-[36px] italic leading-[1.15] text-brand-home1 sm:h-[5.25rem]">
               {active.title}
             </h3>
 
@@ -678,7 +678,7 @@ function FavoriteSection() {
               className="mx-auto h-20 w-20 rounded-full object-cover"
             />
             <h3
-              className="mx-auto mt-3.5 w-[87%] flex-1 whitespace-pre-line text-center font-body text-[15px] font-bold leading-relaxed text-brand-home1"
+              className="mx-auto mt-3.5 w-[100%] flex-1 whitespace-pre-line text-center font-body text-[15px] font-bold leading-relaxed text-brand-home1"
               style={{ wordSpacing: '-0.08em' }}
             >
               {page.name}
