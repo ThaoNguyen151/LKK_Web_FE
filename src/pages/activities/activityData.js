@@ -505,6 +505,7 @@ export const ACTIVITY_CATEGORIES = [
       { id: 'idecaf-nguoi-lon', label: 'IDECAF - Người Lớn' },
       { id: 'idecaf-thieu-nhi', label: 'IDECAF - Thiếu nhi' },
       { id: 'phu-nhuan', label: 'PHÚ NHUẬN' },
+      { id: 'khac', label: 'KHÁC' },
     ],
   },
   {
@@ -670,6 +671,24 @@ export const ACTIVITY_ITEMS = [
     badge: 'IDECAF',
     year: '2023',
     title: '13 Đức Thầy – Đức Thầy 13',
+    subtitle: 'vai diễn: BÀ HUYỆN THANH',
+  },
+  {
+    id: 'sk-pn-1',
+    categoryId: 'san-khau',
+    tabId: 'phu-nhuan',
+    badge: 'PHÚ NHUẬN',
+    year: '2024',
+    title: 'Đêm Nhạc Phú Nhuận',
+    subtitle: 'vai diễn: KHÁCH MỜI',
+  },
+  {
+    id: 'sk-khac-1',
+    categoryId: 'san-khau',
+    tabId: 'khac',
+    badge: 'KHÁC',
+    year: '2023',
+    title: 'Đêm Diễn Đặc Biệt',
     subtitle: 'vai diễn: BÀ HUYỆN THANH',
   },
   // —— Phim ảnh ——

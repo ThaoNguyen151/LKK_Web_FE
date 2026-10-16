@@ -2,10 +2,10 @@ import { useEffect, useState } from 'react'
 import rectLeft from '@assets/Rectangle-2.png'
 import rectRight from '@assets/Rectangle-1.png'
 import rectBottom from '@assets/Rectangle.png'
-import { Header, Pagination } from '@components/common'
-import { BackToTopButton, SearchButton, SortButton } from '@components/icon'
+import { Header, PageScrollAside, Pagination } from '@components/common'
+import { SearchButton, SortButton } from '@components/icon'
 import { PageShell } from '@layouts'
-import { ROUTES, cn } from '@utils'
+import { ROUTES } from '@utils'
 import {
   NEWS_PAGE_SIZE,
   getNewsPage,
@@ -15,37 +15,6 @@ import {
 
 const SCROLL_TOP_THRESHOLD = 120
 const SCROLL_BOTTOM_OFFSET = 48
-
-/**
- * @param {object} props
- * @param {boolean} props.showHint
- * @param {boolean} props.showBackTop
- * @param {() => void} props.onBackTop
- */
-function NewsScrollAside({ showHint, showBackTop, onBackTop }) {
-  return (
-    <>
-      <div
-        className={cn(
-          'pointer-events-none fixed right-2 top-1/2 z-30 hidden -translate-y-1/2 flex-col items-center transition-opacity duration-300 sm:right-4 sm:flex lg:right-2',
-          showHint ? 'opacity-100' : 'opacity-0'
-        )}
-        aria-hidden={!showHint}
-      >
-        <p className="mb-3 -mr-2 rotate-90 whitespace-nowrap font-body text-[11px] tracking-wide text-brand-home1/50 lg:text-xs">
-          Cuộn để xem
-        </p>
-        <span className="mt-12 -mr-2 h-20 w-px bg-brand-home1/35 lg:mt-14 lg:h-24" />
-      </div>
-
-      <BackToTopButton
-        className="-mr-1"
-        show={showBackTop}
-        onClick={onBackTop}
-      />
-    </>
-  )
-}
 
 /**
  * @param {object} props
@@ -206,7 +175,7 @@ export function NewsDesktop({ route = ROUTES.NEWS }) {
         />
       </div>
 
-      <NewsScrollAside
+      <PageScrollAside
         showHint={!atBottom}
         showBackTop={scrolled}
         onBackTop={scrollToTop}

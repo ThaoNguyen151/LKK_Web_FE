@@ -52,7 +52,7 @@ export function ContactCard({ item, variant = 'desktop', className }) {
           radiusClass
         )}
         style={{
-          padding: 1.25,
+          padding: 1.5,
           background: borderGradient,
           WebkitMask:
             'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',

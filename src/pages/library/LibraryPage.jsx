@@ -2,42 +2,14 @@ import { useEffect, useState } from 'react'
 import rectLeft from '@assets/Rectangle-2.png'
 import rectRight from '@assets/Rectangle-1.png'
 import rectBottom from '@assets/Rectangle.png'
-import { Header } from '@components/common'
-import { BackToTopButton } from '@components/icon'
+import { Header, PageScrollAside } from '@components/common'
 import { PageShell } from '@layouts'
-import { ROUTES, cn } from '@utils'
+import { ROUTES } from '@utils'
 import { fetchLibraryImages } from './libraryData'
 import { LibraryLightbox } from './LibraryLightbox'
 
 const SCROLL_TOP_THRESHOLD = 120
 const SCROLL_BOTTOM_OFFSET = 48
-
-/**
- * @param {object} props
- * @param {boolean} props.showHint
- * @param {boolean} props.showBackTop
- * @param {() => void} props.onBackTop
- */
-function LibraryScrollAside({ showHint, showBackTop, onBackTop }) {
-  return (
-    <>
-      <div
-        className={cn(
-          'pointer-events-none fixed right-2 top-1/2 z-30 hidden -translate-y-1/2 flex-col items-center transition-opacity duration-300 sm:right-4 sm:flex lg:right-2',
-          showHint ? 'opacity-100' : 'opacity-0'
-        )}
-        aria-hidden={!showHint}
-      >
-        <p className="mb-3 rotate-90 whitespace-nowrap font-body text-[11px] tracking-wide text-brand-home1/50 lg:text-xs">
-          Cuộn để xem
-        </p>
-        <span className="mt-12 h-20 w-px bg-brand-home1/35 lg:mt-14 lg:h-24" />
-      </div>
-
-      <BackToTopButton show={showBackTop} onClick={onBackTop} />
-    </>
-  )
-}
 
 /**
  * @param {object} props
@@ -147,7 +119,7 @@ export function LibraryDesktop() {
         />
       </div>
 
-      <LibraryScrollAside
+      <PageScrollAside
         showHint={!atBottom}
         showBackTop={scrolled}
         onBackTop={scrollToTop}
