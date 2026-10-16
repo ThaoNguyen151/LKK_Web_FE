@@ -651,7 +651,7 @@ function SocialSection() {
 
 function FavoriteSection() {
   return (
-    <MobileSection sectionIndex={4} className="mt-10 mb-1">
+    <MobileSection sectionIndex={4} className="mt-10 !pb-0">
       {/* Reveal: title → lưới card chung 1 lượt */}
       <h2
         className="home-mobile-reveal heading-section mb-8 text-[36px] text-center"
@@ -708,7 +708,7 @@ export function HomeResponsive() {
       <MobileRectBackdrop className="pointer-events-none fixed inset-0 z-0" />
       <Header variant="fixed" layout="mobile" />
 
-      <main className="relative z-10 w-full min-w-0 pt-15">
+      <main className="mobile-page-bottom relative z-10 w-full min-w-0 pt-15">
         <HeroSection />
         <TreasureSection />
         <AwardsSection />

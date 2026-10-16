@@ -25,10 +25,13 @@ import {
 import { ActivityDetailResponsive } from './ActivityDetailResponsive'
 import {
   ACTIVITIES_MOBILE_BELOW_HEADER,
+  ACTIVITIES_MOBILE_EDGE_FADE_THRESHOLD,
   ActivitiesMobileBackdrop,
+  ActivitiesMobileEdgeBlur,
   ActivityCategoryBarMobile,
 } from './ActivitiesMobileShared'
 import { getActivityPosterSrc } from './posterData'
+import { useActivitiesMobileReveal } from './useActivitiesMobileReveal'
 
 /** @typedef {'desc' | 'asc' | 'az' | 'za'} SortValue */
 
@@ -179,35 +182,37 @@ function ActivityCardMobile({ item }) {
   const posterSrc = getActivityPosterSrc(item, 'portrait')
 
   return (
-    <a
-      href={`#${activityDetailPath(item.categoryId, item.id)}`}
-      className="home-mobile-glass-card flex overflow-hidden border-[1.5px] border-white/80 bg-white/35 backdrop-blur-sm active:opacity-90"
-    >
-      <div className="aspect-[3/4] w-[4.75rem] shrink-0 overflow-hidden bg-[#cbb8e8] sm:w-[5.5rem]">
-        {posterSrc ? (
-          <img
-            src={posterSrc}
-            alt=""
-            className="h-full w-full object-cover"
-            loading="lazy"
-          />
-        ) : null}
-      </div>
-      <div className="flex min-w-0 flex-1 flex-col justify-center gap-2 px-4 py-3.5">
-        <div className="flex items-start justify-between gap-2">
-          <span className="inline-flex rounded-full bg-brand-orange px-2 py-0.5 pt-0.5 font-body text-[9px] font-bold uppercase tracking-wide text-white">
-            {item.badge}
-          </span>
-          <span className="shrink-0 font-body text-[10px] text-gray-400">
-            {item.year}
-          </span>
+    <div data-activities-reveal className="activities-reveal-slot">
+      <a
+        href={`#${activityDetailPath(item.categoryId, item.id)}`}
+        className="activities-mobile-reveal home-mobile-glass-card flex overflow-hidden border-[1.5px] border-white/80 bg-white/35 backdrop-blur-sm active:opacity-90"
+      >
+        <div className="aspect-[3/4] w-[4.75rem] shrink-0 overflow-hidden bg-[#cbb8e8] sm:w-[5.5rem]">
+          {posterSrc ? (
+            <img
+              src={posterSrc}
+              alt=""
+              className="h-full w-full object-cover"
+              loading="lazy"
+            />
+          ) : null}
         </div>
-        <h3 className="mt-1 truncate font-body text-[15px] font-bold leading-snug text-brand-home1">
-          {item.title}
-        </h3>
-        <CardSubtitle subtitle={item.subtitle} />
-      </div>
-    </a>
+        <div className="flex min-w-0 flex-1 flex-col justify-center gap-2 px-4 py-3.5">
+          <div className="flex items-start justify-between gap-2">
+            <span className="inline-flex rounded-full bg-brand-orange px-2 py-0.5 pt-0.5 font-body text-[9px] font-bold uppercase tracking-wide text-white">
+              {item.badge}
+            </span>
+            <span className="shrink-0 font-body text-[10px] text-gray-400">
+              {item.year}
+            </span>
+          </div>
+          <h3 className="mt-1 truncate font-body text-[15px] font-bold leading-snug text-brand-home1">
+            {item.title}
+          </h3>
+          <CardSubtitle subtitle={item.subtitle} />
+        </div>
+      </a>
+    </div>
   )
 }
 
@@ -324,6 +329,34 @@ function ActivitiesListMobile({ route, categoryId, tabId }) {
   const [sort, setSort] = useState(/** @type {SortValue} */ ('desc'))
   const [sortOpen, setSortOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  /** Fade mép dưới thanh tab xám khi cuộn nội dung */
+  const [showEdgeFade, setShowEdgeFade] = useState(false)
+
+  const listItems = useMemo(
+    () =>
+      getActivityItems({
+        categoryId,
+        tabId: activeTabId,
+        query: appliedQuery,
+        sort,
+      }),
+    [categoryId, activeTabId, appliedQuery, sort]
+  )
+
+  const revealKey = useMemo(
+    () =>
+      [
+        categoryId,
+        activeTabId,
+        appliedQuery,
+        sort,
+        searchOpen ? 'search' : 'list',
+        listItems.map(item => item.id).join(','),
+      ].join('|'),
+    [categoryId, activeTabId, appliedQuery, sort, searchOpen, listItems]
+  )
+
+  useActivitiesMobileReveal(contentScrollRef, revealKey)
 
   useEffect(() => {
     const defaultTab = category.tabs[0]?.id
@@ -346,7 +379,9 @@ function ActivitiesListMobile({ route, categoryId, tabId }) {
     const el = contentScrollRef.current
     if (!el) return undefined
     const update = () => {
-      setScrolled(el.scrollTop > SCROLL_TOP_THRESHOLD)
+      const y = el.scrollTop
+      setScrolled(y > SCROLL_TOP_THRESHOLD)
+      setShowEdgeFade(y > ACTIVITIES_MOBILE_EDGE_FADE_THRESHOLD)
     }
     update()
     el.addEventListener('scroll', update, { passive: true })
@@ -354,19 +389,10 @@ function ActivitiesListMobile({ route, categoryId, tabId }) {
   }, [categoryId, activeTabId, appliedQuery, sort])
 
   useEffect(() => {
-    contentScrollRef.current?.scrollTo({ top: 0 })
+    const el = contentScrollRef.current
+    if (!el) return
+    el.scrollTop = 0
   }, [categoryId, activeTabId, appliedQuery, sort, searchOpen])
-
-  const listItems = useMemo(
-    () =>
-      getActivityItems({
-        categoryId,
-        tabId: activeTabId,
-        query: appliedQuery,
-        sort,
-      }),
-    [categoryId, activeTabId, appliedQuery, sort]
-  )
 
   /**
    * @param {string[]} next
@@ -439,154 +465,157 @@ function ActivitiesListMobile({ route, categoryId, tabId }) {
           />
         </div>
 
-        <section
-          ref={contentScrollRef}
-          className="home-mobile-section min-h-0 flex-1 overflow-x-clip overflow-y-auto overscroll-y-contain pb-12"
-        >
-          <div className="home-mobile-content">
-            <div className="mb-5 mt-5 flex items-center gap-2.5">
-              <label className="flex min-h-10 min-w-0 flex-1 items-center gap-2 rounded-full border border-brand-home1 bg-white/50 px-3.5 py-1 shadow-[0_2px_12px_rgba(90,59,196,0.06)] backdrop-blur-sm">
-                <span className="inline-flex h-4 w-4 shrink-0 items-center justify-center">
-                  <SearchIcon
-                    tone="purple"
-                    className="!h-4 !w-4 !translate-y-0"
+        <div className="relative min-h-0 flex-1 overflow-hidden">
+          <ActivitiesMobileEdgeBlur show={showEdgeFade} />
+          <section
+            ref={contentScrollRef}
+            className="home-mobile-section mobile-page-bottom h-full min-h-0 overflow-x-clip overflow-y-auto overscroll-y-contain"
+          >
+            <div className="home-mobile-content">
+              <div className="mb-5 mt-5 flex items-center gap-2.5">
+                <label className="flex min-h-10 min-w-0 flex-1 items-center gap-2 rounded-full border-[1.5px] border-brand-home1 bg-white/50 px-3.5 py-1 shadow-[0_2px_12px_rgba(90,59,196,0.06)] backdrop-blur-sm">
+                  <span className="inline-flex h-4 w-4 shrink-0 items-center justify-center">
+                    <SearchIcon
+                      tone="purple"
+                      className="!h-4 !w-4 !translate-y-0"
+                    />
+                  </span>
+                  <input
+                    ref={inputRef}
+                    type="search"
+                    inputMode="search"
+                    enterKeyHint="search"
+                    autoCapitalize="off"
+                    autoCorrect="off"
+                    value={draftQuery}
+                    onFocus={openSearch}
+                    onChange={e => {
+                      openSearch()
+                      setDraftQuery(e.target.value)
+                    }}
+                    onKeyDown={e => {
+                      if (e.key !== 'Enter') return
+                      e.preventDefault()
+                      applySearch(draftQuery)
+                    }}
+                    placeholder="Tìm kiếm"
+                    aria-label="Tìm kiếm hoạt động"
+                    className="min-w-0 flex-1 bg-transparent font-body text-[13px] leading-normal text-brand-textheader outline-none placeholder:italic placeholder:text-gray-400 [&::-webkit-search-cancel-button]:hidden [&::-webkit-search-decoration]:hidden"
                   />
-                </span>
-                <input
-                  ref={inputRef}
-                  type="search"
-                  inputMode="search"
-                  enterKeyHint="search"
-                  autoCapitalize="off"
-                  autoCorrect="off"
-                  value={draftQuery}
-                  onFocus={openSearch}
-                  onChange={e => {
-                    openSearch()
-                    setDraftQuery(e.target.value)
-                  }}
-                  onKeyDown={e => {
-                    if (e.key !== 'Enter') return
-                    e.preventDefault()
-                    applySearch(draftQuery)
-                  }}
-                  placeholder="Tìm kiếm"
-                  aria-label="Tìm kiếm hoạt động"
-                  className="min-w-0 flex-1 bg-transparent font-body text-[13px] leading-normal text-brand-textheader outline-none placeholder:italic placeholder:text-gray-400 [&::-webkit-search-cancel-button]:hidden [&::-webkit-search-decoration]:hidden"
-                />
-                {draftQuery ? (
+                  {draftQuery ? (
+                    <button
+                      type="button"
+                      aria-label="Xóa nội dung tìm kiếm"
+                      onMouseDown={event => {
+                        event.preventDefault()
+                      }}
+                      onClick={event => {
+                        event.preventDefault()
+                        event.stopPropagation()
+                        setDraftQuery('')
+                        if (searchOpen) {
+                          inputRef.current?.focus()
+                          return
+                        }
+                        setAppliedQuery('')
+                      }}
+                      className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full transition-opacity hover:opacity-70"
+                    >
+                      <CloseIcon
+                        tone="purple"
+                        className="!h-3.5 !w-3.5 !translate-y-0"
+                      />
+                    </button>
+                  ) : null}
+                </label>
+
+                {searchOpen ? (
                   <button
                     type="button"
-                    aria-label="Xóa nội dung tìm kiếm"
-                    onMouseDown={event => {
-                      event.preventDefault()
-                    }}
-                    onClick={event => {
-                      event.preventDefault()
-                      event.stopPropagation()
-                      setDraftQuery('')
-                      if (searchOpen) {
-                        inputRef.current?.focus()
-                        return
-                      }
-                      setAppliedQuery('')
-                    }}
-                    className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full transition-opacity hover:opacity-70"
+                    onClick={cancelSearch}
+                    className="shrink-0 px-1 font-body text-[14px] font-semibold text-brand-home1"
                   >
-                    <CloseIcon
-                      tone="purple"
-                      className="!h-3.5 !w-3.5 !translate-y-0"
-                    />
+                    Hủy
                   </button>
-                ) : null}
-              </label>
-
-              {searchOpen ? (
-                <button
-                  type="button"
-                  onClick={cancelSearch}
-                  className="shrink-0 px-1 font-body text-[14px] font-semibold text-brand-home1"
-                >
-                  Hủy
-                </button>
-              ) : (
-                <IconToolButton
-                  purpleSrc={iconPsort}
-                  whiteSrc={iconWsort}
-                  variant="activities"
-                  aria-label="Sắp xếp theo"
-                  aria-haspopup="dialog"
-                  aria-expanded={sortOpen}
-                  className="h-10 w-10 shrink-0"
-                  iconClassName="h-4 w-4"
-                  active={sortOpen}
-                  onClick={() => setSortOpen(true)}
-                />
-              )}
-            </div>
-
-            {searchOpen ? (
-              <div className="rounded-2xl px-0 pb-3 pt-3">
-                <p className="font-body text-[13px] font-semibold text-brand-textheader/45">
-                  Tìm kiếm gần đây
-                </p>
-                <div className="mt-2.5 h-px bg-gray-300/90" />
-
-                {recent.length === 0 ? (
-                  <p className="mt-6 text-center font-body text-[13px] text-brand-textheader/45">
-                    Chưa có tìm kiếm gần đây.
-                  </p>
                 ) : (
-                  <ul className="mt-1">
-                    {recent.map(term => (
-                      <li
-                        key={term}
-                        className="flex items-center gap-3 border-b border-transparent last:border-b-0"
-                      >
-                        <button
-                          type="button"
-                          onClick={() => applySearch(term)}
-                          className="flex min-w-0 flex-1 items-center gap-3 py-3.5 text-left"
-                        >
-                          <SearchIcon
-                            tone="purple"
-                            className="!h-3.5 !w-3.5 !translate-y-0 shrink-0 brightness-0 opacity-80"
-                          />
-                          <span className="truncate font-body text-[14px] text-brand-textheader/45">
-                            {term}
-                          </span>
-                        </button>
-                        <button
-                          type="button"
-                          aria-label={`Xóa “${term}”`}
-                          onClick={() => removeRecent(term)}
-                          className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full transition-opacity hover:opacity-70"
-                        >
-                          <CloseIcon
-                            tone="purple"
-                            className="!h-3.5 !w-3.5 !translate-y-0 brightness-0 opacity-80"
-                          />
-                        </button>
-                      </li>
-                    ))}
-                  </ul>
+                  <IconToolButton
+                    purpleSrc={iconPsort}
+                    whiteSrc={iconWsort}
+                    variant="activities"
+                    aria-label="Sắp xếp theo"
+                    aria-haspopup="dialog"
+                    aria-expanded={sortOpen}
+                    className="h-10 w-10 shrink-0"
+                    iconClassName="h-4 w-4"
+                    active={sortOpen}
+                    onClick={() => setSortOpen(true)}
+                  />
                 )}
               </div>
-            ) : listItems.length === 0 ? (
-              <p className="py-10 text-center font-body text-sm text-gray-500">
-                {appliedQuery
-                  ? 'Không tìm thấy nội dung phù hợp.'
-                  : 'Chưa có nội dung trong mục này.'}
-              </p>
-            ) : (
-              <div className="flex flex-col gap-3">
-                {listItems.map(item => (
-                  <ActivityCardMobile key={item.id} item={item} />
-                ))}
-              </div>
-            )}
-          </div>
-        </section>
+
+              {searchOpen ? (
+                <div className="rounded-2xl px-0 pb-3 pt-3">
+                  <p className="font-body text-[13px] font-semibold text-brand-textheader/45">
+                    Tìm kiếm gần đây
+                  </p>
+                  <div className="mt-2.5 h-px bg-gray-300/90" />
+
+                  {recent.length === 0 ? (
+                    <p className="mt-6 text-center font-body text-[13px] text-brand-textheader/45">
+                      Chưa có tìm kiếm gần đây.
+                    </p>
+                  ) : (
+                    <ul className="mt-1">
+                      {recent.map(term => (
+                        <li
+                          key={term}
+                          className="flex items-center gap-3 border-b border-transparent last:border-b-0"
+                        >
+                          <button
+                            type="button"
+                            onClick={() => applySearch(term)}
+                            className="flex min-w-0 flex-1 items-center gap-3 py-3.5 text-left"
+                          >
+                            <SearchIcon
+                              tone="purple"
+                              className="!h-3.5 !w-3.5 !translate-y-0 shrink-0 brightness-0 opacity-80"
+                            />
+                            <span className="truncate font-body text-[14px] text-brand-textheader/45">
+                              {term}
+                            </span>
+                          </button>
+                          <button
+                            type="button"
+                            aria-label={`Xóa “${term}”`}
+                            onClick={() => removeRecent(term)}
+                            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full transition-opacity hover:opacity-70"
+                          >
+                            <CloseIcon
+                              tone="purple"
+                              className="!h-3.5 !w-3.5 !translate-y-0 brightness-0 opacity-80"
+                            />
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              ) : listItems.length === 0 ? (
+                <p className="py-10 text-center font-body text-sm text-gray-500">
+                  {appliedQuery
+                    ? 'Không tìm thấy nội dung phù hợp.'
+                    : 'Chưa có nội dung trong mục này.'}
+                </p>
+              ) : (
+                <div className="flex flex-col gap-3">
+                  {listItems.map(item => (
+                    <ActivityCardMobile key={item.id} item={item} />
+                  ))}
+                </div>
+              )}
+            </div>
+          </section>
+        </div>
       </main>
 
       {sortOpen && !searchOpen ? (

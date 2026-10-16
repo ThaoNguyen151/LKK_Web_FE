@@ -6,6 +6,10 @@ import { PageShell } from '@layouts'
 import { cn } from '@utils'
 import { fetchLibraryImages } from './libraryData'
 import { LibraryLightbox } from './LibraryLightbox'
+import {
+  LibraryRevealSlot,
+  useLibraryMobileReveal,
+} from './useLibraryMobileReveal'
 
 const SCROLL_TOP_THRESHOLD = 120
 
@@ -42,19 +46,21 @@ function LibraryMobileBackdrop({ className }) {
  */
 function LibraryCardMobile({ item, onOpen, priority = false }) {
   return (
-    <button
-      type="button"
-      onClick={onOpen}
-      className="block w-full overflow-hidden rounded-[1.15rem] border border-brand-home1/35 bg-white/80 text-left shadow-[0_2px_12px_rgba(90,59,196,0.06)] transition-opacity active:opacity-90"
-    >
-      <img
-        src={item.src}
-        alt={item.alt ?? ''}
-        loading={priority ? 'eager' : 'lazy'}
-        decoding="async"
-        className="block h-auto w-full max-w-full"
-      />
-    </button>
+    <LibraryRevealSlot>
+      <button
+        type="button"
+        onClick={onOpen}
+        className="block w-full overflow-hidden rounded-[1.15rem] border-[1.5px] border-white bg-white/80 text-left shadow-[0_2px_12px_rgba(90,59,196,0.06)] transition-opacity active:opacity-90"
+      >
+        <img
+          src={item.src}
+          alt={item.alt ?? ''}
+          loading={priority ? 'eager' : 'lazy'}
+          decoding="async"
+          className="block h-auto w-full max-w-full"
+        />
+      </button>
+    </LibraryRevealSlot>
   )
 }
 
@@ -111,9 +117,15 @@ export function LibraryResponsive() {
     activeIndex != null && items[activeIndex] ? items[activeIndex] : null
 
   const columns = useMemo(() => splitIntoColumns(items), [items])
+  const revealKey = useMemo(
+    () => (loading ? 'loading' : items.map(item => item.id).join(',')),
+    [loading, items]
+  )
+
+  useLibraryMobileReveal(revealKey)
 
   return (
-    <PageShell className="home-mobile-shell relative overflow-x-clip">
+    <PageShell className="library-mobile-shell home-mobile-shell relative overflow-x-clip">
       <LibraryMobileBackdrop className="pointer-events-none fixed inset-0 z-0" />
       <Header variant="fixed" layout="mobile" />
 
@@ -123,7 +135,7 @@ export function LibraryResponsive() {
       />
 
       <main className="relative z-10 min-h-dvh pt-[20%]">
-        <section className="home-mobile-section pb-12 pt-4 sm:pb-14 sm:pt-5">
+        <section className="home-mobile-section mobile-page-bottom pt-4 sm:pt-5">
           <div className="home-mobile-content">
             {loading ? (
               <p className="font-body text-sm text-gray-500">Đang tải ảnh…</p>

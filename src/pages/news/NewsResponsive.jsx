@@ -4,7 +4,7 @@ import rectFull from '@assets/Rectangle-full.png'
 import iconPsort from '@assets/images/subicon/iconPsort.png'
 import iconWsort from '@assets/images/subicon/iconWsort.png'
 import iconTick from '@assets/images/subicon/iconPtick.png'
-import { Header, Pagination } from '@components/common'
+import { Header, PaginationMobile } from '@components/common'
 import {
   BackToTopButton,
   CloseIcon,
@@ -21,6 +21,7 @@ import {
   newsPagePath,
   parseNewsPage,
 } from './newsData'
+import { NewsRevealSlot, useNewsMobileReveal } from './useNewsMobileReveal'
 
 /** @typedef {'desc' | 'asc' | 'az' | 'za'} SortValue */
 
@@ -124,6 +125,19 @@ function NewsCardMobile({ item }) {
   }
 
   return <article className={cardClass}>{body}</article>
+}
+
+/**
+ * Chia list thành từng hàng 2 card (reveal theo cặp).
+ * @param {import('./newsData').NewsItem[]} items
+ */
+function chunkNewsRows(items) {
+  /** @type {import('./newsData').NewsItem[][]} */
+  const rows = []
+  for (let i = 0; i < items.length; i += 2) {
+    rows.push(items.slice(i, i + 2))
+  }
+  return rows
 }
 
 /**
@@ -241,6 +255,18 @@ export function NewsResponsive({ route = ROUTES.NEWS }) {
     (safePage - 1) * MOBILE_PAGE_SIZE,
     safePage * MOBILE_PAGE_SIZE
   )
+  const pageRows = useMemo(() => chunkNewsRows(pageItems), [pageItems])
+
+  /** Gồm số trang — đổi trang = remount + chạy lại animation như trang đầu. */
+  const revealKey = [
+    safePage,
+    appliedQuery,
+    sort,
+    searchOpen ? 'search' : 'list',
+    pageItems.map(item => item.id).join(','),
+  ].join('|')
+
+  useNewsMobileReveal(revealKey)
 
   useEffect(() => {
     const expected = newsPagePath(safePage)
@@ -248,10 +274,6 @@ export function NewsResponsive({ route = ROUTES.NEWS }) {
       window.location.replace(`#${expected}`)
     }
   }, [route, safePage])
-
-  useEffect(() => {
-    window.scrollTo(0, 0)
-  }, [safePage, appliedQuery, sort, searchOpen])
 
   useEffect(() => {
     const update = () => {
@@ -318,7 +340,7 @@ export function NewsResponsive({ route = ROUTES.NEWS }) {
   }
 
   return (
-    <PageShell className="home-mobile-shell relative overflow-x-clip">
+    <PageShell className="news-mobile-shell home-mobile-shell relative overflow-x-clip">
       <NewsMobileBackdrop className="pointer-events-none fixed inset-0 z-0" />
       <Header variant="fixed" layout="mobile" />
 
@@ -328,10 +350,10 @@ export function NewsResponsive({ route = ROUTES.NEWS }) {
       />
 
       <main className="relative z-10 min-h-dvh pt-[20%]">
-        <section className="home-mobile-section pb-10 pt-4 sm:pb-12 sm:pt-5">
+        <section className="home-mobile-section mobile-page-bottom pt-4 sm:pt-5">
           <div className="home-mobile-content">
             <div className="mb-6.5 flex items-center gap-2.5">
-              <label className="flex min-h-10  min-w-0 flex-1 items-center gap-2 rounded-full border border-brand-home1 bg-white/50 px-3.5 py-1 shadow-[0_2px_12px_rgba(90,59,196,0.06)] backdrop-blur-sm">
+              <label className="flex min-h-10  min-w-0 flex-1 items-center gap-2 rounded-full border-[1.5px] border-brand-home1 bg-white/50 px-3.5 py-1 shadow-[0_2px_12px_rgba(90,59,196,0.06)] backdrop-blur-sm">
                 <span className="inline-flex h-4 w-4 shrink-0 items-center justify-center">
                   <SearchIcon
                     tone="purple"
@@ -463,12 +485,20 @@ export function NewsResponsive({ route = ROUTES.NEWS }) {
               </div>
             ) : (
               <>
-                <div className="grid grid-cols-2 gap-3">
-                  {pageItems.map((item, index) => (
-                    <NewsCardMobile
-                      key={`${safePage}-${item.id}-${index}`}
-                      item={item}
-                    />
+                <div key={revealKey} className="flex flex-col gap-3">
+                  {pageRows.map((row, rowIndex) => (
+                    <NewsRevealSlot
+                      key={`${safePage}-row-${rowIndex}-${row.map(item => item.id).join('-')}`}
+                    >
+                      <div className="grid grid-cols-2 gap-3">
+                        {row.map((item, index) => (
+                          <NewsCardMobile
+                            key={`${item.id}-${index}`}
+                            item={item}
+                          />
+                        ))}
+                      </div>
+                    </NewsRevealSlot>
                   ))}
                 </div>
 
@@ -479,7 +509,7 @@ export function NewsResponsive({ route = ROUTES.NEWS }) {
                 ) : null}
 
                 {totalPages > 1 ? (
-                  <Pagination
+                  <PaginationMobile
                     page={safePage}
                     totalPages={totalPages}
                     onChange={goToPage}

@@ -25,11 +25,17 @@ import {
 } from './activityData'
 import {
   ACTIVITIES_MOBILE_BELOW_HEADER,
+  ACTIVITIES_MOBILE_EDGE_FADE_THRESHOLD,
   ACTIVITIES_MOBILE_MAIN_PT,
   ActivitiesMobileBackdrop,
+  ActivitiesMobileEdgeBlur,
   ActivityCategoryBarMobile,
 } from './ActivitiesMobileShared'
 import { getActivityPosterSrc } from './posterData'
+import {
+  ActivitiesRevealSlot,
+  useActivitiesMobileReveal,
+} from './useActivitiesMobileReveal'
 
 const DETAIL_TAB_LABELS = {
   info: 'Thông tin',
@@ -81,24 +87,26 @@ function InfoFieldMobile({
   const empty = !trimmed
 
   return (
-    <div className="min-w-0">
-      <p className="font-body text-[10px] font-semibold uppercase tracking-[1px] text-brand-home1/40">
-        {label}
-      </p>
-      <p
-        className={
-          large
-            ? 'mt-0.5 font-body text-[15px] uppercase font-bold leading-snug text-brand-textheader'
-            : 'mt-0.5 font-body text-[13px] leading-snug text-brand-textheader'
-        }
-      >
-        {empty
-          ? 'Đang cập nhật'
-          : splitPlayTitle
-            ? formatPlayTitleValue(trimmed)
-            : trimmed}
-      </p>
-    </div>
+    <ActivitiesRevealSlot>
+      <div className="min-w-0">
+        <p className="font-body text-[10px] font-semibold uppercase tracking-[1px] text-brand-home1/40">
+          {label}
+        </p>
+        <p
+          className={
+            large
+              ? 'mt-0.5 font-body text-[15px] uppercase font-bold leading-snug text-brand-textheader'
+              : 'mt-0.5 font-body text-[13px] leading-snug text-brand-textheader'
+          }
+        >
+          {empty
+            ? 'Đang cập nhật'
+            : splitPlayTitle
+              ? formatPlayTitleValue(trimmed)
+              : trimmed}
+        </p>
+      </div>
+    </ActivitiesRevealSlot>
   )
 }
 
@@ -119,21 +127,25 @@ function InfoPanelMobile({ item }) {
   const secondaryFields = fields.filter(field => !field.primary)
 
   return (
-    <div className="pb-10">
-      <div className="aspect-[3/2] w-full overflow-hidden rounded-2xl bg-[#cbb8e8]">
-        {posterSrc ? (
-          <img
-            src={posterSrc}
-            alt={item.title}
-            className="h-full w-full object-cover"
-            loading="lazy"
-          />
-        ) : null}
-      </div>
+    <div>
+      <ActivitiesRevealSlot>
+        <div className="aspect-[3/2] w-full overflow-hidden rounded-2xl bg-[#cbb8e8]">
+          {posterSrc ? (
+            <img
+              src={posterSrc}
+              alt={item.title}
+              className="h-full w-full object-cover"
+              loading="lazy"
+            />
+          ) : null}
+        </div>
+      </ActivitiesRevealSlot>
 
-      <span className="mt-5 inline-flex rounded-full bg-brand-orange px-2.5 py-0.5 pt-1 font-body text-[10px] font-bold uppercase tracking-wide text-white">
-        {item.badge}
-      </span>
+      <ActivitiesRevealSlot className="mt-5">
+        <span className="inline-flex rounded-full bg-brand-orange px-2.5 py-0.5 pt-1 font-body text-[10px] font-bold uppercase tracking-wide text-white">
+          {item.badge}
+        </span>
+      </ActivitiesRevealSlot>
 
       <div className="mt-5 space-y-4">
         {primaryFields.map(field => (
@@ -157,14 +169,16 @@ function InfoPanelMobile({ item }) {
         ))}
       </div>
 
-      <div className="mt-4">
-        <p className="mb-1 font-body text-[10px] font-semibold uppercase tracking-[2px] text-brand-home1/40">
-          Mô tả
-        </p>
-        <p className="font-body text-[13px] leading-relaxed text-justify text-brand-textheader">
-          {item.description?.trim() || 'Đang cập nhật'}
-        </p>
-      </div>
+      <ActivitiesRevealSlot className="mt-4">
+        <div>
+          <p className="mb-1 font-body text-[10px] font-semibold uppercase tracking-[2px] text-brand-home1/40">
+            Mô tả
+          </p>
+          <p className="font-body text-[13px] leading-relaxed text-justify text-brand-textheader">
+            {item.description?.trim() || 'Đang cập nhật'}
+          </p>
+        </div>
+      </ActivitiesRevealSlot>
     </div>
   )
 }
@@ -200,26 +214,27 @@ function ImagesPanelMobile({ item }) {
     col.map((image, i) => {
       const index = indexOffset === 0 ? i * 2 : i * 2 + 1
       return (
-        <button
-          key={image.id}
-          type="button"
-          onClick={() => setActiveIndex(index)}
-          className="block w-full overflow-hidden rounded-[1.15rem] border border-brand-home1/35 bg-[#d4c8e8]/50 text-left active:opacity-90"
-        >
-          <img
-            src={image.src}
-            alt={image.alt ?? item.title}
-            className="block h-auto w-full max-w-full"
-            loading="lazy"
-            decoding="async"
-          />
-        </button>
+        <ActivitiesRevealSlot key={image.id}>
+          <button
+            type="button"
+            onClick={() => setActiveIndex(index)}
+            className="block w-full overflow-hidden rounded-[1.15rem] border-[1.5px] border-brand-home1/35 bg-[#d4c8e8]/50 text-left active:opacity-90"
+          >
+            <img
+              src={image.src}
+              alt={image.alt ?? item.title}
+              className="block h-auto w-full max-w-full"
+              loading="lazy"
+              decoding="async"
+            />
+          </button>
+        </ActivitiesRevealSlot>
       )
     })
 
   return (
     <>
-      <div className="flex items-start gap-3 pb-10">
+      <div className="flex items-start gap-3">
         <div className="flex min-w-0 flex-1 flex-col gap-3">
           {renderCol(left, 0)}
         </div>
@@ -524,8 +539,9 @@ function saveVideoRecentSearches(items) {
 /**
  * @param {object} props
  * @param {import('./activityData').ActivityItem} props.item
+ * @param {(key: string) => void} [props.onRevealKeyChange]
  */
-function VideoPanelMobile({ item }) {
+function VideoPanelMobile({ item, onRevealKeyChange }) {
   const parts = item.videoParts ?? []
   const hasParts = parts.length > 0
   const isFilm = item.categoryId === 'phim-anh'
@@ -566,6 +582,18 @@ function VideoPanelMobile({ item }) {
     ? videos.reduce((max, video) => Math.max(max, video.episode ?? 0), 0) ||
       videos.length
     : videos.length
+
+  useEffect(() => {
+    onRevealKeyChange?.(
+      [
+        activePartId,
+        appliedQuery,
+        sort,
+        searchOpen ? 'search' : 'list',
+        videos.map(video => video.id).join(','),
+      ].join('|')
+    )
+  }, [activePartId, appliedQuery, sort, searchOpen, videos, onRevealKeyChange])
 
   /**
    * @param {string[]} next
@@ -611,11 +639,11 @@ function VideoPanelMobile({ item }) {
   }
 
   return (
-    <div className="pb-10">
+    <div>
       {searchOpen ? (
         <>
           <div className="mb-4 flex items-center gap-2.5">
-            <label className="flex min-h-10 min-w-0 flex-1 items-center gap-2 rounded-full border border-brand-home1 bg-white/50 px-3.5 py-1 shadow-[0_2px_12px_rgba(90,59,196,0.06)] backdrop-blur-sm">
+            <label className="flex min-h-10 min-w-0 flex-1 items-center gap-2 rounded-full border-[1.5px] border-brand-home1 bg-white/50 px-3.5 py-1 shadow-[0_2px_12px_rgba(90,59,196,0.06)] backdrop-blur-sm">
               <span className="inline-flex h-4 w-4 shrink-0 items-center justify-center">
                 <SearchIcon
                   tone="purple"
@@ -775,42 +803,47 @@ function VideoPanelMobile({ item }) {
               videos.map((video, index) => {
                 const thumbSrc = getYoutubeThumbnailSrc(video.url)
                 return (
-                  <a
+                  <div
                     key={video.id}
-                    href={video.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="home-mobile-glass-card flex items-stretch overflow-hidden border-[1.5px] border-white/80 bg-white/35 active:opacity-90"
+                    data-activities-reveal
+                    className="activities-reveal-slot"
                   >
-                    <span
-                      className={cn(
-                        'relative aspect-[3/2] w-[6.5rem] shrink-0 overflow-hidden',
-                        !thumbSrc &&
-                          (index % 2 === 0
-                            ? 'bg-brand-orange'
-                            : 'bg-brand-home1')
-                      )}
-                      aria-hidden
+                    <a
+                      href={video.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="activities-mobile-reveal home-mobile-glass-card flex items-stretch overflow-hidden border-[1.5px] border-white/80 bg-white/35 active:opacity-90"
                     >
-                      {thumbSrc ? (
-                        <img
-                          src={thumbSrc}
-                          alt=""
-                          className="absolute inset-0 h-full w-full object-cover"
-                          loading="lazy"
-                        />
-                      ) : null}
-                    </span>
-                    <span className="flex min-w-0 flex-1 items-center gap-2 px-4 py-3.5">
-                      <span className="min-w-0 flex-1 font-body text-[13px] font-semibold leading-snug text-brand-home1">
-                        {video.title}
+                      <span
+                        className={cn(
+                          'relative aspect-[3/2] w-[6.5rem] shrink-0 overflow-hidden',
+                          !thumbSrc &&
+                            (index % 2 === 0
+                              ? 'bg-brand-orange'
+                              : 'bg-brand-home1')
+                        )}
+                        aria-hidden
+                      >
+                        {thumbSrc ? (
+                          <img
+                            src={thumbSrc}
+                            alt=""
+                            className="absolute inset-0 h-full w-full object-cover"
+                            loading="lazy"
+                          />
+                        ) : null}
                       </span>
-                      <ArrowIcon
-                        tone="white"
-                        className="h-3.5 w-3.5 shrink-0 brightness-0 opacity-50"
-                      />
-                    </span>
-                  </a>
+                      <span className="flex min-w-0 flex-1 items-center gap-2 px-4 py-3.5">
+                        <span className="min-w-0 flex-1 font-body text-[13px] font-semibold leading-snug text-brand-home1">
+                          {video.title}
+                        </span>
+                        <ArrowIcon
+                          tone="white"
+                          className="h-3.5 w-3.5 shrink-0 brightness-0 opacity-50"
+                        />
+                      </span>
+                    </a>
+                  </div>
                 )
               })
             )}
@@ -845,6 +878,8 @@ export function ActivityDetailResponsive({ itemId, categoryId }) {
     /** @type {Record<string, 'info'|'images'|'video'>} */ ({})
   )
   const [scrolled, setScrolled] = useState(false)
+  const [showEdgeFade, setShowEdgeFade] = useState(false)
+  const [panelRevealKey, setPanelRevealKey] = useState('')
 
   const tabs = item?.detailTabs ?? ['info', 'images']
   const requestedTab = tabByItem[itemId] ?? 'info'
@@ -852,15 +887,25 @@ export function ActivityDetailResponsive({ itemId, categoryId }) {
     ? requestedTab
     : (tabs[0] ?? 'info')
 
+  const revealKey = `${itemId}|${activeTab}|${
+    activeTab === 'video' ? panelRevealKey : ''
+  }`
+
+  useActivitiesMobileReveal(contentScrollRef, revealKey)
+
   useEffect(() => {
-    contentScrollRef.current?.scrollTo({ top: 0 })
+    const el = contentScrollRef.current
+    if (!el) return
+    el.scrollTop = 0
   }, [itemId, activeTab])
 
   useEffect(() => {
     const el = contentScrollRef.current
     if (!el) return undefined
     const update = () => {
-      setScrolled(el.scrollTop > SCROLL_TOP_THRESHOLD)
+      const y = el.scrollTop
+      setScrolled(y > SCROLL_TOP_THRESHOLD)
+      setShowEdgeFade(y > ACTIVITIES_MOBILE_EDGE_FADE_THRESHOLD)
     }
     update()
     el.addEventListener('scroll', update, { passive: true })
@@ -942,23 +987,35 @@ export function ActivityDetailResponsive({ itemId, categoryId }) {
           </div>
         </div>
 
-        <section
-          ref={contentScrollRef}
-          className="home-mobile-section min-h-0 flex-1 overflow-x-clip overflow-y-auto overscroll-y-contain pb-8"
-        >
-          <div className="home-mobile-content">
-            <h1
-              className="mb-5 mt-5 font-display text-[36px] italic leading-[1.05] is-revealed tracking-wide text-brand-home1"
-              style={{ WebkitTextStroke: '0.2px #5a3bc4' }}
-            >
-              {item.title.toUpperCase()}
-            </h1>
+        <div className="relative min-h-0 flex-1 overflow-hidden">
+          <ActivitiesMobileEdgeBlur show={showEdgeFade} />
+          <section
+            ref={contentScrollRef}
+            className="home-mobile-section mobile-page-bottom h-full min-h-0 overflow-x-clip overflow-y-auto overscroll-y-contain"
+          >
+            <div className="home-mobile-content">
+              <ActivitiesRevealSlot className="mb-5 mt-5">
+                <h1
+                  className="font-display text-[36px] italic leading-[1.05] tracking-wide text-brand-home1"
+                  style={{ WebkitTextStroke: '0.2px #5a3bc4' }}
+                >
+                  {item.title.toUpperCase()}
+                </h1>
+              </ActivitiesRevealSlot>
 
-            {activeTab === 'info' ? <InfoPanelMobile item={item} /> : null}
-            {activeTab === 'images' ? <ImagesPanelMobile item={item} /> : null}
-            {activeTab === 'video' ? <VideoPanelMobile item={item} /> : null}
-          </div>
-        </section>
+              {activeTab === 'info' ? <InfoPanelMobile item={item} /> : null}
+              {activeTab === 'images' ? (
+                <ImagesPanelMobile item={item} />
+              ) : null}
+              {activeTab === 'video' ? (
+                <VideoPanelMobile
+                  item={item}
+                  onRevealKeyChange={setPanelRevealKey}
+                />
+              ) : null}
+            </div>
+          </section>
+        </div>
       </main>
     </PageShell>
   )

@@ -21,6 +21,8 @@ export function BackToTopButton({
   className,
 }) {
   const [labelSuppressed, setLabelSuppressed] = useState(false)
+  /** Flash tím nhẹ khi tap mobile — tự tắt sau animation */
+  const [tapFlash, setTapFlash] = useState(false)
 
   return (
     <div
@@ -39,13 +41,15 @@ export function BackToTopButton({
         tabIndex={show ? 0 : -1}
         onClick={event => {
           setLabelSuppressed(true)
+          setTapFlash(true)
           onClick()
           event.currentTarget.blur()
+          window.setTimeout(() => setTapFlash(false), 100)
         }}
         className={cn(
           ICON_ROUND_BUTTON_CLASS,
-          'relative h-14 w-14 lg:h-12 lg:w-12'
-          /*'relative h-11 w-11 shadow-none lg:h-12 lg:w-12 lg:shadow-[0_0_10px_5px_rgba(90,59,196,0.1),0_12px_48px_rgba(90,59,196,0.45)]'*/
+          'relative h-14 w-14 lg:h-12 lg:w-12',
+          tapFlash && '!bg-brand-home1/50 !backdrop-blur-none'
         )}
       >
         <span
@@ -65,6 +69,7 @@ export function BackToTopButton({
         <ToneSwapIcon
           purpleSrc={arrowP}
           whiteSrc={arrowW}
+          active={tapFlash}
           className="h-5 w-5 lg:h-4 lg:w-4"
         />
       </button>

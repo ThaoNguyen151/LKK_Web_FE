@@ -47,9 +47,13 @@ export function ToneSwapIcon({
   )
 }
 
-/** Class nút tròn có nền (BackToTop). Mobile: kính mờ tệp nền khi scroll; lg+: trắng đặc. */
+/**
+ * Class nút tròn (BackToTop).
+ * Mobile: kính mờ; tap flash = tím đầy như hover web (xử lý ở BackToTopButton).
+ * Desktop fine-pointer / lg+: hover tím đầy.
+ */
 export const ICON_ROUND_BUTTON_CLASS =
-  'group/icon flex h-10 w-10 lg:h-12 lg:w-12 items-center justify-center rounded-full bg-brand-soft/45 backdrop-blur-md shadow-[0_0_10px_5px_rgba(90,59,196,0.1),0_12px_48px_rgba(90,59,196,0.45)] transition-[background-color,box-shadow,opacity,transform,backdrop-filter] duration-300 hover:bg-brand-home1 hover:backdrop-blur-none lg:bg-white lg:backdrop-blur-none lg:shadow-[0_0_10px_5px_rgba(90,59,196,0.1),0_12px_48px_rgba(90,59,196,0.45)] disabled:opacity-30'
+  'group/icon flex h-10 w-10 lg:h-12 lg:w-12 items-center justify-center rounded-full bg-brand-soft/45 backdrop-blur-md shadow-[0_0_10px_5px_rgba(90,59,196,0.1),0_12px_48px_rgba(90,59,196,0.45)] transition-[background-color,box-shadow,opacity,transform,backdrop-filter] duration-150 lg:bg-white lg:backdrop-blur-none lg:shadow-[0_0_10px_5px_rgba(90,59,196,0.1),0_12px_48px_rgba(90,59,196,0.45)] lg:hover:bg-brand-home1 [@media(hover:hover)_and_(pointer:fine)]:hover:bg-brand-home1 [@media(hover:hover)_and_(pointer:fine)]:hover:backdrop-blur-none disabled:opacity-30'
 
 /** Nút chỉ icon, nền trắng. */
 export const ICON_GHOST_BUTTON_CLASS =

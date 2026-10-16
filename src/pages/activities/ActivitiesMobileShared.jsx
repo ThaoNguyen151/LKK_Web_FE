@@ -1,3 +1,4 @@
+import { useLayoutEffect, useRef, useState } from 'react'
 import rectFull from '@assets/Rectangle-full.png'
 import { cn } from '@utils'
 import { ACTIVITY_CATEGORIES, activityCategoryPath } from './activityData'
@@ -16,13 +17,22 @@ export const ACTIVITIES_MOBILE_MAIN_PT =
 export const ACTIVITIES_MOBILE_BELOW_HEADER =
   'top-[calc(4.5rem+env(safe-area-inset-top,0px))]'
 
+/** Ngưỡng hiện fade mép dưới thanh tab xám (mobile only). */
+export const ACTIVITIES_MOBILE_EDGE_FADE_THRESHOLD = 8
+export const ACTIVITIES_MOBILE_EDGE_BLUR_H = 'h-10'
+
 /**
  * @param {object} props
  * @param {string} [props.className]
+ * @param {import('react').CSSProperties} [props.style]
  */
-export function ActivitiesMobileBackdrop({ className }) {
+export function ActivitiesMobileBackdrop({ className, style }) {
   return (
-    <div aria-hidden className={cn('overflow-hidden bg-brand-soft', className)}>
+    <div
+      aria-hidden
+      className={cn('overflow-hidden bg-brand-soft', className)}
+      style={style}
+    >
       <div className="absolute left-[-65px] top-[8%] flex h-[min(72vw,300px)] w-[min(52vw,210px)] items-center justify-start overflow-visible">
         <img
           src={rectFull}
@@ -34,6 +44,62 @@ export function ActivitiesMobileBackdrop({ className }) {
         src={rectFull}
         alt=""
         className="absolute right-0 top-[40%] h-auto w-[min(90vw,380px)] max-w-none translate-x-[50%] object-contain opacity-85"
+      />
+    </div>
+  )
+}
+
+/**
+ * Blur mép dưới thanh tab xám mobile — clone nền soft + mask
+ * (tách riêng, không dùng GridEdgeBlur của web).
+ * @param {object} props
+ * @param {boolean} props.show
+ * @param {string} [props.className]
+ */
+export function ActivitiesMobileEdgeBlur({ show, className }) {
+  const stripRef = useRef(/** @type {HTMLDivElement | null} */ (null))
+  const [origin, setOrigin] = useState({ top: 0, left: 0 })
+
+  useLayoutEffect(() => {
+    const update = () => {
+      const rect = stripRef.current?.getBoundingClientRect()
+      if (!rect) return
+      setOrigin({ top: rect.top, left: rect.left })
+    }
+
+    update()
+    window.addEventListener('resize', update)
+    window.addEventListener('scroll', update, true)
+    return () => {
+      window.removeEventListener('resize', update)
+      window.removeEventListener('scroll', update, true)
+    }
+  }, [show])
+
+  return (
+    <div
+      ref={stripRef}
+      className={cn(
+        'pointer-events-none absolute inset-x-0 top-0 z-20 overflow-hidden transition-opacity duration-200',
+        ACTIVITIES_MOBILE_EDGE_BLUR_H,
+        show ? 'opacity-100' : 'opacity-0',
+        className
+      )}
+      style={{
+        WebkitMaskImage:
+          'linear-gradient(to bottom, #000 0%, transparent 100%)',
+        maskImage: 'linear-gradient(to bottom, #000 0%, transparent 100%)',
+      }}
+      aria-hidden
+    >
+      <ActivitiesMobileBackdrop
+        className="absolute blur-[10px]"
+        style={{
+          top: -origin.top,
+          left: -origin.left,
+          width: '100vw',
+          height: '100dvh',
+        }}
       />
     </div>
   )
